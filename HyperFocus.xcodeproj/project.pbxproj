@@ -1,0 +1,721 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		43510A514717ECC3309C50B9 /* Pods_HyperFocus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 140F82FA6AFEEC908FE306B6 /* Pods_HyperFocus.framework */; };
+		E8041BA425903A25001DE066 /* blocking-content-rules-privacy.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */; };
+		E8041BA525903A25001DE066 /* blocking-content-rules-social.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA225903A25001DE066 /* blocking-content-rules-social.json */; };
+		E8041BA625903A25001DE066 /* blocking-content-rules.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA325903A25001DE066 /* blocking-content-rules.json */; };
+		E8508E26259C244F00BF1266 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E25259C244F00BF1266 /* HistoryManager.swift */; };
+		E8508E2E259C6CEF00BF1266 /* HFDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E2D259C6CEF00BF1266 /* HFDatabase.swift */; };
+		E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */; };
+		E8508E79259FADE600BF1266 /* WebviewPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E78259FADE600BF1266 /* WebviewPool.swift */; };
+		E8508E7E259FBC3800BF1266 /* WheelCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E7D259FBC3800BF1266 /* WheelCounter.swift */; };
+		E8508EE225A4428400BF1266 /* topdomains.txt in Resources */ = {isa = PBXBuildFile; fileRef = E8508EE125A4428400BF1266 /* topdomains.txt */; };
+		E864A4E525999C4A00A0DB95 /* mark.js in Resources */ = {isa = PBXBuildFile; fileRef = E864A4E425999C4A00A0DB95 /* mark.js */; };
+		E864A4FD2599C80300A0DB95 /* easylist.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A4F52599C80300A0DB95 /* easylist.json */; };
+		E864A5042599C80300A0DB95 /* filters.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A4FC2599C80300A0DB95 /* filters.json */; };
+		E864A5282599CD8E00A0DB95 /* idc.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A5272599CD8E00A0DB95 /* idc.json */; };
+		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
+		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
+		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
+		E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */; };
+		E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2D258E753B001E9669 /* BrowserViewController.swift */; };
+		E8E82B30258E753B001E9669 /* HyperFocusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2E258E753B001E9669 /* HyperFocusApp.swift */; };
+		E8E82B9A258E9AB9001E9669 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = E8E82B98258E9AB9001E9669 /* index.js */; };
+		E8E82B9B258E9AB9001E9669 /* DarkReader.js in Resources */ = {isa = PBXBuildFile; fileRef = E8E82B99258E9AB9001E9669 /* DarkReader.js */; };
+		FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */; };
+		FE42750D12F59CA3B2185A2D /* HyperFocusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE427BA7753CACEB1533D24A /* HyperFocusUITests.swift */; };
+		FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */; };
+		FE427905F8BC63ED7DC059F4 /* HyperFocusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FE427605FCBD18B51193E87B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE427BF559570A2CDEB0469E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE42734AB2762DC5270E394A;
+			remoteInfo = HyperFocus;
+		};
+		FE4277DB08A606ECF67C6308 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE427BF559570A2CDEB0469E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE42734AB2762DC5270E394A;
+			remoteInfo = HyperFocus;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		140F82FA6AFEEC908FE306B6 /* Pods_HyperFocus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyperFocus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C7BD1AC513ED6359BE13CF9 /* Pods-HyperFocus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperFocus.release.xcconfig"; path = "Target Support Files/Pods-HyperFocus/Pods-HyperFocus.release.xcconfig"; sourceTree = "<group>"; };
+		E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules-privacy.json"; sourceTree = "<group>"; };
+		E8041BA225903A25001DE066 /* blocking-content-rules-social.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules-social.json"; sourceTree = "<group>"; };
+		E8041BA325903A25001DE066 /* blocking-content-rules.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules.json"; sourceTree = "<group>"; };
+		E8508E25259C244F00BF1266 /* HistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryManager.swift; sourceTree = "<group>"; };
+		E8508E2D259C6CEF00BF1266 /* HFDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HFDatabase.swift; sourceTree = "<group>"; };
+		E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTabsViewController.swift; sourceTree = "<group>"; };
+		E8508E78259FADE600BF1266 /* WebviewPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewPool.swift; sourceTree = "<group>"; };
+		E8508E7D259FBC3800BF1266 /* WheelCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelCounter.swift; sourceTree = "<group>"; };
+		E8508EE125A4428400BF1266 /* topdomains.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = topdomains.txt; sourceTree = "<group>"; };
+		E864A4E425999C4A00A0DB95 /* mark.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = mark.js; sourceTree = "<group>"; };
+		E864A4F52599C80300A0DB95 /* easylist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = easylist.json; sourceTree = "<group>"; };
+		E864A4FC2599C80300A0DB95 /* filters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = filters.json; sourceTree = "<group>"; };
+		E864A5272599CD8E00A0DB95 /* idc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = idc.json; sourceTree = "<group>"; };
+		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
+		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
+		E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionProviders.swift; sourceTree = "<group>"; };
+		E8E82B2D258E753B001E9669 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		E8E82B2E258E753B001E9669 /* HyperFocusApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperFocusApp.swift; sourceTree = "<group>"; };
+		E8E82B64258E7A7D001E9669 /* AMScrollingNavbar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AMScrollingNavbar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8E82B65258E7A7D001E9669 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8E82B98258E9AB9001E9669 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = index.js; path = HyperFocus/index.js; sourceTree = SOURCE_ROOT; };
+		E8E82B99258E9AB9001E9669 /* DarkReader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = DarkReader.js; path = HyperFocus/DarkReader.js; sourceTree = SOURCE_ROOT; };
+		FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperFocus.debug.xcconfig"; path = "Target Support Files/Pods-HyperFocus/Pods-HyperFocus.debug.xcconfig"; sourceTree = "<group>"; };
+		FE427019D5F7E0D4D0129464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperFocusTests.swift; sourceTree = "<group>"; };
+		FE427540524B4BC5D3D3013C /* HyperFocusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperFocusUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE4275470BA23196F4355E08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		FE4275D3CB326EEB062B7711 /* HyperFocus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyperFocus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE4278B9DB1BB706C63C2498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		FE42790D189FBEA187263BFC /* HyperFocusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperFocusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE427BA7753CACEB1533D24A /* HyperFocusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperFocusUITests.swift; sourceTree = "<group>"; };
+		FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FE42776FB600D1C317B6DEAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE4278DF94EEE7B46B5ED58F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE427E1AA853D6A44FFA5D60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43510A514717ECC3309C50B9 /* Pods_HyperFocus.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		29EAA88D08890E0ECFADB5F3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */,
+				5C7BD1AC513ED6359BE13CF9 /* Pods-HyperFocus.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		824150419ED42CF2BCEE79B4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E8E82B64258E7A7D001E9669 /* AMScrollingNavbar.framework */,
+				E8E82B65258E7A7D001E9669 /* SnapKit.framework */,
+				140F82FA6AFEEC908FE306B6 /* Pods_HyperFocus.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E8041BA025903A05001DE066 /* blocklists */ = {
+			isa = PBXGroup;
+			children = (
+				E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */,
+				E8041BA225903A25001DE066 /* blocking-content-rules-social.json */,
+				E8041BA325903A25001DE066 /* blocking-content-rules.json */,
+				E864A4F52599C80300A0DB95 /* easylist.json */,
+				E864A4FC2599C80300A0DB95 /* filters.json */,
+				E864A5272599CD8E00A0DB95 /* idc.json */,
+			);
+			path = blocklists;
+			sourceTree = "<group>";
+		};
+		E8E82B97258E9AAC001E9669 /* js */ = {
+			isa = PBXGroup;
+			children = (
+				E8508EE125A4428400BF1266 /* topdomains.txt */,
+				E8E82B99258E9AB9001E9669 /* DarkReader.js */,
+				E8E82B98258E9AB9001E9669 /* index.js */,
+				E8ABFBDF2598402D00809448 /* TinyColor.js */,
+				E864A4E425999C4A00A0DB95 /* mark.js */,
+			);
+			path = js;
+			sourceTree = "<group>";
+		};
+		FE42775228F667A423A6B2C8 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FE4277A5754353A6F9037F9E /* HyperFocusTests */ = {
+			isa = PBXGroup;
+			children = (
+				FE427019D5F7E0D4D0129464 /* Info.plist */,
+				FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */,
+			);
+			path = HyperFocusTests;
+			sourceTree = "<group>";
+		};
+		FE42786FBEEF581645829298 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FE4275D3CB326EEB062B7711 /* HyperFocus.app */,
+				FE42790D189FBEA187263BFC /* HyperFocusTests.xctest */,
+				FE427540524B4BC5D3D3013C /* HyperFocusUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE427C025E1607A89B8509F8 /* HyperFocus */ = {
+			isa = PBXGroup;
+			children = (
+				E8041BA025903A05001DE066 /* blocklists */,
+				E8E82B97258E9AAC001E9669 /* js */,
+				FE4278B9DB1BB706C63C2498 /* Info.plist */,
+				FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */,
+				E8E82B2E258E753B001E9669 /* HyperFocusApp.swift */,
+				E8E82B2D258E753B001E9669 /* BrowserViewController.swift */,
+				FE42775228F667A423A6B2C8 /* Preview Content */,
+				E869503525907EEE00DDFF4C /* PDFViewController.swift */,
+				E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */,
+				E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */,
+				E8508E25259C244F00BF1266 /* HistoryManager.swift */,
+				E8508E2D259C6CEF00BF1266 /* HFDatabase.swift */,
+				E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */,
+				E8508E78259FADE600BF1266 /* WebviewPool.swift */,
+				E8508E7D259FBC3800BF1266 /* WheelCounter.swift */,
+			);
+			path = HyperFocus;
+			sourceTree = "<group>";
+		};
+		FE427C21DD3923AD1F7AEF64 = {
+			isa = PBXGroup;
+			children = (
+				FE42786FBEEF581645829298 /* Products */,
+				FE427C025E1607A89B8509F8 /* HyperFocus */,
+				FE4277A5754353A6F9037F9E /* HyperFocusTests */,
+				FE427C3DF487592E58FEC7E1 /* HyperFocusUITests */,
+				29EAA88D08890E0ECFADB5F3 /* Pods */,
+				824150419ED42CF2BCEE79B4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		FE427C3DF487592E58FEC7E1 /* HyperFocusUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FE4275470BA23196F4355E08 /* Info.plist */,
+				FE427BA7753CACEB1533D24A /* HyperFocusUITests.swift */,
+			);
+			path = HyperFocusUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FE4270D26410A4B0AF914497 /* HyperFocusUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE427ADF30883BE7FB3124A1 /* Build configuration list for PBXNativeTarget "HyperFocusUITests" */;
+			buildPhases = (
+				FE427473F4A80E3FFC2FB80F /* Sources */,
+				FE4278DF94EEE7B46B5ED58F /* Frameworks */,
+				FE427BCB4C53A61F57A50BD4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FE427E84EBE6C95890688CFC /* PBXTargetDependency */,
+			);
+			name = HyperFocusUITests;
+			productName = HyperFocusUITests;
+			productReference = FE427540524B4BC5D3D3013C /* HyperFocusUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		FE42734AB2762DC5270E394A /* HyperFocus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE427881C093C6DC5BD7514E /* Build configuration list for PBXNativeTarget "HyperFocus" */;
+			buildPhases = (
+				59074C9855A0DE19D54E4310 /* [CP] Check Pods Manifest.lock */,
+				FE4275E16F47AF7ED0EBCECD /* Sources */,
+				FE427E1AA853D6A44FFA5D60 /* Frameworks */,
+				FE4275631516078CC46780B1 /* Resources */,
+				E240E261BD6AA35751E4D7FC /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HyperFocus;
+			productName = HyperFocus;
+			productReference = FE4275D3CB326EEB062B7711 /* HyperFocus.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FE42766FD708EBBA160C7835 /* HyperFocusTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE427F8A4044ED6E714FA551 /* Build configuration list for PBXNativeTarget "HyperFocusTests" */;
+			buildPhases = (
+				FE4279589E436B7209421DD0 /* Sources */,
+				FE42776FB600D1C317B6DEAA /* Frameworks */,
+				FE4274D9EA1E5E95F7B6DF5B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FE4273D1D2BACD695424FF25 /* PBXTargetDependency */,
+			);
+			name = HyperFocusTests;
+			productName = HyperFocusTests;
+			productReference = FE42790D189FBEA187263BFC /* HyperFocusTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FE427BF559570A2CDEB0469E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1230;
+				TargetAttributes = {
+					FE42734AB2762DC5270E394A = {
+						DevelopmentTeam = N2QTD5TUVN;
+					};
+				};
+			};
+			buildConfigurationList = FE427C6A69555D1F46A46863 /* Build configuration list for PBXProject "HyperFocus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+				Base,
+			);
+			mainGroup = FE427C21DD3923AD1F7AEF64;
+			productRefGroup = FE42786FBEEF581645829298 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FE42734AB2762DC5270E394A /* HyperFocus */,
+				FE42766FD708EBBA160C7835 /* HyperFocusTests */,
+				FE4270D26410A4B0AF914497 /* HyperFocusUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FE4274D9EA1E5E95F7B6DF5B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE4275631516078CC46780B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8508EE225A4428400BF1266 /* topdomains.txt in Resources */,
+				FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */,
+				E864A4E525999C4A00A0DB95 /* mark.js in Resources */,
+				E8E82B9A258E9AB9001E9669 /* index.js in Resources */,
+				E8041BA525903A25001DE066 /* blocking-content-rules-social.json in Resources */,
+				E8041BA625903A25001DE066 /* blocking-content-rules.json in Resources */,
+				FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */,
+				E8E82B9B258E9AB9001E9669 /* DarkReader.js in Resources */,
+				E864A4FD2599C80300A0DB95 /* easylist.json in Resources */,
+				E864A5282599CD8E00A0DB95 /* idc.json in Resources */,
+				E8041BA425903A25001DE066 /* blocking-content-rules-privacy.json in Resources */,
+				E8ABFBE02598402D00809448 /* TinyColor.js in Resources */,
+				E864A5042599C80300A0DB95 /* filters.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE427BCB4C53A61F57A50BD4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		59074C9855A0DE19D54E4310 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HyperFocus-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E240E261BD6AA35751E4D7FC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HyperFocus/Pods-HyperFocus-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CollectionKit/CollectionKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
+				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/iCarousel/iCarousel.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CollectionKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iCarousel.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HyperFocus/Pods-HyperFocus-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FE427473F4A80E3FFC2FB80F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE42750D12F59CA3B2185A2D /* HyperFocusUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE4275E16F47AF7ED0EBCECD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8508E7E259FBC3800BF1266 /* WheelCounter.swift in Sources */,
+				E8E82B30258E753B001E9669 /* HyperFocusApp.swift in Sources */,
+				E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */,
+				E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */,
+				E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */,
+				E8508E79259FADE600BF1266 /* WebviewPool.swift in Sources */,
+				E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */,
+				E8508E26259C244F00BF1266 /* HistoryManager.swift in Sources */,
+				E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */,
+				E8508E2E259C6CEF00BF1266 /* HFDatabase.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE4279589E436B7209421DD0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE427905F8BC63ED7DC059F4 /* HyperFocusTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FE4273D1D2BACD695424FF25 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE42734AB2762DC5270E394A /* HyperFocus */;
+			targetProxy = FE427605FCBD18B51193E87B /* PBXContainerItemProxy */;
+		};
+		FE427E84EBE6C95890688CFC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE42734AB2762DC5270E394A /* HyperFocus */;
+			targetProxy = FE4277DB08A606ECF67C6308 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FE4270DFE17D0BF08977E842 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HyperFocus;
+			};
+			name = Debug;
+		};
+		FE4271E63FB83D6510C2256C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C7BD1AC513ED6359BE13CF9 /* Pods-HyperFocus.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				DEVELOPMENT_ASSET_PATHS = "\"HyperFocus/Preview Content\"";
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = HyperFocus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nomad.HyperFocus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FE4273A15D6CC188801CDAAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				DEVELOPMENT_ASSET_PATHS = "\"HyperFocus/Preview Content\"";
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = HyperFocus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nomad.HyperFocus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FE4274F8F08E0FDAD9B999EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HyperFocus.app/HyperFocus";
+				INFOPLIST_FILE = HyperFocusTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+		FE42750B4D701D16E5FA3298 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HyperFocus.app/HyperFocus";
+				INFOPLIST_FILE = HyperFocusTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		FE4275DD01014FF273E68CAD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FE427908F5045E83A898F23A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HyperFocus;
+			};
+			name = Release;
+		};
+		FE427C35CD504378490F7672 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FE427881C093C6DC5BD7514E /* Build configuration list for PBXNativeTarget "HyperFocus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE4273A15D6CC188801CDAAB /* Debug */,
+				FE4271E63FB83D6510C2256C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE427ADF30883BE7FB3124A1 /* Build configuration list for PBXNativeTarget "HyperFocusUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE4270DFE17D0BF08977E842 /* Debug */,
+				FE427908F5045E83A898F23A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE427C6A69555D1F46A46863 /* Build configuration list for PBXProject "HyperFocus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE4275DD01014FF273E68CAD /* Debug */,
+				FE427C35CD504378490F7672 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE427F8A4044ED6E714FA551 /* Build configuration list for PBXNativeTarget "HyperFocusTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE42750B4D701D16E5FA3298 /* Debug */,
+				FE4274F8F08E0FDAD9B999EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FE427BF559570A2CDEB0469E /* Project object */;
+}
