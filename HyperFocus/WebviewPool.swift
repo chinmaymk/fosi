@@ -192,7 +192,7 @@ class WebviewFactory {
         }
         
         webView.allowsBackForwardNavigationGestures = true
-        webView.allowsLinkPreview = true
+        webView.allowsLinkPreview = false
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isOpaque = false
         webView.backgroundColor = .clear
