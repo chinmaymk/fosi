@@ -34,7 +34,7 @@ class HyperFocusApp: UIResponder, UIApplicationDelegate {
       try! self.setupDatabase()
       _ = DomainCompletions.shared.getCompletions(keywords: "")
     }
-
+    navigationController.hidesBarsOnTap = true
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.backgroundColor = .systemBackground
     window?.rootViewController = navigationController

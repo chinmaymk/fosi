@@ -74,7 +74,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
     imageView.layer.borderColor = UIColor.separator.cgColor
     imageView.layer.borderWidth = 0.5
     imageView.isOpaque = true
-    imageView.layer.backgroundColor = UIColor.secondarySystemFill.cgColor
+    imageView.layer.backgroundColor = UIColor.white.cgColor
     imageView.isUserInteractionEnabled = true
     imageView.addGestureRecognizer(swipe)
     imageView.addGestureRecognizer(open)

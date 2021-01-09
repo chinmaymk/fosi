@@ -15,12 +15,12 @@ import Vision
 class BrowserViewController: UIViewController,
                              UIScrollViewDelegate,
                              UINavigationControllerDelegate, UISplitViewControllerDelegate {
-
+  var commitURL: URL?
   lazy var webView = WebviewFactory.shared.build(
     mode: .normal,
     style: self.traitCollection.userInterfaceStyle
   )
-  let pool = WebviewPool(size: 20)
+  let pool = WebviewPool(size: 50)
   var lastNormalViewIndex: WebviewPool.Index?
 
   // incognito mode
@@ -76,13 +76,15 @@ class BrowserViewController: UIViewController,
     UIMenuItem(title: "In Page", action: #selector(findInPageFromSelection))
   ]
 
+  var lastContentOffset: CGFloat = 0
+
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.delegate = self
     setupDelegates()
     setupObservables()
     setupSearchExperience()
-    setupBrowingExperience()
+    setupBrowsingExperience()
     setupToolBar()
     // navigationController?.view.isUserInteractionEnabled = true
     // setup contextual menus for text
@@ -166,7 +168,7 @@ class BrowserViewController: UIViewController,
 
   var webViewFrame: CGRect = .zero
 
-  func setupBrowingExperience() {
+  func setupBrowsingExperience() {
     view.addSubview(webView)
     self.edgesForExtendedLayout = [.bottom, .left, .right]
     webView.frame = view.frame
@@ -177,12 +179,12 @@ class BrowserViewController: UIViewController,
     let topMask = UIView()
     topMask.backgroundColor = .systemBackground
     topMask.translatesAutoresizingMaskIntoConstraints = false
-
+    navigationController?.navigationBar.isTranslucent = false
     view.addSubview(topMask)
     NSLayoutConstraint.activate([
       topMask.topAnchor.constraint(equalTo: view.topAnchor),
       topMask.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      topMask.widthAnchor.constraint(equalTo: view.widthAnchor)
+      topMask.widthAnchor.constraint(equalTo: view.widthAnchor),
     ])
 
     view.addSubview(tableView)
@@ -212,6 +214,7 @@ class BrowserViewController: UIViewController,
     _ = pool.add(view: newView)
     replaceWebview(with: newView)
     searchBar.becomeFirstResponder()
+    searchBar.searchTextField.unmarkText()
     searchBar.searchTextField.selectAll(nil)
   }
 
@@ -635,20 +638,51 @@ extension BrowserViewController: WKNavigationDelegate,
 
   func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
     if velocity.y < 0 {
-      navigationController?.setNavigationBarHidden(false, animated: false)
-      navigationController?.setToolbarHidden(false, animated: false)
+      UIView.animate(withDuration: 0.3, animations: {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.setToolbarHidden(false, animated: false)
+      })
     } else if velocity.y > 0 {
-      navigationController?.setNavigationBarHidden(true, animated: false)
-      navigationController?.setToolbarHidden(true, animated: false)
+      UIView.animate(withDuration: 0.3, animations: {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.setToolbarHidden(true, animated: false)
+      })
     }
   }
 
-  //    func webView(_ webView: WKWebView, contextMenuForElement elementInfo: WKContextMenuElementInfo, willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating) {
-  //        if let url = elementInfo.linkURL {
-  //            openNewTab()
-  //            self.webView.load(URLRequest(url: url))
-  //        }
-  //    }
+  func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+    true
+  }
+
+  func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
+    let configuration =
+      UIContextMenuConfiguration(
+        identifier: nil,
+        previewProvider: {
+          return SFSafariViewController(url: elementInfo.linkURL!)
+        },
+        actionProvider: { elements in
+          guard elements.isEmpty == false else { return nil }
+          self.commitURL = elementInfo.linkURL
+          // Add our custom action to the existing actions passed in.
+          var elementsToUse = elements
+          let editMenu = UIMenu(title: "Open tab", options: .displayInline, children: [])
+          elementsToUse.append(editMenu)
+          let contextMenuTitle = elementInfo.linkURL?.lastPathComponent
+          return UIMenu(title: contextMenuTitle!, image: nil,
+                        identifier: nil, options: [], children: elementsToUse)
+        }
+      )
+    completionHandler(configuration)
+  }
+
+  func webView(_ webView: WKWebView, contextMenuForElement elementInfo: WKContextMenuElementInfo, willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating) {
+    if let url = commitURL {
+      openNewTab()
+      searchBar.resignFirstResponder()
+      self.webView.load(URLRequest(url: url))
+    }
+  }
 }
 
 
