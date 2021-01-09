@@ -636,20 +636,6 @@ extension BrowserViewController: WKNavigationDelegate,
     urlDidStartLoading()
   }
 
-  func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-    if velocity.y < 0 {
-      UIView.animate(withDuration: 0.3, animations: {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.setToolbarHidden(false, animated: false)
-      })
-    } else if velocity.y > 0 {
-      UIView.animate(withDuration: 0.3, animations: {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        self.navigationController?.setToolbarHidden(true, animated: false)
-      })
-    }
-  }
-
   func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
     true
   }

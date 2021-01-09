@@ -1,33 +1,47 @@
 //
-//  AppDelegate.swift
-//  HyperFocus
+//  HyperFocusApp.swift
+//  
 //
 //  Created by Chinmay Kulkarni on 12/18/20.
 //
-//
 
 import UIKit
+import GRDB.Swift
 
-
-@main
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
-    }
+  var window: UIWindow?
 
+  private lazy var navigationController: UINavigationController = {
+    let browserViewController = BrowserViewController()
+    return UINavigationController(rootViewController: browserViewController)
+  }()
 
-    // MARK: UISceneSession Lifecycle
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
+  func setupDatabase() throws {
+    let databaseURL = try FileManager.default
+      .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+      .appendingPathComponent("hyperfocus.sqlite")
+    let dbQueue = try DatabaseQueue(path: databaseURL.path)
 
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    let database = try HFDatabase(dbQueue)
+    HFDatabase.shared = database
+  }
+
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+    DispatchQueue.main.async {
+      try! self.setupDatabase()
+      _ = DomainCompletions.shared.getCompletions(keywords: "")
     }
+    navigationController.hidesBarsOnTap = true
+    navigationController.hidesBarsOnSwipe = true
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.backgroundColor = .systemBackground
+    window?.rootViewController = navigationController
+    window?.makeKeyAndVisible()
+
+    return true
+  }
 }
+
