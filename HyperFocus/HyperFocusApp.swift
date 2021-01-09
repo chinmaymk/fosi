@@ -1,6 +1,6 @@
 //
-//  AppDelegate.swift
-//  test
+//  HyperFocusApp.swift
+//  
 //
 //  Created by Chinmay Kulkarni on 12/18/20.
 //
@@ -37,10 +37,6 @@ class HyperFocusApp: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .systemBackground
-        
-        navigationController.hidesBarsOnSwipe = true
-        navigationController.hidesBarsOnTap = true
-        navigationController.setNavigationBarHidden(false, animated: true)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         

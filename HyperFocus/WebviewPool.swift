@@ -93,7 +93,7 @@ class WebviewPool {
     }
     
     func get(at index: Index) -> WKWebView? {
-        return itemsMap[index]?.view
+        return getItem(at: index)?.view
     }
     
     func getItem(at index: Index) -> Item? {

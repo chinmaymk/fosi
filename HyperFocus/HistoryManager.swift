@@ -26,7 +26,7 @@ class HistoryManager {
         self.maxRows = limit
     }
     
-    static let shared = HistoryManager(limit: 20)
+    static let shared = HistoryManager(limit: 5)
     
     func insert(record: inout HistoryRecord) -> Promise<HistoryRecord> {
         let promise = Promise<HistoryRecord>.pending()

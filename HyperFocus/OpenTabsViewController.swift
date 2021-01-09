@@ -23,7 +23,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
             }
         }
     }
-    var openNewTabHandler: ((WKWebView) -> Void)?
+    var openNewTab: ((WKWebView) -> Void)?
     var tabDidClose: ((WKWebView) -> Void)?
     var allTabsClosed: (() -> Void)?
     
@@ -55,7 +55,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
     
     @objc func openTab() {
         let view = projected[collectionView.currentItemIndex].1.view
-        openNewTabHandler?(view)
+        openNewTab?(view)
         dismissVC()
     }
     
@@ -74,7 +74,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
         imageView.layer.borderColor = UIColor.separator.cgColor
         imageView.layer.borderWidth = 0.5
         imageView.isOpaque = true
-        imageView.layer.backgroundColor = UIColor.white.cgColor
+        imageView.layer.backgroundColor = UIColor.secondarySystemFill.cgColor
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(swipe)
         imageView.addGestureRecognizer(open)

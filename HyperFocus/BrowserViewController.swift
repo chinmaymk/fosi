@@ -1,6 +1,6 @@
 //
-//  SceneDelegate.swift
-//  test
+//  BrowserViewController.swift
+//  
 //
 //  Created by Chinmay Kulkarni on 12/18/20.
 //
@@ -21,11 +21,11 @@ class BrowserViewController: UIViewController,
         style: self.traitCollection.userInterfaceStyle
     )
     let pool = WebviewPool(size: 20)
-    var currentPoolIndex: WebviewPool.Index?
+    var lastNormalViewIndex: WebviewPool.Index?
     
     // incognito mode
     var currentMode: WebviewMode = .normal
-    let incognitoIndicator: UIImage = {
+    lazy var incognitoIndicator: UIImage = {
         let hfRED = UIColor(red: 0.85, green: 0.12, blue: 0.09, alpha: 1.00)
         return UIImage(systemName: "bolt.circle")!
             .withTintColor(hfRED, renderingMode: .alwaysOriginal)
@@ -163,16 +163,15 @@ class BrowserViewController: UIViewController,
         webView.uiDelegate = self
         webView.scrollView.delegate = self
     }
-    
+        
     var webViewFrame: CGRect = .zero
     
     func setupBrowingExperience() {
         view.addSubview(webView)
         self.edgesForExtendedLayout = [.bottom, .left, .right]
         webView.frame = view.frame
-        webView.scrollView.frame = CGRect(x: -view.frame.width, y: -view.frame.height, width: view.frame.width * 2, height: view.frame.height * 2)
         webViewFrame = view.frame
-        currentPoolIndex = pool.add(view: webView)
+        lastNormalViewIndex = pool.add(view: webView)
         print("layout frame", view.frame)
         
         let topMask = UIView()
@@ -398,6 +397,7 @@ extension BrowserViewController: UITextFieldDelegate {
     }
     
     @objc func redo() {
+        searchBar.searchTextField.unmarkText()
         searchBar.searchTextField.selectAll(nil)
         searchBar.becomeFirstResponder()
     }
@@ -437,7 +437,7 @@ extension BrowserViewController: UITextFieldDelegate {
         if currentMode != .incognito {
             let index = pool.add(view: webView)
             if index != nil {
-                currentPoolIndex = index
+                lastNormalViewIndex = index
             }
         }
         
@@ -446,7 +446,7 @@ extension BrowserViewController: UITextFieldDelegate {
             let newView = WebviewFactory.shared.build(mode: currentMode, style: self.traitCollection.userInterfaceStyle)
             replaceWebview(with: newView)
             self.displayToast(message: "Incognito mode activated", image: incognitoIndicator)
-        } else if let index = currentPoolIndex {
+        } else if let index = lastNormalViewIndex {
             currentMode = .normal
             if let newView = pool.get(at: index) {
                 replaceWebview(with: newView)
@@ -458,7 +458,7 @@ extension BrowserViewController: UITextFieldDelegate {
                 _ = pool.add(view: view)
                 replaceWebview(with: view)
             }
-            currentPoolIndex = nil
+            lastNormalViewIndex = nil
             self.showToast("Normal mode activated")
         }
        
@@ -563,7 +563,7 @@ extension BrowserViewController: WKNavigationDelegate,
         let collection = OpenTabsViewController()
         collection.pool = pool
         collection.modalPresentationStyle = .overFullScreen
-        collection.openNewTabHandler = { item in
+        collection.openNewTab = { item in
             self.replaceWebview(with: item)
         }
         collection.tabDidClose = { item in
@@ -631,6 +631,16 @@ extension BrowserViewController: WKNavigationDelegate,
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         urlDidStartLoading()
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if velocity.y < 0 {
+            navigationController?.setNavigationBarHidden(false, animated: false)
+            navigationController?.setToolbarHidden(false, animated: false)
+        } else if velocity.y > 0 {
+            navigationController?.setNavigationBarHidden(true, animated: false)
+            navigationController?.setToolbarHidden(true, animated: false)
+        }
     }
     
 //    func webView(_ webView: WKWebView, contextMenuForElement elementInfo: WKContextMenuElementInfo, willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating) {
