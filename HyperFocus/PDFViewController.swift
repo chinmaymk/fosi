@@ -97,8 +97,8 @@ class PDFViewController : UIViewController, PDFDocumentDelegate, PDFViewDelegate
     NSLayoutConstraint.activate([
       pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       pdfView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-      pdfView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-      pdfView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+      pdfView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      pdfView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
   }
 }
