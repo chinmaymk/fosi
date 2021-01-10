@@ -188,6 +188,12 @@ function findInPage(text) {
     instance.mark(text || window.getSelection().toString())
 }
 
+function readerMode() {
+  var documentClone = document.cloneNode(true);
+  var article = new Readability(documentClone).parse();
+  console.log(article)
+  window.webkit.messageHandlers.readerMode.postMessage({ article: article })
+}
 
 (function () {
     const hosts = ["stack", "yahoo"]

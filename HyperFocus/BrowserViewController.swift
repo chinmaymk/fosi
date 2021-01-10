@@ -315,6 +315,7 @@ class BrowserViewController: UIViewController,
       let val = Float(change.newValue!)
       self.progressView.setProgress(value: val)
     }
+    webView.configuration.userContentController.add(self, name: "readerMode")
   }
 }
 
@@ -534,7 +535,14 @@ extension BrowserViewController: UITextFieldDelegate {
 
 // MARK: Webkit related methods
 extension BrowserViewController: WKNavigationDelegate,
+                                 WKScriptMessageHandler,
                                  WKUIDelegate {
+
+  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+    if message.name == "readerMode", let dict = message.body as? NSDictionary {
+      print(dict)
+    }
+  }
 
   func evaluateScript(file: String) {
     let url = Bundle.main.url(forResource: file, withExtension: "")
