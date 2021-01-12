@@ -96,11 +96,16 @@ class BrowserViewController: UIViewController,
     //        }
   }
 
+  override func viewDidLayoutSubviews() {
+    webView.frame = webViewFrame
+    // webViewFrame = view.frame
+  }
+
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     super.viewWillTransition(to: size, with: coordinator)
 
-    webView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-    webViewFrame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+    webView.frame = CGRect(origin: .zero, size: size)
+    webViewFrame = CGRect(origin: .zero, size: size)
   }
 
   func replaceWebview(with newView: WKWebView) {
@@ -117,6 +122,7 @@ class BrowserViewController: UIViewController,
     })
     setupDelegates()
     setupObservables()
+    UIMenuController.shared.menuItems = contextualMenus
   }
 
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -315,6 +321,7 @@ class BrowserViewController: UIViewController,
       let val = Float(change.newValue!)
       self.progressView.setProgress(value: val)
     }
+    webView.configuration.userContentController.removeScriptMessageHandler(forName: "readerMode")
     webView.configuration.userContentController.add(self, name: "readerMode")
   }
 }
