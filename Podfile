@@ -9,6 +9,7 @@ target 'HyperFocus' do
   pod 'GRDB.swift'
   pod "CollectionKit", '~> 2.4.0'
   pod 'iCarousel'
+  pod 'AMScrollingNavbar'
 end
 
 post_install do |installer|

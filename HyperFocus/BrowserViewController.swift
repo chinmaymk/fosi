@@ -10,6 +10,7 @@ import WebKit
 import Toast_Swift
 import SafariServices
 import Promises
+import AMScrollingNavbar
 import Vision
 
 class BrowserViewController: UIViewController,
@@ -97,22 +98,31 @@ class BrowserViewController: UIViewController,
   }
 
   override func viewDidLayoutSubviews() {
-    webView.frame = webViewFrame
+    // webView.frame = webViewFrame
     // webViewFrame = view.frame
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+
+      if let navigationController = navigationController as? ScrollingNavigationController {
+          navigationController.followScrollView(webView, delay: 50.0)
+      }
   }
 
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     super.viewWillTransition(to: size, with: coordinator)
 
-    webView.frame = CGRect(origin: .zero, size: size)
-    webViewFrame = CGRect(origin: .zero, size: size)
+    // webView.frame = CGRect(origin: .zero, size: size)
+    // webViewFrame = CGRect(origin: .zero, size: size)
   }
 
   func replaceWebview(with newView: WKWebView) {
     webView.removeFromSuperview()
     webView = newView
     view.insertSubview(webView, at: 0)
-    self.webView.frame = self.webViewFrame
+    setupWebViewConstrains()
+    // self.webView.frame = self.webViewFrame
     //self.webView.scrollView.frame = self.webViewFrame
     // self.webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
     webView.alpha = 0
@@ -174,24 +184,36 @@ class BrowserViewController: UIViewController,
 
   var webViewFrame: CGRect = .zero
 
+  fileprivate func setupWebViewConstrains() {
+    //    view.addSubview(topMask)
+    //    NSLayoutConstraint.activate([
+    //      topMask.topAnchor.constraint(equalTo: view.topAnchor),
+    //      topMask.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+    //      topMask.widthAnchor.constraint(equalTo: view.widthAnchor),
+    //    ])
+
+    webView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+      webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+    ])
+  }
+
   func setupBrowsingExperience() {
     view.addSubview(webView)
     self.edgesForExtendedLayout = [.bottom, .left, .right]
-    webView.frame = view.frame
-    webViewFrame = view.frame
+    //webView.frame = view.frame
+    // webViewFrame = view.frame
     lastNormalViewIndex = pool.add(view: webView)
     print("layout frame", view.frame)
 
     let topMask = UIView()
     topMask.backgroundColor = .systemBackground
     topMask.translatesAutoresizingMaskIntoConstraints = false
-    navigationController?.navigationBar.isTranslucent = false
-    view.addSubview(topMask)
-    NSLayoutConstraint.activate([
-      topMask.topAnchor.constraint(equalTo: view.topAnchor),
-      topMask.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      topMask.widthAnchor.constraint(equalTo: view.widthAnchor),
-    ])
+    // navigationController?.navigationBar.isTranslucent = false
+    setupWebViewConstrains()
 
     view.addSubview(tableView)
     tableView.isScrollEnabled = true

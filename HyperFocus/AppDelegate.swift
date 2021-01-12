@@ -7,6 +7,7 @@
 
 import UIKit
 import GRDB.Swift
+import AMScrollingNavbar
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   private lazy var navigationController: UINavigationController = {
     let browserViewController = BrowserViewController()
-    return UINavigationController(rootViewController: browserViewController)
+    return ScrollingNavigationController(rootViewController: browserViewController)
   }()
 
   func setupDatabase() throws {
@@ -34,8 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       try! self.setupDatabase()
       _ = DomainCompletions.shared.getCompletions(keywords: "")
     }
-    navigationController.hidesBarsOnTap = true
-    navigationController.hidesBarsOnSwipe = true
+    // navigationController.hidesBarsOnTap = true
+    // navigationController.hidesBarsOnSwipe = true
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.backgroundColor = .systemBackground
     window?.rootViewController = navigationController
