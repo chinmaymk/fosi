@@ -30,7 +30,7 @@ class HistoryManager {
 
   func insert(record: inout HistoryRecord) -> Promise<HistoryRecord> {
     let promise = Promise<HistoryRecord>.pending()
-    HFDatabase.shared.withQueue { q in
+    AppDatabase.shared.withQueue { q in
       do {
         try q.write { db in
           try record.insert(db)
@@ -45,7 +45,7 @@ class HistoryManager {
 
   func search(keywords: String) -> Promise<[HistoryRecord]> {
     let promise = Promise<[HistoryRecord]>.pending()
-    HFDatabase.shared.withReadDb(promise: promise) { db in
+    AppDatabase.shared.withReadDb(promise: promise) { db in
       let sql = """
                 SELECT historyRecord.*
                 FROM historyRecord
@@ -68,7 +68,7 @@ class HistoryManager {
 
   func exactmatch(keywords: String) -> Promise<HistoryRecord?> {
     let promise = Promise<HistoryRecord?>.pending()
-    HFDatabase.shared.withReadDb(promise: promise) { db in
+    AppDatabase.shared.withReadDb(promise: promise) { db in
       let sql = """
                 SELECT historyRecord.*
                 FROM historyRecord
@@ -87,7 +87,7 @@ class HistoryManager {
 
   func mostLikelyWebsite() -> Promise<[HistoryRecord]?> {
     let promise = Promise<[HistoryRecord]?>.pending()
-    HFDatabase.shared.withReadDb(promise: promise) { db in
+    AppDatabase.shared.withReadDb(promise: promise) { db in
       let sql = """
                 SELECT historyRecord.*
                 FROM historyRecord
@@ -100,7 +100,7 @@ class HistoryManager {
 
   func delete(domain: String?) -> Promise<Bool> {
     let promise = Promise<Bool>.pending()
-    HFDatabase.shared.withQueue { q in
+    AppDatabase.shared.withQueue { q in
       do {
         try q.write { db  in
           try HistoryRecord.deleteAll(db)

@@ -86,19 +86,13 @@ class BrowserViewController: UIViewController,
     setupSearchExperience()
     setupBrowsingExperience()
     setupToolBar()
-    // navigationController?.view.isUserInteractionEnabled = true
     // setup contextual menus for text
     UIMenuController.shared.menuItems = contextualMenus
     searchBar.becomeFirstResponder()
-    //        DomainCompletions.shared.data.prefix(5).forEach { (domain) in
-    //            openNewTab()
-    //            handleSearchInput(keywords: domain)
-    //        }
   }
 
   override func viewDidLayoutSubviews() {
     webView.frame = webViewFrame
-    // webViewFrame = view.frame
   }
 
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -113,8 +107,6 @@ class BrowserViewController: UIViewController,
     webView = newView
     view.insertSubview(webView, at: 0)
     self.webView.frame = self.webViewFrame
-    //self.webView.scrollView.frame = self.webViewFrame
-    // self.webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
     webView.alpha = 0
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
       self.webView.transform = .identity

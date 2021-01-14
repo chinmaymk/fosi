@@ -198,10 +198,13 @@ function readerMode() {
 (function () {
     const hosts = ["stack", "yahoo"]
 
-    if (isDarkModeEnabled() && hosts.filter(d => window.location.host.indexOf(d) !== -1).length > 0) {
+    if (!isDarkModeEnabled()) {
+      return
+    }
+    onlyDimImages()
+    if (hosts.filter(d => window.location.host.indexOf(d) !== -1).length > 0) {
         main()
     } else {
-        onlyDimImages()
         DarkReader?.enable()
     }
 })();

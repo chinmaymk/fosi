@@ -194,12 +194,13 @@ class WebviewFactory {
     webView.allowsBackForwardNavigationGestures = true
     webView.allowsLinkPreview = true
     webView.translatesAutoresizingMaskIntoConstraints = false
-    webView.isOpaque = false
-    webView.backgroundColor = .clear
+    webView.isOpaque = true
+    webView.backgroundColor = .systemBackground
 
     webView.scrollView.decelerationRate = .normal
     webView.scrollView.bounces = true
     webView.scrollView.delaysContentTouches = false
+    webView.scrollView.contentInsetAdjustmentBehavior = .scrollableAxes
 
     addStaticAssets(to: webView, for: style)
 

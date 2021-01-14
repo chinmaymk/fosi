@@ -9,8 +9,8 @@ import Foundation
 import GRDB.Swift
 import Promises.Swift
 
-class HFDatabase {
-  static var shared: HFDatabase!
+class AppDatabase {
+  static var shared: AppDatabase!
   
   private let dbQueue: DatabaseQueue
   

@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       .appendingPathComponent("hyperfocus.sqlite")
     let dbQueue = try DatabaseQueue(path: databaseURL.path)
 
-    let database = try HFDatabase(dbQueue)
-    HFDatabase.shared = database
+    let database = try AppDatabase(dbQueue)
+    AppDatabase.shared = database
   }
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
