@@ -91,8 +91,11 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
 
     let closeAll = UIButton(type: .system)
     closeAll.setTitle("Close All", for: .normal)
+    closeAll.layer.borderColor = UIColor.separator.cgColor
+    closeAll.layer.borderWidth = 0.5
     closeAll.layer.cornerRadius = 5
-    closeAll.addTarget(self, action: #selector(closeAllTabs), for: .touchDown)
+    closeAll.tintColor = .systemRed
+    closeAll.addTarget(self, action: #selector(closeAllTabs), for: .touchUpInside)
 
     let dismissSelf = UIButton(type: .system)
     dismissSelf.setTitle("Cancel", for: .normal)
@@ -138,7 +141,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
 
       closeAll.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       closeAll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-      closeAll.heightAnchor.constraint(equalToConstant: 20),
+      closeAll.heightAnchor.constraint(equalToConstant: 50),
       closeAll.widthAnchor.constraint(equalTo: view.widthAnchor),
 
       bottomMask.topAnchor.constraint(equalTo: closeAll.bottomAnchor),

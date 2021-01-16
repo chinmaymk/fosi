@@ -33,7 +33,7 @@ class WebviewPool {
       }
     }
 
-    private func updateSnapshot() {
+    fileprivate func updateSnapshot() {
       DispatchQueue.main.async {
         self.view.takeSnapshot(with: .none) { (image, err) in
           guard let image = image, err == nil else { return }
@@ -78,7 +78,9 @@ class WebviewPool {
     self.size = size
   }
 
+  @discardableResult 
   func add(view: WKWebView) -> Index? {
+    // TODO add an error handler here
     guard size > itemsMap.count else { return nil }
 
     if let item = itemsMap[view.hashValue] {
@@ -94,6 +96,10 @@ class WebviewPool {
 
   func get(at index: Index) -> WKWebView? {
     return getItem(at: index)?.view
+  }
+
+  func updateSnapshot(view: WKWebView) {
+    itemsMap[view.hashValue]?.updateSnapshot()
   }
 
   func getItem(at index: Index) -> Item? {
@@ -118,14 +124,15 @@ enum WebviewMode {
   case normal
   case incognito
   case noamp
+  case desktop
 }
 
 class WebviewFactory {
 
   static let blockLists = [
-    //        "blocking-content-rules.json",
-    //        "blocking-content-rules-social.json",
-    //        "blocking-content-rules-privacy.json",
+//            "blocking-content-rules.json",
+//            "blocking-content-rules-social.json",
+//            "blocking-content-rules-privacy.json",
     "easylist.json",
     "filters.json",
     "idc.json"
@@ -135,14 +142,14 @@ class WebviewFactory {
 
   static let processPool = WKProcessPool()
 
-  func addScript(webView: WKWebView, file: String, injectionTime: WKUserScriptInjectionTime) {
+  func addScript(to webView: WKWebView, file: String, injectionTime: WKUserScriptInjectionTime) {
     let url = Bundle.main.url(forResource: file, withExtension: "")
     let source = try! String(contentsOf: url!)
     let script = WKUserScript(source: source, injectionTime: injectionTime, forMainFrameOnly: false)
     webView.configuration.userContentController.addUserScript(script)
   }
 
-  func addBlockList(webView: WKWebView, file: String) {
+  func addBlockList(to webView: WKWebView, file: String) {
     let url = Bundle.main.url(forResource: file, withExtension: "")
     let jsonString = try! String(contentsOf: url!)
     WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.HyperFocus", encodedContentRuleList: jsonString) {  (contentRuleList: WKContentRuleList?, error: Error?) in
@@ -157,14 +164,14 @@ class WebviewFactory {
 
   func addStaticAssets(to webView: WKWebView, for style: UIUserInterfaceStyle) {
     if style == .dark {
-      addScript(webView: webView, file: "DarkReader.js", injectionTime: .atDocumentStart)
+      addScript(to: webView, file: "DarkReader.js", injectionTime: .atDocumentStart)
     }
-    addScript(webView: webView, file: "TinyColor.js", injectionTime: .atDocumentStart)
-    addScript(webView: webView, file: "mark.js", injectionTime: .atDocumentStart)
-    addScript(webView: webView, file: "index.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "TinyColor.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "mark.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "index.js", injectionTime: .atDocumentStart)
 
     for list in WebviewFactory.blockLists {
-      addBlockList(webView: webView, file: list)
+      addBlockList(to: webView, file: list)
     }
   }
 
@@ -177,12 +184,15 @@ class WebviewFactory {
       config.websiteDataStore = WKWebsiteDataStore.nonPersistent()
     }
 
+    if mode == .desktop {
+      config.defaultWebpagePreferences.preferredContentMode = .desktop
+    }
     config.preferences = preferences
     config.allowsAirPlayForMediaPlayback = true
     config.allowsInlineMediaPlayback = true
     config.allowsPictureInPictureMediaPlayback = false
     config.selectionGranularity = .dynamic
-    config.ignoresViewportScaleLimits = true
+//    config.ignoresViewportScaleLimits = true
     config.processPool = WebviewFactory.processPool
 
     let webView = WKWebView(frame: .zero, configuration: config)

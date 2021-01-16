@@ -297,6 +297,9 @@
 			attributes = {
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
+					FE4270D26410A4B0AF914497 = {
+						DevelopmentTeam = N2QTD5TUVN;
+					};
 					FE42734AB2762DC5270E394A = {
 						DevelopmentTeam = N2QTD5TUVN;
 					};
@@ -470,6 +473,7 @@
 		FE4270DFE17D0BF08977E842 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
@@ -611,6 +615,7 @@
 		FE427908F5045E83A898F23A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
