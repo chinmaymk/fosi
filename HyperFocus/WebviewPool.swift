@@ -33,7 +33,7 @@ class WebviewPool {
       }
     }
 
-    private func updateSnapshot() {
+    fileprivate func updateSnapshot() {
       DispatchQueue.main.async {
         self.view.takeSnapshot(with: .none) { (image, err) in
           guard let image = image, err == nil else { return }
@@ -60,9 +60,17 @@ class WebviewPool {
     case desc
   }
   func sorted(by field: OrderBy, order: SortOrder = .desc) -> Array<(Index, Item)> {
-    switch field {
+    var sw = field
+    if count > 7 {
+      sw = .lastAccessed
+    }
+
+    switch sw {
     case .lastAccessed:
-      return itemsMap.sorted { $0.value.lastAccesed > $1.value.lastAccesed }
+      var list = itemsMap.sorted { $0.value.lastAccesed > $1.value.lastAccesed }
+      let first = list.removeFirst()
+      list.append(first)
+      return list
     case .createdAt:
       return itemsMap.sorted { $0.value.createdAt > $1.value.createdAt }
     }
@@ -78,9 +86,8 @@ class WebviewPool {
     self.size = size
   }
 
-  func add(view: WKWebView) -> Index? {
-    guard size > itemsMap.count else { return nil }
-
+  @discardableResult 
+  func add(view: WKWebView) -> Index {
     if let item = itemsMap[view.hashValue] {
       item.lastAccesed = Date()
       print("tried to add view again", view.hashValue)
@@ -96,8 +103,18 @@ class WebviewPool {
     return getItem(at: index)?.view
   }
 
+  func updateSnapshot(view: WKWebView) {
+    itemsMap[view.hashValue]?.lastAccesed = Date()
+    itemsMap[view.hashValue]?.updateSnapshot()
+  }
+
   func getItem(at index: Index) -> Item? {
     return itemsMap[index]
+  }
+
+  func getIndex(view: WKWebView) -> Index? {
+    // TODO
+    return add(view: view)
   }
 
   func remove(at index: Index) {
@@ -118,31 +135,38 @@ enum WebviewMode {
   case normal
   case incognito
   case noamp
+  case desktop
 }
 
 class WebviewFactory {
 
   static let blockLists = [
-    //        "blocking-content-rules.json",
-    //        "blocking-content-rules-social.json",
-    //        "blocking-content-rules-privacy.json",
+//            "blocking-content-rules.json",
+//            "blocking-content-rules-social.json",
+//            "blocking-content-rules-privacy.json",
     "easylist.json",
     "filters.json",
     "idc.json"
   ]
 
-  static let shared = WebviewFactory()
+  let pool: WebviewPool
+
+  init(pool: WebviewPool) {
+    self.pool = pool
+  }
+
+  static let shared = WebviewFactory(pool: WebviewPool(size: Int.max))
 
   static let processPool = WKProcessPool()
 
-  func addScript(webView: WKWebView, file: String, injectionTime: WKUserScriptInjectionTime) {
+  func addScript(to webView: WKWebView, file: String, injectionTime: WKUserScriptInjectionTime) {
     let url = Bundle.main.url(forResource: file, withExtension: "")
     let source = try! String(contentsOf: url!)
     let script = WKUserScript(source: source, injectionTime: injectionTime, forMainFrameOnly: false)
     webView.configuration.userContentController.addUserScript(script)
   }
 
-  func addBlockList(webView: WKWebView, file: String) {
+  func addBlockList(to webView: WKWebView, file: String) {
     let url = Bundle.main.url(forResource: file, withExtension: "")
     let jsonString = try! String(contentsOf: url!)
     WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.HyperFocus", encodedContentRuleList: jsonString) {  (contentRuleList: WKContentRuleList?, error: Error?) in
@@ -157,14 +181,14 @@ class WebviewFactory {
 
   func addStaticAssets(to webView: WKWebView, for style: UIUserInterfaceStyle) {
     if style == .dark {
-      addScript(webView: webView, file: "DarkReader.js", injectionTime: .atDocumentStart)
+      addScript(to: webView, file: "DarkReader.js", injectionTime: .atDocumentStart)
     }
-    addScript(webView: webView, file: "TinyColor.js", injectionTime: .atDocumentStart)
-    addScript(webView: webView, file: "mark.js", injectionTime: .atDocumentStart)
-    addScript(webView: webView, file: "index.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "TinyColor.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "mark.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "index.js", injectionTime: .atDocumentStart)
 
     for list in WebviewFactory.blockLists {
-      addBlockList(webView: webView, file: list)
+      addBlockList(to: webView, file: list)
     }
   }
 
@@ -177,6 +201,9 @@ class WebviewFactory {
       config.websiteDataStore = WKWebsiteDataStore.nonPersistent()
     }
 
+    if mode == .desktop {
+      config.defaultWebpagePreferences.preferredContentMode = .desktop
+    }
     config.preferences = preferences
     config.allowsAirPlayForMediaPlayback = true
     config.allowsInlineMediaPlayback = true
@@ -203,7 +230,7 @@ class WebviewFactory {
     webView.scrollView.contentInsetAdjustmentBehavior = .scrollableAxes
 
     addStaticAssets(to: webView, for: style)
-
+    pool.add(view: webView)
     return webView
   }
 }

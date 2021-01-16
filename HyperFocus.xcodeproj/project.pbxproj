@@ -25,10 +25,10 @@
 		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
 		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
 		E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */; };
+		E8DD4E7B25B3615300ED5586 /* DarkReader.js in Resources */ = {isa = PBXBuildFile; fileRef = E8DD4E7925B3615300ED5586 /* DarkReader.js */; };
+		E8DD4E7C25B3615300ED5586 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = E8DD4E7A25B3615300ED5586 /* index.js */; };
 		E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2D258E753B001E9669 /* BrowserViewController.swift */; };
 		E8E82B30258E753B001E9669 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2E258E753B001E9669 /* AppDelegate.swift */; };
-		E8E82B9A258E9AB9001E9669 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = E8E82B98258E9AB9001E9669 /* index.js */; };
-		E8E82B9B258E9AB9001E9669 /* DarkReader.js in Resources */ = {isa = PBXBuildFile; fileRef = E8E82B99258E9AB9001E9669 /* DarkReader.js */; };
 		FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */; };
 		FE42750D12F59CA3B2185A2D /* HyperFocusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE427BA7753CACEB1533D24A /* HyperFocusUITests.swift */; };
 		FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */; };
@@ -72,12 +72,12 @@
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
 		E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionProviders.swift; sourceTree = "<group>"; };
+		E8DD4E7925B3615300ED5586 /* DarkReader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DarkReader.js; sourceTree = "<group>"; };
+		E8DD4E7A25B3615300ED5586 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		E8E82B2D258E753B001E9669 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		E8E82B2E258E753B001E9669 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8E82B64258E7A7D001E9669 /* AMScrollingNavbar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AMScrollingNavbar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8E82B65258E7A7D001E9669 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E8E82B98258E9AB9001E9669 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = index.js; path = HyperFocus/index.js; sourceTree = SOURCE_ROOT; };
-		E8E82B99258E9AB9001E9669 /* DarkReader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = DarkReader.js; path = HyperFocus/DarkReader.js; sourceTree = SOURCE_ROOT; };
 		FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperFocus.debug.xcconfig"; path = "Target Support Files/Pods-HyperFocus/Pods-HyperFocus.debug.xcconfig"; sourceTree = "<group>"; };
 		FE427019D5F7E0D4D0129464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperFocusTests.swift; sourceTree = "<group>"; };
@@ -152,9 +152,9 @@
 		E8E82B97258E9AAC001E9669 /* js */ = {
 			isa = PBXGroup;
 			children = (
+				E8DD4E7925B3615300ED5586 /* DarkReader.js */,
+				E8DD4E7A25B3615300ED5586 /* index.js */,
 				E8508EE125A4428400BF1266 /* topdomains.txt */,
-				E8E82B99258E9AB9001E9669 /* DarkReader.js */,
-				E8E82B98258E9AB9001E9669 /* index.js */,
 				E8ABFBDF2598402D00809448 /* TinyColor.js */,
 				E864A4E425999C4A00A0DB95 /* mark.js */,
 			);
@@ -297,6 +297,9 @@
 			attributes = {
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
+					FE4270D26410A4B0AF914497 = {
+						DevelopmentTeam = N2QTD5TUVN;
+					};
 					FE42734AB2762DC5270E394A = {
 						DevelopmentTeam = N2QTD5TUVN;
 					};
@@ -338,16 +341,16 @@
 				E8508EE225A4428400BF1266 /* topdomains.txt in Resources */,
 				FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */,
 				E864A4E525999C4A00A0DB95 /* mark.js in Resources */,
-				E8E82B9A258E9AB9001E9669 /* index.js in Resources */,
 				E8041BA525903A25001DE066 /* blocking-content-rules-social.json in Resources */,
 				E8041BA625903A25001DE066 /* blocking-content-rules.json in Resources */,
 				FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */,
-				E8E82B9B258E9AB9001E9669 /* DarkReader.js in Resources */,
 				E864A4FD2599C80300A0DB95 /* easylist.json in Resources */,
 				E864A5282599CD8E00A0DB95 /* idc.json in Resources */,
 				E8041BA425903A25001DE066 /* blocking-content-rules-privacy.json in Resources */,
+				E8DD4E7B25B3615300ED5586 /* DarkReader.js in Resources */,
 				E8ABFBE02598402D00809448 /* TinyColor.js in Resources */,
 				E864A5042599C80300A0DB95 /* filters.json in Resources */,
+				E8DD4E7C25B3615300ED5586 /* index.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +473,7 @@
 		FE4270DFE17D0BF08977E842 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
@@ -611,6 +615,7 @@
 		FE427908F5045E83A898F23A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
