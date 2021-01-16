@@ -60,9 +60,17 @@ class WebviewPool {
     case desc
   }
   func sorted(by field: OrderBy, order: SortOrder = .desc) -> Array<(Index, Item)> {
-    switch field {
+    var sw = field
+    if count > 7 {
+      sw = .lastAccessed
+    }
+
+    switch sw {
     case .lastAccessed:
-      return itemsMap.sorted { $0.value.lastAccesed > $1.value.lastAccesed }
+      var list = itemsMap.sorted { $0.value.lastAccesed > $1.value.lastAccesed }
+      let first = list.removeFirst()
+      list.append(first)
+      return list
     case .createdAt:
       return itemsMap.sorted { $0.value.createdAt > $1.value.createdAt }
     }
@@ -80,9 +88,6 @@ class WebviewPool {
 
   @discardableResult 
   func add(view: WKWebView) -> Index? {
-    // TODO add an error handler here
-    guard size > itemsMap.count else { return nil }
-
     if let item = itemsMap[view.hashValue] {
       item.lastAccesed = Date()
       print("tried to add view again", view.hashValue)
@@ -99,6 +104,7 @@ class WebviewPool {
   }
 
   func updateSnapshot(view: WKWebView) {
+    itemsMap[view.hashValue]?.lastAccesed = Date()
     itemsMap[view.hashValue]?.updateSnapshot()
   }
 
@@ -138,7 +144,13 @@ class WebviewFactory {
     "idc.json"
   ]
 
-  static let shared = WebviewFactory()
+  let pool: WebviewPool
+
+  init(pool: WebviewPool) {
+    self.pool = pool
+  }
+
+  static let shared = WebviewFactory(pool: WebviewPool(size: Int.max))
 
   static let processPool = WKProcessPool()
 
@@ -213,7 +225,7 @@ class WebviewFactory {
     webView.scrollView.contentInsetAdjustmentBehavior = .scrollableAxes
 
     addStaticAssets(to: webView, for: style)
-
+    pool.add(view: webView)
     return webView
   }
 }

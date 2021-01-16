@@ -17,26 +17,25 @@ class BrowserViewController: UIViewController,
                              UINavigationControllerDelegate,
                              UIContextMenuInteractionDelegate {
   var commitURL: URL?
-  lazy var webView = WebviewFactory.shared.build(
+  let factory = WebviewFactory.shared
+  lazy var webView = factory.build(
     mode: .normal,
     style: self.traitCollection.userInterfaceStyle
   )
-  let pool = WebviewPool(size: 50)
+  // let pool = WebviewPool(size: 50)
   var lastNormalViewIndex: WebviewPool.Index?
 
   // incognito mode
   var currentMode: WebviewMode = .normal {
     didSet {
       navigationItem.leftBarButtonItem = getLeftItem()
-      let newView = WebviewFactory.shared.build(
+      let newView = self.factory.build(
         mode: currentMode,
         style: self.traitCollection.userInterfaceStyle
       )
       if let lastUrl = webView.url {
         newView.load(URLRequest(url: lastUrl))
       }
-      pool.add(view: webView)
-      pool.add(view: newView)
       replaceWebview(with: newView)
     }
   }
@@ -113,6 +112,13 @@ class BrowserViewController: UIViewController,
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     super.viewWillTransition(to: size, with: coordinator)
 
+    switch UIDevice.current.orientation {
+    case .landscapeLeft, .landscapeRight:
+      topMask.isHidden = true
+    default:
+      topMask.isHidden = false
+    }
+
     webViewFrame = CGRect(origin: .zero, size: size)
     webView.frame = webViewFrame
     tableView.frame = webViewFrame
@@ -149,11 +155,10 @@ class BrowserViewController: UIViewController,
 
     confirmAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { [self] (action: UIAlertAction!) in
       let url = webView.url
-      let newView = WebviewFactory.shared.build(mode: currentMode, style: traitCollection.userInterfaceStyle)
+      let newView = factory.build(mode: currentMode, style: traitCollection.userInterfaceStyle)
       if let url = url {
         newView.load(URLRequest(url: url))
       }
-      pool.add(view: newView)
       replaceWebview(with: newView)
     }))
 
@@ -186,16 +191,16 @@ class BrowserViewController: UIViewController,
   }
 
   var webViewFrame: CGRect = .zero
+  let topMask = UIView()
 
   func setupBrowsingExperience() {
     view.addSubview(webView)
     self.edgesForExtendedLayout = [.bottom, .left, .right]
     webView.frame = view.frame
     webViewFrame = view.frame
-    lastNormalViewIndex = pool.add(view: webView)
+    lastNormalViewIndex = factory.pool.add(view: webView)
     print("layout frame", view.frame)
 
-    let topMask = UIView()
     topMask.backgroundColor = .systemBackground
     topMask.translatesAutoresizingMaskIntoConstraints = false
     navigationController?.navigationBar.isTranslucent = false
@@ -226,10 +231,8 @@ class BrowserViewController: UIViewController,
 
   @objc func openNewTab() {
     // move current view to background
-    pool.add(view: webView)
-    pool.updateSnapshot(view: webView)
-    let newView = WebviewFactory.shared.build(mode: currentMode, style: traitCollection.userInterfaceStyle)
-    pool.add(view: newView)
+    factory.pool.updateSnapshot(view: webView)
+    let newView = factory.build(mode: currentMode, style: traitCollection.userInterfaceStyle)
     replaceWebview(with: newView)
     searchBar.becomeFirstResponder()
     searchBar.searchTextField.unmarkText()
@@ -292,14 +295,9 @@ class BrowserViewController: UIViewController,
   }
 
   func setupToolBar() {
-    let centerButton = UIBarButtonItem(
-      image: UIImage(systemName: "arrow.2.squarepath"),
-      style: .plain, target: self, action: #selector(redo)
-    )
-
     let toolBarItems = [
       // Reader mode
-      UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(openSafariReaderMode)),
+      UIBarButtonItem(image: UIImage(systemName: "text.justifyleft"), style: .plain, target: self, action: #selector(openSafariReaderMode)),
       UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
 
       // Find in page
@@ -307,7 +305,7 @@ class BrowserViewController: UIViewController,
       UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
 
       // Reset webview and start over
-      centerButton,
+      UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(redo)),
       UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
 
       // Share
@@ -505,7 +503,7 @@ extension BrowserViewController: UITextFieldDelegate {
     // go to incognito if not in it already
     // else restore last saved view
     if currentMode != .incognito {
-      let index = pool.add(view: webView)
+      let index = factory.pool.add(view: webView)
       if index != nil {
         lastNormalViewIndex = index
       }
@@ -513,19 +511,21 @@ extension BrowserViewController: UITextFieldDelegate {
 
     if currentMode != .incognito {
       currentMode = .incognito
-      let newView = WebviewFactory.shared.build(mode: currentMode, style: self.traitCollection.userInterfaceStyle)
+      let newView = factory.build(
+        mode: currentMode,
+        style: self.traitCollection.userInterfaceStyle
+      )
       replaceWebview(with: newView)
       self.displayToast(message: "Incognito mode activated", image: incognitoIndicator)
     } else if let index = lastNormalViewIndex {
       currentMode = .normal
-      if let newView = pool.get(at: index) {
+      if let newView = factory.pool.get(at: index) {
         replaceWebview(with: newView)
       } else {
-        let view = WebviewFactory.shared.build(
+        let view = factory.build(
           mode: currentMode,
           style: self.traitCollection.userInterfaceStyle
         )
-        pool.add(view: view)
         replaceWebview(with: view)
       }
       lastNormalViewIndex = nil
@@ -641,7 +641,7 @@ extension BrowserViewController: WKNavigationDelegate,
 
   @objc func showOpenTabsVC() {
     let collection = OpenTabsViewController()
-    collection.pool = pool
+    collection.pool = factory.pool
     collection.modalPresentationStyle = .overFullScreen
     collection.openNewTab = { item in
       self.replaceWebview(with: item)
@@ -650,22 +650,20 @@ extension BrowserViewController: WKNavigationDelegate,
       guard item.hashValue == self.webView.hashValue else {
         return
       }
-      if let newView = self.pool.sorted(by: .lastAccessed).filter({
+      if let newView = self.factory.pool.sorted(by: .lastAccessed).filter({
         $0.1.view.hashValue != item.hashValue
       }).first?.1.view {
         self.replaceWebview(with: newView)
       } else {
-        let newView = WebviewFactory.shared.build(
+        let newView = self.factory.build(
           mode: self.currentMode,
           style: self.traitCollection.userInterfaceStyle
         )
-        self.pool.add(view: newView)
         self.replaceWebview(with: newView)
       }
     }
     collection.allTabsClosed = {
-      let newView = WebviewFactory.shared.build(mode: self.currentMode, style: self.traitCollection.userInterfaceStyle)
-      self.pool.add(view: newView)
+      let newView = self.factory.build(mode: self.currentMode, style: self.traitCollection.userInterfaceStyle)
       self.searchBarCancelButtonClicked(self.searchBar)
       self.replaceWebview(with: newView)
     }
@@ -741,13 +739,14 @@ extension BrowserViewController: WKNavigationDelegate,
 
   func webView(_ webView: WKWebView, contextMenuForElement elementInfo: WKContextMenuElementInfo, willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating) {
     if let url = commitURL {
-      let view = WebviewFactory.shared.build(
+      let view = factory.build(
         mode: currentMode, style: self.traitCollection.userInterfaceStyle
       )
       view.load(URLRequest(url: url))
-      pool.add(view: view)
       self.navigationController?.view.makeToast("Opened a tab in background, tap to switch", duration: 1.5, position: .top) { didTap in
-        self.replaceWebview(with: view)
+        if (didTap) {
+          self.replaceWebview(with: view)
+        }
       }
     }
   }

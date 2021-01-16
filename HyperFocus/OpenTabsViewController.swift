@@ -55,16 +55,17 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
 
   @objc func openTab() {
     let view = projected[collectionView.currentItemIndex].1.view
+    pool?.add(view: view) // bump up the last accesed
     openNewTab?(view)
     dismissVC()
   }
 
   func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
     let img = projected[index].1.snapshot
-    let w =  img.size.width * widthMultiplier
-    let h = img.size.height * heightMultiplier
+    let w =  UIScreen.main.bounds.width * widthMultiplier
+    let h = UIScreen.main.bounds.height * heightMultiplier
     let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: w, height: h))
-    imageView.contentMode = .scaleAspectFit
+    imageView.contentMode = .scaleAspectFill
     imageView.clipsToBounds = true
     imageView.image = img
     let swipe = UISwipeGestureRecognizer(target: self, action: #selector(dismissTab))
@@ -91,21 +92,8 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
 
     let closeAll = UIButton(type: .system)
     closeAll.setTitle("Close All", for: .normal)
-    closeAll.layer.borderColor = UIColor.separator.cgColor
-    closeAll.layer.borderWidth = 0.5
-    closeAll.layer.cornerRadius = 5
     closeAll.tintColor = .systemRed
     closeAll.addTarget(self, action: #selector(closeAllTabs), for: .touchUpInside)
-
-    let dismissSelf = UIButton(type: .system)
-    dismissSelf.setTitle("Cancel", for: .normal)
-    dismissSelf.layer.cornerRadius = 5
-    dismissSelf.setTitleColor(.systemRed, for: .normal)
-    dismissSelf.addTarget(self, action: #selector(dismissVC), for: .touchDown)
-
-    let label = UILabel()
-    label.font = UIFont.preferredFont(forTextStyle: .headline)
-    label.text = "Open Tabs"
 
     collectionView.dataSource = self
     collectionView.type = .coverFlow
@@ -127,11 +115,10 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
     view.addSubview(collectionView)
     view.addSubview(closeAll)
     view.addSubview(bottomMask)
+
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     closeAll.translatesAutoresizingMaskIntoConstraints = false
-    dismissSelf.translatesAutoresizingMaskIntoConstraints = false
-    label.translatesAutoresizingMaskIntoConstraints = false
-    //view.translatesAutoresizingMaskIntoConstraints = false
+
     NSLayoutConstraint.activate([
       collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
