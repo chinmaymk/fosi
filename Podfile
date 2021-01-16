@@ -2,12 +2,10 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'HyperFocus' do
-  pod 'SnapKit', '~> 5.0'
   pod 'Toast-Swift', '~> 5.0.1'
   pod 'SWXMLHash', '~> 5.0.0'
   pod 'PromisesSwift'
   pod 'GRDB.swift'
-  pod "CollectionKit", '~> 2.4.0'
   pod 'iCarousel'
 end
 
