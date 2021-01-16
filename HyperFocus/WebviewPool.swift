@@ -87,7 +87,7 @@ class WebviewPool {
   }
 
   @discardableResult 
-  func add(view: WKWebView) -> Index? {
+  func add(view: WKWebView) -> Index {
     if let item = itemsMap[view.hashValue] {
       item.lastAccesed = Date()
       print("tried to add view again", view.hashValue)
@@ -110,6 +110,11 @@ class WebviewPool {
 
   func getItem(at index: Index) -> Item? {
     return itemsMap[index]
+  }
+
+  func getIndex(view: WKWebView) -> Index? {
+    // TODO
+    return add(view: view)
   }
 
   func remove(at index: Index) {
@@ -204,7 +209,7 @@ class WebviewFactory {
     config.allowsInlineMediaPlayback = true
     config.allowsPictureInPictureMediaPlayback = false
     config.selectionGranularity = .dynamic
-//    config.ignoresViewportScaleLimits = true
+    config.ignoresViewportScaleLimits = true
     config.processPool = WebviewFactory.processPool
 
     let webView = WKWebView(frame: .zero, configuration: config)
