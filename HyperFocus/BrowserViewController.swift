@@ -406,11 +406,18 @@ extension BrowserViewController: UITextFieldDelegate {
       textField.delegate = self
     }
 
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+    alert.addAction(UIAlertAction(title: "Mark", style: .default, handler: { [weak alert] (_) in
       let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-      self.findInPage(keywords: textField?.text)
+      if let keywords =  textField?.text {
+        self.webView.evaluateJavaScript("window.hf.marker = new PageFinder(); window.hf.marker.findInPage(`\(keywords)`);")
+      }
     }))
-    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+    alert.addAction(UIAlertAction(title: "Unmark", style: .cancel, handler: { (_) in
+      self.webView.evaluateJavaScript("window.hf.marker.clear()")
+    }))
+
+    // alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     present(alert, animated: true, completion: nil)
   }
 
@@ -420,10 +427,7 @@ extension BrowserViewController: UITextFieldDelegate {
   }
 
   private func findInPage(keywords: String?) {
-    let script = """
-            window.findInPage("\(keywords!)");
-        """
-    webView.evaluateJavaScript(script)
+
   }
 
   @objc func deleteHistory() {
