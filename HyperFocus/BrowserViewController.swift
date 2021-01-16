@@ -104,11 +104,6 @@ class BrowserViewController: UIViewController,
     // setup contextual menus for text
     UIMenuController.shared.menuItems = contextualMenus
     searchBar.becomeFirstResponder()
-
-    DomainCompletions.shared.data.prefix(15).forEach { (domain) in
-      openNewTab()
-      handleSearchInput(keywords: domain)
-    }
   }
 
   override func viewDidLayoutSubviews() {
