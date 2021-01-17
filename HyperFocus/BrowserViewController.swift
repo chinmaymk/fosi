@@ -412,10 +412,6 @@ extension BrowserViewController: UITextFieldDelegate {
     textField.becomeFirstResponder()
   }
 
-  private func findInPage(keywords: String?) {
-
-  }
-
   @objc func deleteHistory() {
     let confirmAlert = UIAlertController(title: "Delete Website Data", message: "This operation is irrersible.", preferredStyle: .actionSheet)
 
