@@ -102,27 +102,27 @@ class BrowserViewController: UIViewController,
   }
 
   override func viewDidLayoutSubviews() {
-    webView.frame = webViewFrame
-  }
-
-  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    super.viewWillTransition(to: size, with: coordinator)
-
     switch UIDevice.current.orientation {
     case .landscapeLeft, .landscapeRight:
       topMask.isHidden = true
+      webViewFrame = CGRect(origin: .zero, size: CGSize(width: initFrame.height, height: initFrame.width))
     default:
       topMask.isHidden = false
+      webViewFrame = initFrame
     }
-
-    webViewFrame = CGRect(origin: .zero, size: size)
-    webView.frame = webViewFrame
-    tableView.frame = webViewFrame
+     webView.frame = webViewFrame
+     tableView.frame = webViewFrame
   }
 
   override func viewWillAppear(_ animated: Bool) {
     webView.frame = webViewFrame
     tableView.frame = webViewFrame
+  }
+
+  func replaceWebviewSilently(view: WKWebView) {
+    navigationController?.view.makeToast("Opened a tab in background, tap to switch", duration: 2, position: .top) { didTap in
+      if (didTap) { self.replaceWebview(with: view) }
+    }
   }
 
   func replaceWebview(with newView: WKWebView) {
@@ -188,12 +188,14 @@ class BrowserViewController: UIViewController,
   }
 
   var webViewFrame: CGRect = .zero
+  var initFrame: CGRect = .zero
   let topMask = UIView()
 
   func setupBrowsingExperience() {
     view.addSubview(webView)
     self.edgesForExtendedLayout = [.bottom, .left, .right]
     webView.frame = view.frame
+    initFrame = view.frame
     webViewFrame = view.frame
     print("layout frame", view.frame)
 
@@ -373,10 +375,7 @@ extension BrowserViewController: UITextFieldDelegate {
         URLQueryItem(name: "q", value: result as? String)
       ]
       view.load(URLRequest(url: components.url!))
-      self.navigationController?.view.makeToast("Opened a tab in background, tap to switch", duration: 2, position: .top) { didTap in
-        if (didTap) { self.replaceWebview(with: view) }
-      }
-
+      replaceWebviewSilently(view: view)
     }
   }
 
@@ -594,22 +593,22 @@ extension BrowserViewController: WKNavigationDelegate,
     collection.openNewTab = { item in
       self.replaceWebview(with: item)
     }
-    collection.tabDidClose = { item in
-      guard item.hashValue == self.webView.hashValue else { return }
+    collection.tabDidClose = { [self] item in
+      guard item.hashValue == webView.hashValue else { return }
 
-      if let newView = self.factory.pool.sorted(by: .lastAccessed).filter({
+      if let newView = factory.pool.sorted(by: .lastAccessed).filter({
         $0.1.view.hashValue != item.hashValue
       }).first?.1.view {
-        self.replaceWebview(with: newView)
+        replaceWebview(with: newView)
       } else {
-        let newView = self.factory.build(mode: self.currentMode, style: self.currentSyle)
-        self.replaceWebview(with: newView)
+        let newView = factory.build(mode: currentMode, style: currentSyle)
+        replaceWebview(with: newView)
       }
     }
-    collection.allTabsClosed = {
-      let newView = self.factory.build(mode: self.currentMode, style: self.currentSyle)
-      self.searchBarCancelButtonClicked(self.searchBar)
-      self.replaceWebview(with: newView)
+    collection.allTabsClosed = { [self] () in
+      let newView = factory.build(mode: currentMode, style: currentSyle)
+      searchBarCancelButtonClicked(searchBar)
+      replaceWebview(with: newView)
     }
 
     present(collection, animated: true, completion: nil)
@@ -638,7 +637,6 @@ extension BrowserViewController: WKNavigationDelegate,
   func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 
     if navigationAction.targetFrame == nil {
-      openNewTab()
       webView.load(navigationAction.request)
       decisionHandler(.cancel)
     } else {
@@ -685,9 +683,7 @@ extension BrowserViewController: WKNavigationDelegate,
     guard let url = commitURL else { return }
     let view = factory.build(mode: currentMode, style: currentSyle)
     view.load(URLRequest(url: url))
-    self.navigationController?.view.makeToast("Opened a tab in background, tap to switch", duration: 1.5, position: .top) { didTap in
-      if (didTap) { self.replaceWebview(with: view) }
-    }
+    replaceWebviewSilently(view: view)
   }
 }
 

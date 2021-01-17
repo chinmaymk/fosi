@@ -76,8 +76,6 @@
 		E8DD4E7A25B3615300ED5586 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		E8E82B2D258E753B001E9669 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		E8E82B2E258E753B001E9669 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E8E82B64258E7A7D001E9669 /* AMScrollingNavbar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AMScrollingNavbar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E8E82B65258E7A7D001E9669 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperFocus.debug.xcconfig"; path = "Target Support Files/Pods-HyperFocus/Pods-HyperFocus.debug.xcconfig"; sourceTree = "<group>"; };
 		FE427019D5F7E0D4D0129464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperFocusTests.swift; sourceTree = "<group>"; };
@@ -129,8 +127,6 @@
 		824150419ED42CF2BCEE79B4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E8E82B64258E7A7D001E9669 /* AMScrollingNavbar.framework */,
-				E8E82B65258E7A7D001E9669 /* SnapKit.framework */,
 				140F82FA6AFEEC908FE306B6 /* Pods_HyperFocus.framework */,
 			);
 			name = Frameworks;

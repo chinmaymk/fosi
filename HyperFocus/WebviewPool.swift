@@ -17,19 +17,18 @@ class WebviewPool {
     private(set) var snapshot: UIImage = UIImage()
     private var progressObservable: NSKeyValueObservation?
     private(set) var createdAt: Date
+    private var timer: Timer?
 
     init(view: WKWebView) {
       self.view = view
       createdAt = Date()
       updateSnapshot()
-      progressObservable = view.observe(\WKWebView.estimatedProgress, options: .new) { _, change in
-        let val = Float(change.newValue!)
-        if val == 1 || val == 0 {
+      progressObservable = view.observe(\WKWebView.estimatedProgress, options: .new) { [self] (_, change) in
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { _ in
           self.updateSnapshot()
-        }
-        if let oldVal = change.oldValue, change.newValue! - oldVal > 0.3 {
-          self.updateSnapshot()
-        }
+        })
+        timer?.fire()
       }
     }
 
@@ -141,9 +140,9 @@ enum WebviewMode {
 class WebviewFactory {
 
   static let blockLists = [
-//            "blocking-content-rules.json",
-//            "blocking-content-rules-social.json",
-//            "blocking-content-rules-privacy.json",
+    // "blocking-content-rules.json",
+    // "blocking-content-rules-social.json",
+    // "blocking-content-rules-privacy.json",
     "easylist.json",
     "filters.json",
     "idc.json"

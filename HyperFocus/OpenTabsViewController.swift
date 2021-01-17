@@ -27,8 +27,26 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
   var tabDidClose: ((WKWebView) -> Void)?
   var allTabsClosed: (() -> Void)?
 
-  let heightMultiplier = CGFloat(0.6)
-  let widthMultiplier = CGFloat(0.6)
+  var heightMultiplier: CGFloat {
+    get {
+      switch UIDevice.current.orientation {
+      case .landscapeLeft, .landscapeRight:
+        return CGFloat(0.6)
+      default:
+        return CGFloat(0.6)
+      }
+    }
+  }
+  var widthMultiplier: CGFloat {
+    get {
+      switch UIDevice.current.orientation {
+      case .landscapeLeft, .landscapeRight:
+        return CGFloat(0.3)
+      default:
+        return CGFloat(0.6)
+      }
+    }
+  }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
