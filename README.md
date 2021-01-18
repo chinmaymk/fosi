@@ -1,4 +1,4 @@
-Fosi
+Fosi (fō-sī)
 ===
 
 ![logo](Fosi/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png)
