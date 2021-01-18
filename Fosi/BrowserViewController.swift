@@ -146,7 +146,7 @@ class BrowserViewController: UIViewController,
 
     let confirmAlert = UIAlertController(
       title: "System Appearance Changed",
-      message: "HyperFocus detected a change in display settings, Would you like to reload?",
+      message: "Fosi detected a change in display settings, Would you like to reload?",
       preferredStyle: .actionSheet
     )
 
@@ -413,7 +413,7 @@ extension BrowserViewController: UITextFieldDelegate {
   }
 
   @objc func deleteHistory() {
-    let confirmAlert = UIAlertController(title: "Delete Website Data", message: "This operation is irrersible.", preferredStyle: .actionSheet)
+    let confirmAlert = UIAlertController(title: "Delete Website Data", message: "This operation cannot be undone.", preferredStyle: .actionSheet)
 
     let allTypes = WKWebsiteDataStore.allWebsiteDataTypes()
     let dataStore = WKWebsiteDataStore.default()
