@@ -1,6 +1,7 @@
-#  HyperFocus
+Fosi
+===
 
-![logo](HyperFocus/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png)
+![logo](Fosi/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png)
 
 
 A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-mobile/focus-ios).
