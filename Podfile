@@ -1,7 +1,7 @@
 platform :ios, '13.0'
 use_frameworks!
 
-target 'HyperFocus' do
+target 'Fosi' do
   pod 'Toast-Swift', '~> 5.0.1'
   pod 'SWXMLHash', '~> 5.0.0'
   pod 'PromisesSwift'

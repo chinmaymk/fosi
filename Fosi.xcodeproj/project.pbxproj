@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		43510A514717ECC3309C50B9 /* Pods_HyperFocus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 140F82FA6AFEEC908FE306B6 /* Pods_HyperFocus.framework */; };
+		29AAA3D2DDEB4452CBE205F1 /* Pods_Fosi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075319AA9853B968512BE910 /* Pods_Fosi.framework */; };
 		E8041BA425903A25001DE066 /* blocking-content-rules-privacy.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */; };
 		E8041BA525903A25001DE066 /* blocking-content-rules-social.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA225903A25001DE066 /* blocking-content-rules-social.json */; };
 		E8041BA625903A25001DE066 /* blocking-content-rules.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA325903A25001DE066 /* blocking-content-rules.json */; };
@@ -30,9 +30,9 @@
 		E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2D258E753B001E9669 /* BrowserViewController.swift */; };
 		E8E82B30258E753B001E9669 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2E258E753B001E9669 /* AppDelegate.swift */; };
 		FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */; };
-		FE42750D12F59CA3B2185A2D /* HyperFocusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE427BA7753CACEB1533D24A /* HyperFocusUITests.swift */; };
+		FE42750D12F59CA3B2185A2D /* FosiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE427BA7753CACEB1533D24A /* FosiUITests.swift */; };
 		FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */; };
-		FE427905F8BC63ED7DC059F4 /* HyperFocusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */; };
+		FE427905F8BC63ED7DC059F4 /* FosiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4274E4DCF0B5DC0A816C31 /* FosiTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +53,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		140F82FA6AFEEC908FE306B6 /* Pods_HyperFocus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyperFocus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C7BD1AC513ED6359BE13CF9 /* Pods-HyperFocus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperFocus.release.xcconfig"; path = "Target Support Files/Pods-HyperFocus/Pods-HyperFocus.release.xcconfig"; sourceTree = "<group>"; };
+		075319AA9853B968512BE910 /* Pods_Fosi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fosi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		97DBEFF425D3C08606389C4E /* Pods-Fosi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fosi.debug.xcconfig"; path = "Target Support Files/Pods-Fosi/Pods-Fosi.debug.xcconfig"; sourceTree = "<group>"; };
+		D4AB2CF15404D69893100FD2 /* Pods-Fosi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fosi.release.xcconfig"; path = "Target Support Files/Pods-Fosi/Pods-Fosi.release.xcconfig"; sourceTree = "<group>"; };
 		E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules-privacy.json"; sourceTree = "<group>"; };
 		E8041BA225903A25001DE066 /* blocking-content-rules-social.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules-social.json"; sourceTree = "<group>"; };
 		E8041BA325903A25001DE066 /* blocking-content-rules.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules.json"; sourceTree = "<group>"; };
@@ -70,21 +71,21 @@
 		E864A5272599CD8E00A0DB95 /* idc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = idc.json; sourceTree = "<group>"; };
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
+		E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosi.entitlements; sourceTree = "<group>"; };
 		E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionProviders.swift; sourceTree = "<group>"; };
 		E8DD4E7925B3615300ED5586 /* DarkReader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DarkReader.js; sourceTree = "<group>"; };
 		E8DD4E7A25B3615300ED5586 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		E8E82B2D258E753B001E9669 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		E8E82B2E258E753B001E9669 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperFocus.debug.xcconfig"; path = "Target Support Files/Pods-HyperFocus/Pods-HyperFocus.debug.xcconfig"; sourceTree = "<group>"; };
 		FE427019D5F7E0D4D0129464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperFocusTests.swift; sourceTree = "<group>"; };
-		FE427540524B4BC5D3D3013C /* HyperFocusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperFocusUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE4274E4DCF0B5DC0A816C31 /* FosiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FosiTests.swift; sourceTree = "<group>"; };
+		FE427540524B4BC5D3D3013C /* FosiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FosiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4275470BA23196F4355E08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		FE4275D3CB326EEB062B7711 /* HyperFocus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyperFocus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE4275D3CB326EEB062B7711 /* Fosi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fosi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4278B9DB1BB706C63C2498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		FE42790D189FBEA187263BFC /* HyperFocusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperFocusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FE427BA7753CACEB1533D24A /* HyperFocusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperFocusUITests.swift; sourceTree = "<group>"; };
+		FE42790D189FBEA187263BFC /* FosiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FosiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE427BA7753CACEB1533D24A /* FosiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FosiUITests.swift; sourceTree = "<group>"; };
 		FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43510A514717ECC3309C50B9 /* Pods_HyperFocus.framework in Frameworks */,
+				29AAA3D2DDEB4452CBE205F1 /* Pods_Fosi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,16 +119,16 @@
 		29EAA88D08890E0ECFADB5F3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */,
-				5C7BD1AC513ED6359BE13CF9 /* Pods-HyperFocus.release.xcconfig */,
+				97DBEFF425D3C08606389C4E /* Pods-Fosi.debug.xcconfig */,
+				D4AB2CF15404D69893100FD2 /* Pods-Fosi.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		824150419ED42CF2BCEE79B4 /* Frameworks */ = {
+		C118197C0CE6202051BD7C3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				140F82FA6AFEEC908FE306B6 /* Pods_HyperFocus.framework */,
+				075319AA9853B968512BE910 /* Pods_Fosi.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -165,28 +166,29 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		FE4277A5754353A6F9037F9E /* HyperFocusTests */ = {
+		FE4277A5754353A6F9037F9E /* FosiTests */ = {
 			isa = PBXGroup;
 			children = (
 				FE427019D5F7E0D4D0129464 /* Info.plist */,
-				FE4274E4DCF0B5DC0A816C31 /* HyperFocusTests.swift */,
+				FE4274E4DCF0B5DC0A816C31 /* FosiTests.swift */,
 			);
-			path = HyperFocusTests;
+			path = FosiTests;
 			sourceTree = "<group>";
 		};
 		FE42786FBEEF581645829298 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FE4275D3CB326EEB062B7711 /* HyperFocus.app */,
-				FE42790D189FBEA187263BFC /* HyperFocusTests.xctest */,
-				FE427540524B4BC5D3D3013C /* HyperFocusUITests.xctest */,
+				FE4275D3CB326EEB062B7711 /* Fosi.app */,
+				FE42790D189FBEA187263BFC /* FosiTests.xctest */,
+				FE427540524B4BC5D3D3013C /* FosiUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FE427C025E1607A89B8509F8 /* HyperFocus */ = {
+		FE427C025E1607A89B8509F8 /* Fosi */ = {
 			isa = PBXGroup;
 			children = (
+				E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */,
 				E8041BA025903A05001DE066 /* blocklists */,
 				E8E82B97258E9AAC001E9669 /* js */,
 				FE4278B9DB1BB706C63C2498 /* Info.plist */,
@@ -203,36 +205,36 @@
 				E8508E78259FADE600BF1266 /* WebviewPool.swift */,
 				E8508E7D259FBC3800BF1266 /* WheelCounter.swift */,
 			);
-			path = HyperFocus;
+			path = Fosi;
 			sourceTree = "<group>";
 		};
 		FE427C21DD3923AD1F7AEF64 = {
 			isa = PBXGroup;
 			children = (
 				FE42786FBEEF581645829298 /* Products */,
-				FE427C025E1607A89B8509F8 /* HyperFocus */,
-				FE4277A5754353A6F9037F9E /* HyperFocusTests */,
-				FE427C3DF487592E58FEC7E1 /* HyperFocusUITests */,
+				FE427C025E1607A89B8509F8 /* Fosi */,
+				FE4277A5754353A6F9037F9E /* FosiTests */,
+				FE427C3DF487592E58FEC7E1 /* FosiUITests */,
 				29EAA88D08890E0ECFADB5F3 /* Pods */,
-				824150419ED42CF2BCEE79B4 /* Frameworks */,
+				C118197C0CE6202051BD7C3E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		FE427C3DF487592E58FEC7E1 /* HyperFocusUITests */ = {
+		FE427C3DF487592E58FEC7E1 /* FosiUITests */ = {
 			isa = PBXGroup;
 			children = (
 				FE4275470BA23196F4355E08 /* Info.plist */,
-				FE427BA7753CACEB1533D24A /* HyperFocusUITests.swift */,
+				FE427BA7753CACEB1533D24A /* FosiUITests.swift */,
 			);
-			path = HyperFocusUITests;
+			path = FosiUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FE4270D26410A4B0AF914497 /* HyperFocusUITests */ = {
+		FE4270D26410A4B0AF914497 /* FosiUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FE427ADF30883BE7FB3124A1 /* Build configuration list for PBXNativeTarget "HyperFocusUITests" */;
+			buildConfigurationList = FE427ADF30883BE7FB3124A1 /* Build configuration list for PBXNativeTarget "FosiUITests" */;
 			buildPhases = (
 				FE427473F4A80E3FFC2FB80F /* Sources */,
 				FE4278DF94EEE7B46B5ED58F /* Frameworks */,
@@ -243,33 +245,33 @@
 			dependencies = (
 				FE427E84EBE6C95890688CFC /* PBXTargetDependency */,
 			);
-			name = HyperFocusUITests;
+			name = FosiUITests;
 			productName = HyperFocusUITests;
-			productReference = FE427540524B4BC5D3D3013C /* HyperFocusUITests.xctest */;
+			productReference = FE427540524B4BC5D3D3013C /* FosiUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		FE42734AB2762DC5270E394A /* HyperFocus */ = {
+		FE42734AB2762DC5270E394A /* Fosi */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FE427881C093C6DC5BD7514E /* Build configuration list for PBXNativeTarget "HyperFocus" */;
+			buildConfigurationList = FE427881C093C6DC5BD7514E /* Build configuration list for PBXNativeTarget "Fosi" */;
 			buildPhases = (
-				59074C9855A0DE19D54E4310 /* [CP] Check Pods Manifest.lock */,
+				D5D5035EAC416F4F79A97E6D /* [CP] Check Pods Manifest.lock */,
 				FE4275E16F47AF7ED0EBCECD /* Sources */,
 				FE427E1AA853D6A44FFA5D60 /* Frameworks */,
 				FE4275631516078CC46780B1 /* Resources */,
-				E240E261BD6AA35751E4D7FC /* [CP] Embed Pods Frameworks */,
+				7B36E3E72B575DF5BBFE3111 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = HyperFocus;
+			name = Fosi;
 			productName = HyperFocus;
-			productReference = FE4275D3CB326EEB062B7711 /* HyperFocus.app */;
+			productReference = FE4275D3CB326EEB062B7711 /* Fosi.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FE42766FD708EBBA160C7835 /* HyperFocusTests */ = {
+		FE42766FD708EBBA160C7835 /* FosiTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FE427F8A4044ED6E714FA551 /* Build configuration list for PBXNativeTarget "HyperFocusTests" */;
+			buildConfigurationList = FE427F8A4044ED6E714FA551 /* Build configuration list for PBXNativeTarget "FosiTests" */;
 			buildPhases = (
 				FE4279589E436B7209421DD0 /* Sources */,
 				FE42776FB600D1C317B6DEAA /* Frameworks */,
@@ -280,9 +282,9 @@
 			dependencies = (
 				FE4273D1D2BACD695424FF25 /* PBXTargetDependency */,
 			);
-			name = HyperFocusTests;
+			name = FosiTests;
 			productName = HyperFocusTests;
-			productReference = FE42790D189FBEA187263BFC /* HyperFocusTests.xctest */;
+			productReference = FE42790D189FBEA187263BFC /* FosiTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -301,7 +303,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FE427C6A69555D1F46A46863 /* Build configuration list for PBXProject "HyperFocus" */;
+			buildConfigurationList = FE427C6A69555D1F46A46863 /* Build configuration list for PBXProject "Fosi" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -315,9 +317,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FE42734AB2762DC5270E394A /* HyperFocus */,
-				FE42766FD708EBBA160C7835 /* HyperFocusTests */,
-				FE4270D26410A4B0AF914497 /* HyperFocusUITests */,
+				FE42734AB2762DC5270E394A /* Fosi */,
+				FE42766FD708EBBA160C7835 /* FosiTests */,
+				FE4270D26410A4B0AF914497 /* FosiUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -360,35 +362,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		59074C9855A0DE19D54E4310 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HyperFocus-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E240E261BD6AA35751E4D7FC /* [CP] Embed Pods Frameworks */ = {
+		7B36E3E72B575DF5BBFE3111 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HyperFocus/Pods-HyperFocus-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Fosi/Pods-Fosi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
@@ -407,7 +387,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HyperFocus/Pods-HyperFocus-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fosi/Pods-Fosi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D5D5035EAC416F4F79A97E6D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Fosi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -417,7 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE42750D12F59CA3B2185A2D /* HyperFocusUITests.swift in Sources */,
+				FE42750D12F59CA3B2185A2D /* FosiUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +444,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE427905F8BC63ED7DC059F4 /* HyperFocusTests.swift in Sources */,
+				FE427905F8BC63ED7DC059F4 /* FosiTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,12 +453,12 @@
 /* Begin PBXTargetDependency section */
 		FE4273D1D2BACD695424FF25 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FE42734AB2762DC5270E394A /* HyperFocus */;
+			target = FE42734AB2762DC5270E394A /* Fosi */;
 			targetProxy = FE427605FCBD18B51193E87B /* PBXContainerItemProxy */;
 		};
 		FE427E84EBE6C95890688CFC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FE42734AB2762DC5270E394A /* HyperFocus */;
+			target = FE42734AB2762DC5270E394A /* Fosi */;
 			targetProxy = FE4277DB08A606ECF67C6308 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -478,17 +480,18 @@
 		};
 		FE4271E63FB83D6510C2256C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C7BD1AC513ED6359BE13CF9 /* Pods-HyperFocus.release.xcconfig */;
+			baseConfigurationReference = D4AB2CF15404D69893100FD2 /* Pods-Fosi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				DEVELOPMENT_ASSET_PATHS = "\"HyperFocus/Preview Content\"";
+				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
+				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = HyperFocus/Info.plist;
+				INFOPLIST_FILE = Fosi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nomad.HyperFocus;
+				PRODUCT_BUNDLE_IDENTIFIER = nomad.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -497,17 +500,18 @@
 		};
 		FE4273A15D6CC188801CDAAB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB0E32F631EA8FF0671EB524 /* Pods-HyperFocus.debug.xcconfig */;
+			baseConfigurationReference = 97DBEFF425D3C08606389C4E /* Pods-Fosi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				DEVELOPMENT_ASSET_PATHS = "\"HyperFocus/Preview Content\"";
+				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
+				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = HyperFocus/Info.plist;
+				INFOPLIST_FILE = Fosi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nomad.HyperFocus;
+				PRODUCT_BUNDLE_IDENTIFIER = nomad.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -676,7 +680,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FE427881C093C6DC5BD7514E /* Build configuration list for PBXNativeTarget "HyperFocus" */ = {
+		FE427881C093C6DC5BD7514E /* Build configuration list for PBXNativeTarget "Fosi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE4273A15D6CC188801CDAAB /* Debug */,
@@ -685,7 +689,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FE427ADF30883BE7FB3124A1 /* Build configuration list for PBXNativeTarget "HyperFocusUITests" */ = {
+		FE427ADF30883BE7FB3124A1 /* Build configuration list for PBXNativeTarget "FosiUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE4270DFE17D0BF08977E842 /* Debug */,
@@ -694,7 +698,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FE427C6A69555D1F46A46863 /* Build configuration list for PBXProject "HyperFocus" */ = {
+		FE427C6A69555D1F46A46863 /* Build configuration list for PBXProject "Fosi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE4275DD01014FF273E68CAD /* Debug */,
@@ -703,7 +707,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FE427F8A4044ED6E714FA551 /* Build configuration list for PBXNativeTarget "HyperFocusTests" */ = {
+		FE427F8A4044ED6E714FA551 /* Build configuration list for PBXNativeTarget "FosiTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE42750B4D701D16E5FA3298 /* Debug */,

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_HyperFocusVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_HyperFocusVersionString[];
+FOUNDATION_EXPORT double Pods_FosiVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_FosiVersionString[];
 

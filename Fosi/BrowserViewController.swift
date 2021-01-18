@@ -586,7 +586,7 @@ extension BrowserViewController: WKNavigationDelegate,
     let collection = OpenTabsViewController()
     collection.pool = factory.pool
     collection.modalPresentationStyle = .overFullScreen
-    collection.openNewTab = { item in
+    collection.openSelectedTab = { item in
       self.replaceWebview(with: item)
     }
     collection.tabDidClose = { [self] item in

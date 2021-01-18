@@ -23,7 +23,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
       }
     }
   }
-  var openNewTab: ((WKWebView) -> Void)?
+  var openSelectedTab: ((WKWebView) -> Void)?
   var tabDidClose: ((WKWebView) -> Void)?
   var allTabsClosed: (() -> Void)?
 
@@ -74,7 +74,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
   @objc func openTab() {
     let view = projected[collectionView.currentItemIndex].1.view
     pool?.add(view: view) // bump up the last accesed
-    openNewTab?(view)
+    openSelectedTab?(view)
     dismissVC()
   }
 
