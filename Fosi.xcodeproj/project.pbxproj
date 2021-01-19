@@ -23,6 +23,8 @@
 		E864A5282599CD8E00A0DB95 /* idc.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A5272599CD8E00A0DB95 /* idc.json */; };
 		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
 		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
+		E8B1DD4F25B61AC100D3DA10 /* FosiFastlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B1DD4E25B61AC100D3DA10 /* FosiFastlane.swift */; };
+		E8B1DD5A25B61B0600D3DA10 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B1DD2725B619B800D3DA10 /* SnapshotHelper.swift */; };
 		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
 		E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */; };
 		E8DD4E7B25B3615300ED5586 /* DarkReader.js in Resources */ = {isa = PBXBuildFile; fileRef = E8DD4E7925B3615300ED5586 /* DarkReader.js */; };
@@ -36,6 +38,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E8B1DD5125B61AC100D3DA10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE427BF559570A2CDEB0469E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE42734AB2762DC5270E394A;
+			remoteInfo = Fosi;
+		};
 		FE427605FCBD18B51193E87B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FE427BF559570A2CDEB0469E /* Project object */;
@@ -72,6 +81,10 @@
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
 		E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosi.entitlements; sourceTree = "<group>"; };
+		E8B1DD2725B619B800D3DA10 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = FosiFastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		E8B1DD4C25B61AC100D3DA10 /* FosiFastlane.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FosiFastlane.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8B1DD4E25B61AC100D3DA10 /* FosiFastlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FosiFastlane.swift; sourceTree = "<group>"; };
+		E8B1DD5025B61AC100D3DA10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionProviders.swift; sourceTree = "<group>"; };
 		E8DD4E7925B3615300ED5586 /* DarkReader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DarkReader.js; sourceTree = "<group>"; };
@@ -91,6 +104,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E8B1DD4925B61AC100D3DA10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FE42776FB600D1C317B6DEAA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -146,6 +166,16 @@
 			path = blocklists;
 			sourceTree = "<group>";
 		};
+		E8B1DD4D25B61AC100D3DA10 /* FosiFastlane */ = {
+			isa = PBXGroup;
+			children = (
+				E8B1DD2725B619B800D3DA10 /* SnapshotHelper.swift */,
+				E8B1DD4E25B61AC100D3DA10 /* FosiFastlane.swift */,
+				E8B1DD5025B61AC100D3DA10 /* Info.plist */,
+			);
+			path = FosiFastlane;
+			sourceTree = "<group>";
+		};
 		E8E82B97258E9AAC001E9669 /* js */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +211,7 @@
 				FE4275D3CB326EEB062B7711 /* Fosi.app */,
 				FE42790D189FBEA187263BFC /* FosiTests.xctest */,
 				FE427540524B4BC5D3D3013C /* FosiUITests.xctest */,
+				E8B1DD4C25B61AC100D3DA10 /* FosiFastlane.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -211,6 +242,7 @@
 		FE427C21DD3923AD1F7AEF64 = {
 			isa = PBXGroup;
 			children = (
+				E8B1DD4D25B61AC100D3DA10 /* FosiFastlane */,
 				FE42786FBEEF581645829298 /* Products */,
 				FE427C025E1607A89B8509F8 /* Fosi */,
 				FE4277A5754353A6F9037F9E /* FosiTests */,
@@ -232,6 +264,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E8B1DD4B25B61AC100D3DA10 /* FosiFastlane */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E8B1DD5325B61AC100D3DA10 /* Build configuration list for PBXNativeTarget "FosiFastlane" */;
+			buildPhases = (
+				E8B1DD4825B61AC100D3DA10 /* Sources */,
+				E8B1DD4925B61AC100D3DA10 /* Frameworks */,
+				E8B1DD4A25B61AC100D3DA10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E8B1DD5225B61AC100D3DA10 /* PBXTargetDependency */,
+			);
+			name = FosiFastlane;
+			productName = FosiFastlane;
+			productReference = E8B1DD4C25B61AC100D3DA10 /* FosiFastlane.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		FE4270D26410A4B0AF914497 /* FosiUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FE427ADF30883BE7FB3124A1 /* Build configuration list for PBXNativeTarget "FosiUITests" */;
@@ -293,8 +343,15 @@
 		FE427BF559570A2CDEB0469E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
+					E8B1DD4B25B61AC100D3DA10 = {
+						CreatedOnToolsVersion = 12.3;
+						DevelopmentTeam = N2QTD5TUVN;
+						ProvisioningStyle = Automatic;
+						TestTargetID = FE42734AB2762DC5270E394A;
+					};
 					FE4270D26410A4B0AF914497 = {
 						DevelopmentTeam = N2QTD5TUVN;
 					};
@@ -320,11 +377,19 @@
 				FE42734AB2762DC5270E394A /* Fosi */,
 				FE42766FD708EBBA160C7835 /* FosiTests */,
 				FE4270D26410A4B0AF914497 /* FosiUITests */,
+				E8B1DD4B25B61AC100D3DA10 /* FosiFastlane */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E8B1DD4A25B61AC100D3DA10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FE4274D9EA1E5E95F7B6DF5B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -415,6 +480,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E8B1DD4825B61AC100D3DA10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8B1DD4F25B61AC100D3DA10 /* FosiFastlane.swift in Sources */,
+				E8B1DD5A25B61B0600D3DA10 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FE427473F4A80E3FFC2FB80F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,6 +525,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E8B1DD5225B61AC100D3DA10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE42734AB2762DC5270E394A /* Fosi */;
+			targetProxy = E8B1DD5125B61AC100D3DA10 /* PBXContainerItemProxy */;
+		};
 		FE4273D1D2BACD695424FF25 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FE42734AB2762DC5270E394A /* Fosi */;
@@ -464,6 +543,36 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		E8B1DD5425B61AC100D3DA10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
+				INFOPLIST_FILE = FosiFastlane/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nomad.fosi.FosiFastlane;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Fosi;
+			};
+			name = Debug;
+		};
+		E8B1DD5525B61AC100D3DA10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N2QTD5TUVN;
+				INFOPLIST_FILE = FosiFastlane/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nomad.fosi.FosiFastlane;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Fosi;
+			};
+			name = Release;
+		};
 		FE4270DFE17D0BF08977E842 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -680,6 +789,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E8B1DD5325B61AC100D3DA10 /* Build configuration list for PBXNativeTarget "FosiFastlane" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E8B1DD5425B61AC100D3DA10 /* Debug */,
+				E8B1DD5525B61AC100D3DA10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FE427881C093C6DC5BD7514E /* Build configuration list for PBXNativeTarget "Fosi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
