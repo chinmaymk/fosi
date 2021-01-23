@@ -13,7 +13,7 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
 - Universal dark mode, that converts web pages as well as PDFs to dark mode
 - Built in content (ads) blocking
 - Excellent completions support
-- Gesture first UI, designed to work well with small and large phones
+- Easy gestures for common actions
 
 ## Screenshots
 
