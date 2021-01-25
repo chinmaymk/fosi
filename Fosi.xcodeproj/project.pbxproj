@@ -21,6 +21,8 @@
 		E864A4FD2599C80300A0DB95 /* easylist.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A4F52599C80300A0DB95 /* easylist.json */; };
 		E864A5042599C80300A0DB95 /* filters.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A4FC2599C80300A0DB95 /* filters.json */; };
 		E864A5282599CD8E00A0DB95 /* idc.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A5272599CD8E00A0DB95 /* idc.json */; };
+		E866931D25BE2B050095CB2F /* BlockListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E866931C25BE2B050095CB2F /* BlockListParser.swift */; };
+		E866932225BE2BDB0095CB2F /* BlockRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E866932125BE2BDB0095CB2F /* BlockRule.swift */; };
 		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
 		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
 		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
@@ -69,6 +71,8 @@
 		E864A4F52599C80300A0DB95 /* easylist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = easylist.json; sourceTree = "<group>"; };
 		E864A4FC2599C80300A0DB95 /* filters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = filters.json; sourceTree = "<group>"; };
 		E864A5272599CD8E00A0DB95 /* idc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = idc.json; sourceTree = "<group>"; };
+		E866931C25BE2B050095CB2F /* BlockListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListParser.swift; sourceTree = "<group>"; };
+		E866932125BE2BDB0095CB2F /* BlockRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockRule.swift; sourceTree = "<group>"; };
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
 		E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosi.entitlements; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 		FE427C025E1607A89B8509F8 /* Fosi */ = {
 			isa = PBXGroup;
 			children = (
+				E866931C25BE2B050095CB2F /* BlockListParser.swift */,
+				E866932125BE2BDB0095CB2F /* BlockRule.swift */,
 				E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */,
 				E8041BA025903A05001DE066 /* blocklists */,
 				E8E82B97258E9AAC001E9669 /* js */,
@@ -428,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8508E7E259FBC3800BF1266 /* WheelCounter.swift in Sources */,
+				E866931D25BE2B050095CB2F /* BlockListParser.swift in Sources */,
 				E8E82B30258E753B001E9669 /* AppDelegate.swift in Sources */,
 				E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */,
 				E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */,
@@ -435,6 +442,7 @@
 				E8508E79259FADE600BF1266 /* WebviewPool.swift in Sources */,
 				E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */,
 				E8508E26259C244F00BF1266 /* HistoryManager.swift in Sources */,
+				E866932225BE2BDB0095CB2F /* BlockRule.swift in Sources */,
 				E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */,
 				E8508E2E259C6CEF00BF1266 /* AppDatabase.swift in Sources */,
 			);

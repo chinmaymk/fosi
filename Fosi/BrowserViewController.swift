@@ -99,7 +99,7 @@ class BrowserViewController: UIViewController,
     // setup contextual menus for text
     UIMenuController.shared.menuItems = contextualMenus
     searchBar.becomeFirstResponder()
-  }
+ }
 
   override func viewDidLayoutSubviews() {
     switch UIDevice.current.orientation {

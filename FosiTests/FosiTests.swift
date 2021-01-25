@@ -1,15 +1,15 @@
 //
-//  HyperFocusTests.swift
-//  HyperFocusTests
+//  FosiTests.swift
+//  FosiTests
 //
 //  Created by Chinmay Kulkarni on 12/18/20.
 //
 //
 
 import XCTest
-@testable import HyperFocus
+@testable import Fosi
 
-class HyperFocusTests: XCTestCase {
+class FosiTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

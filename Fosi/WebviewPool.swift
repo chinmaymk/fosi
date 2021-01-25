@@ -1,6 +1,6 @@
 //
 //  WebviewPool.swift
-//  HyperFocus
+//  Fosi
 //
 //  Created by Chinmay Kulkarni on 1/1/21.
 //
@@ -168,7 +168,7 @@ class WebviewFactory {
   func addBlockList(to webView: WKWebView, file: String) {
     let url = Bundle.main.url(forResource: file, withExtension: "")
     let jsonString = try! String(contentsOf: url!)
-    WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.HyperFocus", encodedContentRuleList: jsonString) {  (contentRuleList: WKContentRuleList?, error: Error?) in
+    WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.Fosi", encodedContentRuleList: jsonString) {  (contentRuleList: WKContentRuleList?, error: Error?) in
       if error != nil {
         return
       }

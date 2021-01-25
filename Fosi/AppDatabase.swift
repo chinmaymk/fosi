@@ -1,6 +1,6 @@
 //
-//  HFDatabase.swift
-//  HyperFocus
+//  AppDatabase.swift
+//  Fosi
 //
 //  Created by Chinmay Kulkarni on 12/30/20.
 //
