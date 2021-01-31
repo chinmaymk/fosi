@@ -186,8 +186,19 @@ class WebviewFactory {
     addScript(to: webView, file: "mark.js", injectionTime: .atDocumentStart)
     addScript(to: webView, file: "index.js", injectionTime: .atDocumentStart)
 
-    for list in WebviewFactory.blockLists {
-      addBlockList(to: webView, file: list)
+    //    for list in WebviewFactory.blockLists {
+    //      addBlockList(to: webView, file: list)
+    //    }
+    let lists = BlockListManager.shared.lists
+    lists.forEach { (list) in
+      let jsonString = list.contents()
+      WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.Fosi", encodedContentRuleList: jsonString) { (contentRuleList: WKContentRuleList?, error: Error?) in
+        guard let wklist = contentRuleList, error == nil else {
+          print(error, list.name)
+          return
+        }
+        webView.configuration.userContentController.add(wklist)
+      }
     }
   }
 
