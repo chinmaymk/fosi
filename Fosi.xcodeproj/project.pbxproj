@@ -24,6 +24,8 @@
 		E866931D25BE2B050095CB2F /* BlockListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E866931C25BE2B050095CB2F /* BlockListParser.swift */; };
 		E866932225BE2BDB0095CB2F /* BlockRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E866932125BE2BDB0095CB2F /* BlockRule.swift */; };
 		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
+		E876A29B25CF4FC4007267BE /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E876A29925CF4A8D007267BE /* libresolv.tbd */; };
+		E876A2DB25D04281007267BE /* libeasylist.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E876A2DA25D04277007267BE /* libeasylist.a */; };
 		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
 		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
 		E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */; };
@@ -74,6 +76,11 @@
 		E866931C25BE2B050095CB2F /* BlockListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListParser.swift; sourceTree = "<group>"; };
 		E866932125BE2BDB0095CB2F /* BlockRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockRule.swift; sourceTree = "<group>"; };
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
+		E876A29825CF4A74007267BE /* liblibeasylist.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibeasylist.a; path = "easylist-parser/target/universal/release/liblibeasylist.a"; sourceTree = "<group>"; };
+		E876A29925CF4A8D007267BE /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		E876A29A25CF4DB5007267BE /* liblibeasylist.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibeasylist.a; path = "easylist-parser/liblibeasylist.a"; sourceTree = "<group>"; };
+		E876A2A325CF522E007267BE /* libeasylistparser-bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libeasylistparser-bridge.h"; sourceTree = "<group>"; };
+		E876A2DA25D04277007267BE /* libeasylist.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libeasylist.a; path = "easylist-parser/libeasylist.a"; sourceTree = "<group>"; };
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
 		E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosi.entitlements; sourceTree = "<group>"; };
 		E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
@@ -113,7 +120,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E876A2DB25D04281007267BE /* libeasylist.a in Frameworks */,
 				29AAA3D2DDEB4452CBE205F1 /* Pods_Fosi.framework in Frameworks */,
+				E876A29B25CF4FC4007267BE /* libresolv.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +141,10 @@
 		C118197C0CE6202051BD7C3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E876A2DA25D04277007267BE /* libeasylist.a */,
+				E876A29A25CF4DB5007267BE /* liblibeasylist.a */,
+				E876A29925CF4A8D007267BE /* libresolv.tbd */,
+				E876A29825CF4A74007267BE /* liblibeasylist.a */,
 				075319AA9853B968512BE910 /* Pods_Fosi.framework */,
 			);
 			name = Frameworks;
@@ -217,6 +230,7 @@
 		FE427C21DD3923AD1F7AEF64 = {
 			isa = PBXGroup;
 			children = (
+				E876A2A325CF522E007267BE /* libeasylistparser-bridge.h */,
 				FE42786FBEEF581645829298 /* Products */,
 				FE427C025E1607A89B8509F8 /* Fosi */,
 				FE4277A5754353A6F9037F9E /* FosiTests */,
@@ -496,11 +510,27 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GRDB.swift/GRDB.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesSwift/Promises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SWXMLHash/SWXMLHash.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Toast-Swift/Toast_Swift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/iCarousel/iCarousel.framework/Headers\"",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+					"$(PROJECT_DIR)/easylist-parser",
+				);
 				INFOPLIST_FILE = Fosi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nomad.Fosi;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/easylist-parser",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/libeasylistparser-bridge.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -516,11 +546,27 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GRDB.swift/GRDB.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesSwift/Promises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SWXMLHash/SWXMLHash.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Toast-Swift/Toast_Swift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/iCarousel/iCarousel.framework/Headers\"",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+					"$(PROJECT_DIR)/easylist-parser",
+				);
 				INFOPLIST_FILE = Fosi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nomad.Fosi;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/easylist-parser",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/libeasylistparser-bridge.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

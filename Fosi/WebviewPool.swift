@@ -192,7 +192,7 @@ class WebviewFactory {
     let lists = BlockListManager.shared.lists
     lists.forEach { (list) in
       let jsonString = list.contents()
-      WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.Fosi", encodedContentRuleList: jsonString) { (contentRuleList: WKContentRuleList?, error: Error?) in
+      WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.Fosi.\(list.name)", encodedContentRuleList: jsonString) { (contentRuleList: WKContentRuleList?, error: Error?) in
         guard let wklist = contentRuleList, error == nil else {
           print(error, list.name)
           return
@@ -233,7 +233,7 @@ class WebviewFactory {
     webView.translatesAutoresizingMaskIntoConstraints = false
     webView.isOpaque = true
     webView.backgroundColor = .systemBackground
-
+    webView.scrollView.backgroundColor = .systemBackground
     webView.scrollView.decelerationRate = .normal
     webView.scrollView.bounces = true
     webView.scrollView.delaysContentTouches = false
