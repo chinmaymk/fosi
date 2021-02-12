@@ -11,7 +11,7 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
 - Incognito/Private mode support
 - On device full text search over browsing history
 - Universal dark mode, that converts web pages as well as PDFs to dark mode
-- Built in content (ads) blocking
+- Built in content blocking
 - Excellent completions support
 - Easy gestures for common actions
 
