@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		29AAA3D2DDEB4452CBE205F1 /* Pods_Fosi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075319AA9853B968512BE910 /* Pods_Fosi.framework */; };
-		E8041BA425903A25001DE066 /* blocking-content-rules-privacy.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */; };
-		E8041BA525903A25001DE066 /* blocking-content-rules-social.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA225903A25001DE066 /* blocking-content-rules-social.json */; };
-		E8041BA625903A25001DE066 /* blocking-content-rules.json in Resources */ = {isa = PBXBuildFile; fileRef = E8041BA325903A25001DE066 /* blocking-content-rules.json */; };
+		E802EEBE25D641A900DD6DAF /* easyprivacy.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBA25D641A500DD6DAF /* easyprivacy.json */; };
+		E802EEBF25D641A900DD6DAF /* fanboy-annoyance.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBB25D641A600DD6DAF /* fanboy-annoyance.json */; };
+		E802EEC025D641A900DD6DAF /* fanboy-cookiemonster.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBC25D641A700DD6DAF /* fanboy-cookiemonster.json */; };
+		E802EEC125D641A900DD6DAF /* easylist.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBD25D641A900DD6DAF /* easylist.json */; };
 		E8508E26259C244F00BF1266 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E25259C244F00BF1266 /* HistoryManager.swift */; };
 		E8508E2E259C6CEF00BF1266 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E2D259C6CEF00BF1266 /* AppDatabase.swift */; };
 		E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */; };
@@ -18,9 +19,6 @@
 		E8508E7E259FBC3800BF1266 /* WheelCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E7D259FBC3800BF1266 /* WheelCounter.swift */; };
 		E8508EE225A4428400BF1266 /* topdomains.txt in Resources */ = {isa = PBXBuildFile; fileRef = E8508EE125A4428400BF1266 /* topdomains.txt */; };
 		E864A4E525999C4A00A0DB95 /* mark.js in Resources */ = {isa = PBXBuildFile; fileRef = E864A4E425999C4A00A0DB95 /* mark.js */; };
-		E864A4FD2599C80300A0DB95 /* easylist.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A4F52599C80300A0DB95 /* easylist.json */; };
-		E864A5042599C80300A0DB95 /* filters.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A4FC2599C80300A0DB95 /* filters.json */; };
-		E864A5282599CD8E00A0DB95 /* idc.json in Resources */ = {isa = PBXBuildFile; fileRef = E864A5272599CD8E00A0DB95 /* idc.json */; };
 		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
 		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
 		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
@@ -56,9 +54,10 @@
 		075319AA9853B968512BE910 /* Pods_Fosi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fosi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97DBEFF425D3C08606389C4E /* Pods-Fosi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fosi.debug.xcconfig"; path = "Target Support Files/Pods-Fosi/Pods-Fosi.debug.xcconfig"; sourceTree = "<group>"; };
 		D4AB2CF15404D69893100FD2 /* Pods-Fosi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fosi.release.xcconfig"; path = "Target Support Files/Pods-Fosi/Pods-Fosi.release.xcconfig"; sourceTree = "<group>"; };
-		E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules-privacy.json"; sourceTree = "<group>"; };
-		E8041BA225903A25001DE066 /* blocking-content-rules-social.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules-social.json"; sourceTree = "<group>"; };
-		E8041BA325903A25001DE066 /* blocking-content-rules.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "blocking-content-rules.json"; sourceTree = "<group>"; };
+		E802EEBA25D641A500DD6DAF /* easyprivacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = easyprivacy.json; sourceTree = "<group>"; };
+		E802EEBB25D641A600DD6DAF /* fanboy-annoyance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fanboy-annoyance.json"; sourceTree = "<group>"; };
+		E802EEBC25D641A700DD6DAF /* fanboy-cookiemonster.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fanboy-cookiemonster.json"; sourceTree = "<group>"; };
+		E802EEBD25D641A900DD6DAF /* easylist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = easylist.json; sourceTree = "<group>"; };
 		E8508E25259C244F00BF1266 /* HistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryManager.swift; sourceTree = "<group>"; };
 		E8508E2D259C6CEF00BF1266 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTabsViewController.swift; sourceTree = "<group>"; };
@@ -66,9 +65,6 @@
 		E8508E7D259FBC3800BF1266 /* WheelCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelCounter.swift; sourceTree = "<group>"; };
 		E8508EE125A4428400BF1266 /* topdomains.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = topdomains.txt; sourceTree = "<group>"; };
 		E864A4E425999C4A00A0DB95 /* mark.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = mark.js; sourceTree = "<group>"; };
-		E864A4F52599C80300A0DB95 /* easylist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = easylist.json; sourceTree = "<group>"; };
-		E864A4FC2599C80300A0DB95 /* filters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = filters.json; sourceTree = "<group>"; };
-		E864A5272599CD8E00A0DB95 /* idc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = idc.json; sourceTree = "<group>"; };
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
 		E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosi.entitlements; sourceTree = "<group>"; };
@@ -136,12 +132,10 @@
 		E8041BA025903A05001DE066 /* blocklists */ = {
 			isa = PBXGroup;
 			children = (
-				E8041BA125903A25001DE066 /* blocking-content-rules-privacy.json */,
-				E8041BA225903A25001DE066 /* blocking-content-rules-social.json */,
-				E8041BA325903A25001DE066 /* blocking-content-rules.json */,
-				E864A4F52599C80300A0DB95 /* easylist.json */,
-				E864A4FC2599C80300A0DB95 /* filters.json */,
-				E864A5272599CD8E00A0DB95 /* idc.json */,
+				E802EEBD25D641A900DD6DAF /* easylist.json */,
+				E802EEBA25D641A500DD6DAF /* easyprivacy.json */,
+				E802EEBB25D641A600DD6DAF /* fanboy-annoyance.json */,
+				E802EEBC25D641A700DD6DAF /* fanboy-cookiemonster.json */,
 			);
 			path = blocklists;
 			sourceTree = "<group>";
@@ -336,18 +330,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E802EEBE25D641A900DD6DAF /* easyprivacy.json in Resources */,
+				E802EEBF25D641A900DD6DAF /* fanboy-annoyance.json in Resources */,
 				E8508EE225A4428400BF1266 /* topdomains.txt in Resources */,
+				E802EEC025D641A900DD6DAF /* fanboy-cookiemonster.json in Resources */,
 				FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */,
+				E802EEC125D641A900DD6DAF /* easylist.json in Resources */,
 				E864A4E525999C4A00A0DB95 /* mark.js in Resources */,
-				E8041BA525903A25001DE066 /* blocking-content-rules-social.json in Resources */,
-				E8041BA625903A25001DE066 /* blocking-content-rules.json in Resources */,
 				FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */,
-				E864A4FD2599C80300A0DB95 /* easylist.json in Resources */,
-				E864A5282599CD8E00A0DB95 /* idc.json in Resources */,
-				E8041BA425903A25001DE066 /* blocking-content-rules-privacy.json in Resources */,
 				E8DD4E7B25B3615300ED5586 /* DarkReader.js in Resources */,
 				E8ABFBE02598402D00809448 /* TinyColor.js in Resources */,
-				E864A5042599C80300A0DB95 /* filters.json in Resources */,
 				E8DD4E7C25B3615300ED5586 /* index.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,7 +483,7 @@
 				INFOPLIST_FILE = Fosi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nomad.Fosi;
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -511,7 +503,7 @@
 				INFOPLIST_FILE = Fosi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nomad.Fosi;
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

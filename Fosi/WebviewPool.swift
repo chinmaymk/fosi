@@ -138,20 +138,22 @@ enum WebviewMode {
 }
 
 class WebviewFactory {
-
   static let blockLists = [
-    // "blocking-content-rules.json",
-    // "blocking-content-rules-social.json",
-    // "blocking-content-rules-privacy.json",
     "easylist.json",
-    "filters.json",
-    "idc.json"
+    "easyprivacy.json",
+    "fanboy-annoyance.json",
+    "fanboy-cookiemonster.json"
   ]
 
   let pool: WebviewPool
-
+  
   init(pool: WebviewPool) {
     self.pool = pool
+    for list in WebviewFactory.blockLists {
+      let url = Bundle.main.url(forResource: list, withExtension: "")
+      let jsonString = try! String(contentsOf: url!)
+      WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "fosi.Fosi.\(list)", encodedContentRuleList: jsonString, completionHandler: nil)
+    }
   }
 
   static let shared = WebviewFactory(pool: WebviewPool(size: Int.max))
@@ -165,15 +167,13 @@ class WebviewFactory {
     webView.configuration.userContentController.addUserScript(script)
   }
 
-  func addBlockList(to webView: WKWebView, file: String) {
-    let url = Bundle.main.url(forResource: file, withExtension: "")
-    let jsonString = try! String(contentsOf: url!)
-    WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "nomad.HyperFocus", encodedContentRuleList: jsonString) {  (contentRuleList: WKContentRuleList?, error: Error?) in
-      if error != nil {
-        return
-      }
-      if let list = contentRuleList {
-        webView.configuration.userContentController.add(list)
+  func addBlockList(to webView: WKWebView) {
+    WKContentRuleListStore.default()?.getAvailableContentRuleListIdentifiers { lists in
+      lists?.forEach { list in
+        WKContentRuleListStore.default().lookUpContentRuleList(forIdentifier: list) { (blocklist, err) in
+          guard err == nil, let blocklist = blocklist else { return }
+          webView.configuration.userContentController.add(blocklist)
+        }
       }
     }
   }
@@ -186,9 +186,7 @@ class WebviewFactory {
     addScript(to: webView, file: "mark.js", injectionTime: .atDocumentStart)
     addScript(to: webView, file: "index.js", injectionTime: .atDocumentStart)
 
-    for list in WebviewFactory.blockLists {
-      addBlockList(to: webView, file: list)
-    }
+    addBlockList(to: webView)
   }
 
   func build(mode: WebviewMode, style: UIUserInterfaceStyle) -> WKWebView {
