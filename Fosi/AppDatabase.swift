@@ -1,6 +1,6 @@
 //
-//  HFDatabase.swift
-//  HyperFocus
+//  AppDatabase.swift
+//  Fosi
 //
 //  Created by Chinmay Kulkarni on 12/30/20.
 //
@@ -10,16 +10,26 @@ import GRDB.Swift
 import Promises.Swift
 
 class AppDatabase {
+
+  static func setup(app: UIApplication) throws {
+    let databaseURL = try! FileManager.default
+      .url(for: .applicationSupportDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
+      .appendingPathComponent("fosi.sqlite")
+    let dbQueue = try DatabasePool(path: databaseURL.path)
+    let database = try AppDatabase(dbQueue)
+    AppDatabase.shared = database
+  }
+
   static var shared: AppDatabase!
   
-  private let dbQueue: DatabaseQueue
+  private let dbQueue: DatabasePool
   
-  init(_ dbQueue: DatabaseQueue) throws {
+  init(_ dbQueue: DatabasePool) throws {
     self.dbQueue = dbQueue
     try migrator.migrate(dbQueue)
   }
   
-  func withQueue(handler: (DatabaseQueue) -> Void) {
+  func withQueue(handler: (DatabasePool) -> Void) {
     handler(self.dbQueue)
   }
   
@@ -52,7 +62,7 @@ class AppDatabase {
   
   private var migrator: DatabaseMigrator {
     var migrator = DatabaseMigrator()
-    
+
     #if DEBUG
     migrator.eraseDatabaseOnSchemaChange = true
     #endif

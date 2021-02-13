@@ -1,7 +1,7 @@
 PODS:
-  - GRDB.swift (5.2.0):
-    - GRDB.swift/standard (= 5.2.0)
-  - GRDB.swift/standard (5.2.0)
+  - GRDB.swift (5.3.0):
+    - GRDB.swift/standard (= 5.3.0)
+  - GRDB.swift/standard (5.3.0)
   - iCarousel (1.8.3)
   - PromisesObjC (1.2.12)
   - PromisesSwift (1.2.12):
@@ -10,7 +10,7 @@ PODS:
   - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
-  - GRDB.swift
+  - GRDB.swift (~> 5.3.0)
   - iCarousel
   - PromisesSwift
   - SWXMLHash (~> 5.0.0)
@@ -26,13 +26,13 @@ SPEC REPOS:
     - Toast-Swift
 
 SPEC CHECKSUMS:
-  GRDB.swift: f44f61fd032e176e3aadb1f70e15656dc50ca018
+  GRDB.swift: 6d44795b19d716e9f09f19018c3bde5b71b67ae9
   iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   PromisesSwift: 64085cf6e5fc1b5001f90cf31e87a1f1621fefee
   SWXMLHash: 9cc0c2e4807926c74377724aa8722ee5707a0485
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 6d3281f77f7d9aad10b490453a419629a4f6e998
+PODFILE CHECKSUM: 285f0e9e6b72e5b94dab9e53606dec6fbdf1dfb4
 
 COCOAPODS: 1.10.0

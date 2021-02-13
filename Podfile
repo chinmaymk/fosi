@@ -5,7 +5,7 @@ target 'Fosi' do
   pod 'Toast-Swift', '~> 5.0.1'
   pod 'SWXMLHash', '~> 5.0.0'
   pod 'PromisesSwift'
-  pod 'GRDB.swift'
+  pod 'GRDB.swift', '~> 5.3.0'
   pod 'iCarousel'
 end
 

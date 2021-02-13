@@ -1,5 +1,5 @@
 //
-//  HyperFocusApp.swift
+//  AppDelegate.swift
 //  
 //
 //  Created by Chinmay Kulkarni on 12/18/20.
@@ -18,20 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return UINavigationController(rootViewController: browserViewController)
   }()
 
-  func setupDatabase() throws {
-    let databaseURL = try FileManager.default
-      .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-      .appendingPathComponent("hyperfocus.sqlite")
-    let dbQueue = try DatabaseQueue(path: databaseURL.path)
-
-    let database = try AppDatabase(dbQueue)
-    AppDatabase.shared = database
-  }
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+    try? AppDatabase.setup(app: application)
+
     DispatchQueue.main.async {
-      try! self.setupDatabase()
       _ = DomainCompletions.shared.getCompletions(keywords: "")
     }
     navigationController.hidesBarsOnTap = true

@@ -1,6 +1,6 @@
 //
 //  WebviewPool.swift
-//  HyperFocus
+//  Fosi
 //
 //  Created by Chinmay Kulkarni on 1/1/21.
 //
@@ -146,14 +146,23 @@ class WebviewFactory {
   ]
 
   let pool: WebviewPool
+  var blocklists: [WKContentRuleList] = []
   
-  init(pool: WebviewPool) {
-    self.pool = pool
+  func refreshBlocklists() {
     for list in WebviewFactory.blockLists {
       let url = Bundle.main.url(forResource: list, withExtension: "")
       let jsonString = try! String(contentsOf: url!)
-      WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "fosi.Fosi.\(list)", encodedContentRuleList: jsonString, completionHandler: nil)
+      WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "fosi.Fosi.\(list)", encodedContentRuleList: jsonString) { (list, err) in
+        if let list = list {
+          self.blocklists.append(list)
+        }
+      }
     }
+  }
+
+  init(pool: WebviewPool) {
+    self.pool = pool
+    refreshBlocklists()
   }
 
   static let shared = WebviewFactory(pool: WebviewPool(size: Int.max))
@@ -168,14 +177,7 @@ class WebviewFactory {
   }
 
   func addBlockList(to webView: WKWebView) {
-    WKContentRuleListStore.default()?.getAvailableContentRuleListIdentifiers { lists in
-      lists?.forEach { list in
-        WKContentRuleListStore.default().lookUpContentRuleList(forIdentifier: list) { (blocklist, err) in
-          guard err == nil, let blocklist = blocklist else { return }
-          webView.configuration.userContentController.add(blocklist)
-        }
-      }
-    }
+    blocklists.forEach(webView.configuration.userContentController.add)
   }
 
   func addStaticAssets(to webView: WKWebView, for style: UIUserInterfaceStyle) {

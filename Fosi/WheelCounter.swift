@@ -1,6 +1,6 @@
 //
 //  WheelCounter.swift
-//  HyperFocus
+//  Fosi
 //
 //  Created by Chinmay Kulkarni on 1/1/21.
 //
