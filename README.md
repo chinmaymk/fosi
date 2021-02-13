@@ -11,7 +11,7 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
 - Incognito/Private mode support
 - On device full text search over browsing history
 - Universal dark mode, that converts web pages as well as PDFs to dark mode
-- Built in content (ads) blocking
+- Built in content blocking
 - Excellent completions support
 - Easy gestures for common actions
 
@@ -24,25 +24,40 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
 <table>
   <tr>
     <td>    
-      <img src="screenshots/first-launch.jpeg" height=400 />
+      <img src="screenshots/first-launch.jpeg" height=500 />
     </td>
     <td>
-        <img src="screenshots/first-launch-wo-kb.jpeg" height=400 />
+        <img src="screenshots/first-launch-wo-kb.jpeg" height=500 />
+    </td>
+  </tr>
+</table>
+
+### Tab viewer
+* long press on toolbar to show tab viewer
+* swipe up on a tab to dismiss
+* tap to open
+<table>
+  <tr>
+    <td>  
+      <img src="screenshots/tab-viewer-scrolling.jpeg" height=500 />
+    </td>
+    <td>
+      <img src="screenshots/tab-viewer-selected.jpeg" height=500 />
     </td>
   </tr>
 </table>
 
 ### Easily delete data
-<img src="screenshots/delete-data.jpeg" height=400 />
+<img src="screenshots/delete-data.jpeg" height=500 />
 
 ### Find in page
 <table>
   <tr>
     <td>   
-      <img src="screenshots/find-in-page-dialog.jpeg" height=400 />
+      <img src="screenshots/find-in-page-dialog.jpeg" height=500 />
     </td>
     <td>
-      <img src="screenshots/find-in-page-mark.jpeg" height=400 />
+      <img src="screenshots/find-in-page-mark.jpeg" height=500 />
     </td>
   </tr>
 </table>
@@ -52,10 +67,10 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
 <table>
   <tr>
     <td>  
-        <img src="screenshots/incognito-activated.jpeg" height=400 />
+        <img src="screenshots/incognito-activated.jpeg" height=500 />
     </td>
     <td>
-        <img src="screenshots/modes.jpeg" height=400 />
+        <img src="screenshots/modes.jpeg" height=500 />
     </td>
   </tr>
 </table>
@@ -65,41 +80,25 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
 <table>
   <tr>
     <td>  
-      <img src="screenshots/peek.jpeg" height=400 />
+      <img src="screenshots/peek.jpeg" height=500 />
     </td>
     <td>
-      <img src="screenshots/pop-toast.jpeg" height=400 />
+      <img src="screenshots/pop-toast.jpeg" height=500 />
     </td>
   </tr>
 </table>
-
 
 ### Flick search box to see url, page title, and search keywords you started with
 <table>
   <tr>
     <td>  
-      <img src="screenshots/google news.jpeg" height=400 />
+      <img src="screenshots/google news.jpeg" height=500 />
     </td>
     <td>
-      <img src="screenshots/news-keyword.jpeg" height=400 />
+      <img src="screenshots/news-keyword.jpeg" height=500 />
     </td>
     <td>
-      <img src="screenshots/news-title.jpeg" height=400 />
+      <img src="screenshots/news-title.jpeg" height=500 />
     </td>
   </tr>
 </table> 
-
-### Tab viewer
-* long press on toolbar to show tab viewer
-* swipe up on a tab to dismiss
-* tap to open
-<table>
-  <tr>
-    <td>  
-      <img src="screenshots/tab-viewer-scrolling.jpeg" height=400 />
-    </td>
-    <td>
-      <img src="screenshots/tab-viewer-selected.jpeg" height=400 />
-    </td>
-  </tr>
-</table>
