@@ -3,6 +3,7 @@ PODS:
     - GRDB.swift/standard (= 5.3.0)
   - GRDB.swift/standard (5.3.0)
   - iCarousel (1.8.3)
+  - InAppSettingsKit (3.3)
   - PromisesObjC (1.2.12)
   - PromisesSwift (1.2.12):
     - PromisesObjC (= 1.2.12)
@@ -12,6 +13,7 @@ PODS:
 DEPENDENCIES:
   - GRDB.swift (~> 5.3.0)
   - iCarousel
+  - InAppSettingsKit
   - PromisesSwift
   - SWXMLHash (~> 5.0.0)
   - Toast-Swift (~> 5.0.1)
@@ -20,6 +22,7 @@ SPEC REPOS:
   trunk:
     - GRDB.swift
     - iCarousel
+    - InAppSettingsKit
     - PromisesObjC
     - PromisesSwift
     - SWXMLHash
@@ -28,11 +31,12 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   GRDB.swift: 6d44795b19d716e9f09f19018c3bde5b71b67ae9
   iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
+  InAppSettingsKit: c636b2b41166d30f488d2c809664f289694d64d8
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   PromisesSwift: 64085cf6e5fc1b5001f90cf31e87a1f1621fefee
   SWXMLHash: 9cc0c2e4807926c74377724aa8722ee5707a0485
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 285f0e9e6b72e5b94dab9e53606dec6fbdf1dfb4
+PODFILE CHECKSUM: 277139bc2d44b497525c897110f60946c0108c57
 
 COCOAPODS: 1.10.0

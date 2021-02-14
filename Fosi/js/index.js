@@ -120,6 +120,58 @@ class PageFinder {
   }
 }
 
+class TextExtractor {
+
+  constructor() {
+    this.text = new Set()
+  }
+
+  hasEnoughWords(value) {
+    let count = 0
+    for (let index = 0; index < value.length; index++) {
+      // exit early if value has enough words
+      if (count > 5) {
+        return true
+      }
+
+      if (value[index] === ' ') {
+        count++
+      }
+    }
+    return count > 5
+  }
+
+  isRelevant(node) {
+    if (node.nodeName.toLowerCase() === "script" ||
+        node.nodeName.toLowerCase() === "style") {
+      return false
+    }
+    return true
+  }
+
+  process(node) {
+    // dont worry about these
+    if (!this.isRelevant(node)) {
+      return
+    }    
+    // extract immediate text
+    Array.from(node.childNodes).filter(d => {
+      return d.nodeType === Node.TEXT_NODE
+    }).forEach(d => {
+      let content = d.textContent
+      // strip html
+      content = content.replace(/<[^>]+>[^>]+>/, '')
+      this.text.add(content)
+    })
+  }
+
+  parse() {
+    const extractor = new TextExtractor()
+    const walker = new DOMWalker([extractor])
+    walker.walk(document.body)
+    return Array.from(extractor.text).join(" ")
+  }
+}
 
 (function () {
   const hosts = ["stack", "yahoo"]
@@ -191,6 +243,7 @@ class PageFinder {
       DarkReader?.enable()
     }
   }
+  
   window.hf = {
     marker: new PageFinder(),
     isDarkModeEnabled: isDarkModeEnabled()

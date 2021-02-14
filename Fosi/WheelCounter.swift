@@ -4,9 +4,6 @@
 //
 //  Created by Chinmay Kulkarni on 1/1/21.
 //
-
-import Foundation
-
 // 0 3 2 1 0 3 2 1 2
 class WheelCounter<T> {
   private var index = 0

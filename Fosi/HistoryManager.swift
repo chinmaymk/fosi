@@ -14,6 +14,7 @@ struct HistoryRecord {
   var title: String
   var url: URL
   var domain: String
+  var content: String
   var keywords: String
   var timestamp: Date
 }
@@ -52,7 +53,7 @@ class HistoryManager {
                 JOIN (
                     SELECT rowid, rank
                     FROM historyRecordFTS
-                    WHERE historyRecordFTS MATCH ?
+                    WHERE content MATCH ?
                     ORDER BY rank
                 ) AS ranktable
                 ON ranktable.rowid = historyRecord.rowid
@@ -60,7 +61,7 @@ class HistoryManager {
                 ORDER BY timestamp DESC
                 LIMIT ?
                 """
-      let pattern = FTS5Pattern(matchingAnyTokenIn: keywords)
+      let pattern = FTS5Pattern(matchingAllTokensIn: keywords)
       return try HistoryRecord.fetchAll(db, sql: sql, arguments: [pattern, maxRows])
     }
     return promise

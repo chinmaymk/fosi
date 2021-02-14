@@ -11,10 +11,15 @@ import Promises.Swift
 
 class AppDatabase {
 
-  static func setup(app: UIApplication) throws {
+  static func databaseUrl() -> URL {
     let databaseURL = try! FileManager.default
       .url(for: .applicationSupportDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
       .appendingPathComponent("fosi.sqlite")
+    return databaseURL
+  }
+
+  static func setup(app: UIApplication) throws {
+    let databaseURL = databaseUrl()
     let dbQueue = try DatabasePool(path: databaseURL.path)
     let database = try AppDatabase(dbQueue)
     AppDatabase.shared = database
@@ -74,6 +79,7 @@ class AppDatabase {
         t.column("url", .text)
         t.column("domain", .text)
         t.column("keywords", .text)
+        t.column("content", .text)
         t.column("timestamp", .datetime)
       }
       
@@ -83,6 +89,7 @@ class AppDatabase {
         t.synchronize(withTable: "historyRecord")
         t.column("title")
         t.column("url")
+        t.column("content")
         t.column("domain")
         t.column("keywords")
       }
