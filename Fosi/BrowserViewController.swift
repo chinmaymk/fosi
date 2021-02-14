@@ -11,6 +11,8 @@ import Toast_Swift
 import SafariServices
 import Promises
 import Vision
+import InAppSettingsKit
+import NaturalLanguage
 
 class BrowserViewController: UIViewController,
                              UIScrollViewDelegate,
@@ -295,7 +297,7 @@ class BrowserViewController: UIViewController,
       UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
 
       // delete history
-      UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(deleteHistory))
+      UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(showSettings))
     ]
 
     let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(showOpenTabsVC))
@@ -412,40 +414,12 @@ extension BrowserViewController: UITextFieldDelegate {
     textField.becomeFirstResponder()
   }
 
-  @objc func deleteHistory() {
-    let confirmAlert = UIAlertController(title: "Delete Website Data", message: "This operation cannot be undone.", preferredStyle: .actionSheet)
-
-    let allTypes = WKWebsiteDataStore.allWebsiteDataTypes()
-    let dataStore = WKWebsiteDataStore.default()
-
-    confirmAlert.addAction(UIAlertAction(title: "All", style: .destructive, handler: { _ in
-      let p = HistoryManager.shared.delete(domain: nil)
-      dataStore.fetchDataRecords(ofTypes: allTypes) { records in
-        dataStore.removeData(ofTypes: allTypes, for: records, completionHandler: {
-          p.then { result in
-            self.showToast("Deleted everything")
-          }
-        })
-      }
-    }))
-
-    confirmAlert.addAction(UIAlertAction(title: "Current website", style: .destructive, handler: { _ in
-      guard let host = self.webView.url?.host  else { return }
-      let p = HistoryManager.shared.delete(domain: host)
-      dataStore.fetchDataRecords(ofTypes: allTypes) { records in
-        let filtered = records.filter { d in
-          d.displayName.contains(host)
-        }
-        dataStore.removeData(ofTypes: allTypes, for: filtered, completionHandler: {
-          p.then { result in
-            self.showToast("Deleted for \(host)")
-          }
-        })
-      }
-    }))
-
-    confirmAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-    present(confirmAlert, animated: true, completion: nil)
+  @objc func showSettings() {
+    let appSettingsViewController = IASKAppSettingsViewController()
+    appSettingsViewController.showCreditsFooter = false
+    appSettingsViewController.delegate = self
+    appSettingsViewController.showDoneButton = false
+    navigationController?.pushViewController(appSettingsViewController, animated: true)
   }
 
   @objc func redo() {
@@ -542,6 +516,65 @@ extension BrowserViewController: UITextFieldDelegate {
   }
 }
 
+extension BrowserViewController: IASKSettingsDelegate {
+  func settingsViewControllerDidEnd(_ settingsViewController: IASKAppSettingsViewController) {
+
+  }
+
+  func settingsViewController(_ settingsViewController: IASKAppSettingsViewController, buttonTappedFor specifier: IASKSpecifier) {
+    guard let title = specifier.title else { return }
+    switch title {
+    case "Export History":
+      exportHistory()
+    case "Current website":
+      deleteCurrentWebsite()
+    case "All":
+      deleteAll()
+    default:
+      return
+    }
+  }
+
+  func exportHistory() {
+    let url = AppDatabase.databaseUrl()
+    let activityViewController = UIActivityViewController(activityItems: [url],
+                                                          applicationActivities: nil)
+    present(activityViewController, animated: true, completion: nil)
+  }
+
+  func deleteAll() {
+    let p = HistoryManager.shared.delete(domain: nil)
+    let allTypes = WKWebsiteDataStore.allWebsiteDataTypes()
+    let dataStore = WKWebsiteDataStore.default()
+
+    dataStore.fetchDataRecords(ofTypes: allTypes) { records in
+      dataStore.removeData(ofTypes: allTypes, for: records, completionHandler: {
+        p.then { result in
+          self.showToast("Deleted everything")
+        }
+      })
+    }
+  }
+
+  func deleteCurrentWebsite() {
+    guard let host = webView.url?.host  else { return }
+    let allTypes = WKWebsiteDataStore.allWebsiteDataTypes()
+    let dataStore = WKWebsiteDataStore.default()
+
+    let p = HistoryManager.shared.delete(domain: host)
+    dataStore.fetchDataRecords(ofTypes: allTypes) { records in
+      let filtered = records.filter { d in
+        d.displayName.contains(host)
+      }
+      dataStore.removeData(ofTypes: allTypes, for: filtered, completionHandler: {
+        p.then { result in
+          self.showToast("Deleted for \(host)")
+        }
+      })
+    }
+  }
+}
+
 // MARK: Webkit related methods
 extension BrowserViewController: WKNavigationDelegate,
                                  WKScriptMessageHandler,
@@ -618,15 +651,39 @@ extension BrowserViewController: WKNavigationDelegate,
           currentMode != .incognito
     else { return }
 
-    var item = HistoryRecord(title: title,
-                             url: url,
-                             domain: domain,
-                             keywords: keywords,
-                             timestamp: Date())
+    webView.evaluateJavaScript("new TextExtractor().parse()") { (result, err) in
+      guard let result = result as? String, err == nil else { return }
 
-    let promise = HistoryManager.shared.insert(record: &item)
-    promise.then { (record)  in
-      print("record inserted \(record.id!)")
+      let tagger = NLTagger(tagSchemes: [.lexicalClass])
+      tagger.string = result
+      let keep: Set = ["Adjective", "Noun", "Verb", "Number"]
+      var content: String = ""
+
+      tagger.enumerateTags(
+        in: result.startIndex..<result.endIndex,
+        unit: .word,
+        scheme: .lexicalClass,
+        options: [.omitPunctuation, .omitWhitespace, .omitOther]
+      ) { (tag, range) -> Bool in
+        if let tag = tag, keep.contains(tag.rawValue) {
+          content.append(" \(result[range])")
+        }
+        return true
+      }
+
+      var item = HistoryRecord(
+        title: title,
+        url: url,
+        domain: domain,
+        content: content,
+        keywords: keywords,
+        timestamp: Date()
+      )
+
+      let promise = HistoryManager.shared.insert(record: &item)
+      promise.then { (record)  in
+        print("record inserted \(record.id!)")
+      }
     }
   }
 

@@ -27,6 +27,7 @@
 		E8DD4E7C25B3615300ED5586 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = E8DD4E7A25B3615300ED5586 /* index.js */; };
 		E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2D258E753B001E9669 /* BrowserViewController.swift */; };
 		E8E82B30258E753B001E9669 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2E258E753B001E9669 /* AppDelegate.swift */; };
+		E8EFECBB25D8912800D9F145 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E8EFECBA25D8912700D9F145 /* Settings.bundle */; };
 		FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */; };
 		FE42750D12F59CA3B2185A2D /* FosiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE427BA7753CACEB1533D24A /* FosiUITests.swift */; };
 		FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		E8DD4E7A25B3615300ED5586 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		E8E82B2D258E753B001E9669 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		E8E82B2E258E753B001E9669 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E8EFECBA25D8912700D9F145 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FE427019D5F7E0D4D0129464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FE4274E4DCF0B5DC0A816C31 /* FosiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FosiTests.swift; sourceTree = "<group>"; };
 		FE427540524B4BC5D3D3013C /* FosiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FosiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,6 +207,7 @@
 		FE427C21DD3923AD1F7AEF64 = {
 			isa = PBXGroup;
 			children = (
+				E8EFECBA25D8912700D9F145 /* Settings.bundle */,
 				FE42786FBEEF581645829298 /* Products */,
 				FE427C025E1607A89B8509F8 /* Fosi */,
 				FE4277A5754353A6F9037F9E /* FosiTests */,
@@ -294,6 +297,7 @@
 					};
 					FE42734AB2762DC5270E394A = {
 						DevelopmentTeam = N2QTD5TUVN;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -334,6 +338,7 @@
 				E802EEBF25D641A900DD6DAF /* fanboy-annoyance.json in Resources */,
 				E8508EE225A4428400BF1266 /* topdomains.txt in Resources */,
 				E802EEC025D641A900DD6DAF /* fanboy-cookiemonster.json in Resources */,
+				E8EFECBB25D8912800D9F145 /* Settings.bundle in Resources */,
 				FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */,
 				E802EEC125D641A900DD6DAF /* easylist.json in Resources */,
 				E864A4E525999C4A00A0DB95 /* mark.js in Resources */,
@@ -362,6 +367,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Fosi/Pods-Fosi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
+				"${BUILT_PRODUCTS_DIR}/InAppSettingsKit/InAppSettingsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
 				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
@@ -371,6 +377,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InAppSettingsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
@@ -477,6 +484,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
@@ -485,6 +494,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -497,6 +507,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
@@ -505,6 +517,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
