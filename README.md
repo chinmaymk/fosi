@@ -21,84 +21,48 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
   * tap redo button to bring up keyboard
   * double tap on toolbar to open new tab
 
-<table>
-  <tr>
-    <td>    
-      <img src="screenshots/first-launch.jpeg" height=500 />
-    </td>
-    <td>
-        <img src="screenshots/first-launch-wo-kb.jpeg" height=500 />
-    </td>
-  </tr>
-</table>
+<p align="left">
+   <img src="screenshots/first-launch.jpeg" height=500 />
+   <img src="screenshots/first-launch-wo-kb.jpeg" height=500 />
+</p>
 
 ### Tab viewer
 * long press on toolbar to show tab viewer
 * swipe up on a tab to dismiss
 * tap to open
-<table>
-  <tr>
-    <td>  
-      <img src="screenshots/tab-viewer-scrolling.jpeg" height=500 />
-    </td>
-    <td>
-      <img src="screenshots/tab-viewer-selected.jpeg" height=500 />
-    </td>
-  </tr>
-</table>
+
+<p align="left">
+  <img src="screenshots/tab-viewer-scrolling.jpeg" height=500 />
+  <img src="screenshots/tab-viewer-selected.jpeg" height=500 />
+</p>
 
 ### Easily delete data
 <img src="screenshots/delete-data.jpeg" height=500 />
 
 ### Find in page
-<table>
-  <tr>
-    <td>   
-      <img src="screenshots/find-in-page-dialog.jpeg" height=500 />
-    </td>
-    <td>
-      <img src="screenshots/find-in-page-mark.jpeg" height=500 />
-    </td>
-  </tr>
-</table>
+<p align="left">
+ <img src="screenshots/find-in-page-dialog.jpeg" height=500 />
+ <img src="screenshots/find-in-page-mark.jpeg" height=500 />
+</p>
 
 ### Incognito mode
   * long press on progress indicator to show modes
-<table>
-  <tr>
-    <td>  
-        <img src="screenshots/incognito-activated.jpeg" height=500 />
-    </td>
-    <td>
-        <img src="screenshots/modes.jpeg" height=500 />
-    </td>
-  </tr>
-</table>
+
+<p align="left">
+ <img src="screenshots/incognito-activated.jpeg" height=500 />
+ <img src="screenshots/modes.jpeg" height=500 />
+</p>
 
 ### Peek and pop to open link in background tab
  * tap on the toast to switch to newly opened tab
-<table>
-  <tr>
-    <td>  
-      <img src="screenshots/peek.jpeg" height=500 />
-    </td>
-    <td>
-      <img src="screenshots/pop-toast.jpeg" height=500 />
-    </td>
-  </tr>
-</table>
+<p>
+ <img src="screenshots/peek.jpeg" height=500 />
+ <img src="screenshots/pop-toast.jpeg" height=500 />
+</p>
 
 ### Flick search box to see url, page title, and search keywords you started with
-<table>
-  <tr>
-    <td>  
-      <img src="screenshots/google news.jpeg" height=500 />
-    </td>
-    <td>
-      <img src="screenshots/news-keyword.jpeg" height=500 />
-    </td>
-    <td>
-      <img src="screenshots/news-title.jpeg" height=500 />
-    </td>
-  </tr>
-</table> 
+<p>
+ <img src="screenshots/google news.jpeg" height=500 />
+ <img src="screenshots/news-keyword.jpeg" height=500 />
+ <img src="screenshots/news-title.jpeg" height=500 />
+</p>
