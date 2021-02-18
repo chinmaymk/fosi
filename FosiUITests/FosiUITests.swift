@@ -1,6 +1,6 @@
 //
-//  HyperFocusUITests.swift
-//  HyperFocusUITests
+//  FosiUITests.swift
+//  FosiUITests
 //
 //  Created by Chinmay Kulkarni on 12/18/20.
 //
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class HyperFocusUITests: XCTestCase {
+class FosiUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

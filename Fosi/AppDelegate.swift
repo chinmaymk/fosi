@@ -36,3 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
+class AppSettingKeys {
+  static let searchEngine = "SearchEngine"
+  static let querySuggestions = "QuerySuggestions"
+  static let contentBlocking = "ContentBlocking"
+}

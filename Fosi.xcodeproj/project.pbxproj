@@ -16,7 +16,6 @@
 		E8508E2E259C6CEF00BF1266 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E2D259C6CEF00BF1266 /* AppDatabase.swift */; };
 		E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */; };
 		E8508E79259FADE600BF1266 /* WebviewPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E78259FADE600BF1266 /* WebviewPool.swift */; };
-		E8508E7E259FBC3800BF1266 /* WheelCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E7D259FBC3800BF1266 /* WheelCounter.swift */; };
 		E8508EE225A4428400BF1266 /* topdomains.txt in Resources */ = {isa = PBXBuildFile; fileRef = E8508EE125A4428400BF1266 /* topdomains.txt */; };
 		E864A4E525999C4A00A0DB95 /* mark.js in Resources */ = {isa = PBXBuildFile; fileRef = E864A4E425999C4A00A0DB95 /* mark.js */; };
 		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
@@ -28,6 +27,7 @@
 		E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2D258E753B001E9669 /* BrowserViewController.swift */; };
 		E8E82B30258E753B001E9669 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E82B2E258E753B001E9669 /* AppDelegate.swift */; };
 		E8EFECBB25D8912800D9F145 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E8EFECBA25D8912700D9F145 /* Settings.bundle */; };
+		E8EFED1A25DCD98F00D9F145 /* SearchEngines.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EFED1925DCD98F00D9F145 /* SearchEngines.swift */; };
 		FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427C1FCCC785DA2575F1B7 /* Assets.xcassets */; };
 		FE42750D12F59CA3B2185A2D /* FosiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE427BA7753CACEB1533D24A /* FosiUITests.swift */; };
 		FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE427E32D5AF4CD3DBEA1AF2 /* Preview Assets.xcassets */; };
@@ -63,7 +63,6 @@
 		E8508E2D259C6CEF00BF1266 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTabsViewController.swift; sourceTree = "<group>"; };
 		E8508E78259FADE600BF1266 /* WebviewPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewPool.swift; sourceTree = "<group>"; };
-		E8508E7D259FBC3800BF1266 /* WheelCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelCounter.swift; sourceTree = "<group>"; };
 		E8508EE125A4428400BF1266 /* topdomains.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = topdomains.txt; sourceTree = "<group>"; };
 		E864A4E425999C4A00A0DB95 /* mark.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = mark.js; sourceTree = "<group>"; };
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		E8E82B2D258E753B001E9669 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		E8E82B2E258E753B001E9669 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8EFECBA25D8912700D9F145 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		E8EFED1925DCD98F00D9F145 /* SearchEngines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngines.swift; sourceTree = "<group>"; };
 		FE427019D5F7E0D4D0129464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FE4274E4DCF0B5DC0A816C31 /* FosiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FosiTests.swift; sourceTree = "<group>"; };
 		FE427540524B4BC5D3D3013C /* FosiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FosiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,7 +199,7 @@
 				E8508E2D259C6CEF00BF1266 /* AppDatabase.swift */,
 				E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */,
 				E8508E78259FADE600BF1266 /* WebviewPool.swift */,
-				E8508E7D259FBC3800BF1266 /* WheelCounter.swift */,
+				E8EFED1925DCD98F00D9F145 /* SearchEngines.swift */,
 			);
 			path = Fosi;
 			sourceTree = "<group>";
@@ -294,10 +294,14 @@
 				TargetAttributes = {
 					FE4270D26410A4B0AF914497 = {
 						DevelopmentTeam = N2QTD5TUVN;
+						TestTargetID = FE42734AB2762DC5270E394A;
 					};
 					FE42734AB2762DC5270E394A = {
 						DevelopmentTeam = N2QTD5TUVN;
 						ProvisioningStyle = Automatic;
+					};
+					FE42766FD708EBBA160C7835 = {
+						TestTargetID = FE42734AB2762DC5270E394A;
 					};
 				};
 			};
@@ -367,6 +371,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Fosi/Pods-Fosi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
+				"${BUILT_PRODUCTS_DIR}/ISHHoverBar/ISHHoverBar.framework",
 				"${BUILT_PRODUCTS_DIR}/InAppSettingsKit/InAppSettingsKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
@@ -377,6 +382,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ISHHoverBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InAppSettingsKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
@@ -426,8 +432,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8508E7E259FBC3800BF1266 /* WheelCounter.swift in Sources */,
 				E8E82B30258E753B001E9669 /* AppDelegate.swift in Sources */,
+				E8EFED1A25DCD98F00D9F145 /* SearchEngines.swift in Sources */,
 				E8E82B2F258E753B001E9669 /* BrowserViewController.swift in Sources */,
 				E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */,
 				E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */,
@@ -467,13 +473,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
-				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
+				INFOPLIST_FILE = FosiUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi.FosiUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = HyperFocus;
+				TEST_TARGET_NAME = Fosi;
 			};
 			name = Debug;
 		};
@@ -486,6 +492,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
@@ -510,6 +517,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
@@ -528,28 +536,28 @@
 		FE4274F8F08E0FDAD9B999EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HyperFocus.app/HyperFocus";
-				INFOPLIST_FILE = HyperFocusTests/Info.plist;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = FosiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusTests;
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi.FosiTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fosi.app/Fosi";
 			};
 			name = Release;
 		};
 		FE42750B4D701D16E5FA3298 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HyperFocus.app/HyperFocus";
-				INFOPLIST_FILE = HyperFocusTests/Info.plist;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = FosiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusTests;
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi.FosiTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fosi.app/Fosi";
 			};
 			name = Debug;
 		};
@@ -619,13 +627,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
-				INFOPLIST_FILE = HyperFocusUITests/Info.plist;
+				INFOPLIST_FILE = FosiUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.web.HyperFocusUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = fosi.Fosi.FosiUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = HyperFocus;
+				TEST_TARGET_NAME = Fosi;
 			};
 			name = Release;
 		};
