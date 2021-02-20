@@ -601,37 +601,33 @@ extension BrowserViewController: IASKSettingsDelegate {
     case AppSettingKeys.btnCurrentWebSite:
       if let host = webView.url?.host {
         deleteCurrentWebsite()
-        settingsViewController.view.makeToast("Deleted for \(host)", duration: 1.5, position: .top)
+        settingsViewController.view.makeToast("Data for \(host) deleted", duration: 1.5, position: .top)
       }
 
     case AppSettingKeys.btnEverything:
       deleteAll()
-      settingsViewController.view.makeToast("Deleted All Website data", duration: 1.5, position: .top)
+      settingsViewController.view.makeToast("All Website data deleted", duration: 1.5, position: .top)
 
     case AppSettingKeys.btnPrivacyPolicy:
       settingsViewController.dismiss(animated: true, completion: nil)
       openNewTab()
+      searchBarCancelButtonClicked(searchBar)
       webView.load(URLRequest(url: URL(string: AppSettingKeys.privacyPolicyURL)!))
 
     case AppSettingKeys.btnExportHistory:
-      settingsViewController.dismiss(animated: true, completion: nil)
-      exportHistory()
+      let url = AppDatabase.databaseUrl()
+      let activityViewController = UIActivityViewController(activityItems: [url],
+                                                            applicationActivities: nil)
+      settingsViewController.present(activityViewController, animated: true, completion: nil)
 
     case AppSettingKeys.btnDeleteHistory:
       HistoryManager.shared.delete(domain: nil).then { result in
-        settingsViewController.view.makeToast("Deleted History", duration: 1.5, position: .top)
+        settingsViewController.view.makeToast("History deleted", duration: 1.5, position: .top)
       }
 
     default:
       return
     }
-  }
-
-  func exportHistory() {
-    let url = AppDatabase.databaseUrl()
-    let activityViewController = UIActivityViewController(activityItems: [url],
-                                                          applicationActivities: nil)
-    present(activityViewController, animated: true, completion: nil)
   }
 
   func deleteAll() {
@@ -782,13 +778,8 @@ extension BrowserViewController: WKNavigationDelegate,
         previewProvider: {
           return SFSafariViewController(url: elementInfo.linkURL!)
         },
-        actionProvider: { elements in
-          guard elements.isEmpty == false else { return nil }
+        actionProvider: { _ in
           self.commitURL = elementInfo.linkURL
-          // Add our custom action to the existing actions passed in.
-          var elementsToUse = elements
-          let editMenu = UIMenu(title: "Open tab", options: .displayInline, children: [])
-          elementsToUse.append(editMenu)
           let contextMenuTitle = elementInfo.linkURL?.lastPathComponent
           return UIMenu(title: contextMenuTitle!, image: nil,
                         identifier: nil, options: [], children: [])

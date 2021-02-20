@@ -47,8 +47,8 @@ class AppSettingKeys {
   static let btnExportHistory = "Export History"
   static let btnDeleteHistory = "Delete History"
 
-  static let btnCurrentWebSite = "Current website"
-  static let btnEverything = "All"
+  static let btnCurrentWebSite = "Current Website"
+  static let btnEverything = "Everything"
   static let btnPrivacyPolicy = "View Privacy Policy"
 
   static let privacyPolicyURL = "https://github.com/chinmaymk/fosi/blob/master/PrivacyPolicy.md"
