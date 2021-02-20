@@ -14,6 +14,7 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
 - Built in content blocking
 - Excellent completions support
 - Easy gestures for common actions
+- Use Native PDF view for easy pan + zoom gestures
 
 ## Screenshots
 
@@ -36,8 +37,11 @@ A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-m
   <img src="screenshots/tab-viewer-selected.jpeg" height=500 />
 </p>
 
-### Easily delete data
-<img src="screenshots/delete-data.jpeg" height=500 />
+### Easily delete data, or control settings
+<p>
+ <img src="screenshots/settings.jpeg" height=500 />
+ <img src="screenshots/settings-search-engines.jpeg" height=500 />
+</p>
 
 ### Find in page
 <p align="left">
