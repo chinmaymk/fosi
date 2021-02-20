@@ -131,7 +131,11 @@ class BrowserViewController: UIViewController,
   }
 
   func replaceWebviewSilently(view: WKWebView) {
-    navigationController?.view.makeToast("Opened a tab in background, tap to switch", duration: 2, position: .top) { didTap in
+    navigationController?.view.makeToast(
+      "Opened a tab in background, tap to switch",
+      duration: 2,
+      position: .top
+    ) { didTap in
       if (didTap) { self.replaceWebview(with: view) }
     }
   }
@@ -373,8 +377,6 @@ class BrowserViewController: UIViewController,
       let val = Float(change.newValue!)
       self.progressView.setProgress(value: val)
     }
-    webView.configuration.userContentController.removeScriptMessageHandler(forName: "readerMode")
-    webView.configuration.userContentController.add(self, name: "readerMode")
   }
 }
 
@@ -529,25 +531,25 @@ extension BrowserViewController {
   }
 
   func displayToast(message: String, image: UIImage?) {
-    if (message.isEmpty) {
-      return
-    }
-
     DispatchQueue.main.async {
       var style = ToastStyle()
       if let size = image?.size {
         style.imageSize = size
       }
-      self.navigationController?.view.makeToast(message, duration: 1.5, position: .top, image: image, style: style)
+      self.navigationController?.view.clearToastQueue()
+      self.navigationController?.view.makeToast(
+        message,
+        duration: 1.5,
+        position: .top,
+        image: image,
+        style: style
+      )
     }
   }
 
   func showToast(_ message: String) {
-    if (message.isEmpty) {
-      return
-    }
-
     DispatchQueue.main.async {
+      self.navigationController?.view.clearToastQueue()
       self.navigationController?.view.makeToast(message, duration: 1.5, position: .top)
     }
   }
@@ -573,9 +575,17 @@ extension BrowserViewController {
     let slideMultiplier = magnitude / 200
     let slideFactor = 0.1 * slideMultiplier
 
-    UIView.animate(withDuration: Double(slideFactor * 2), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: velocity.x / 100, options: .curveEaseIn, animations: {
-      self.searchBar.searchTextField.text = self.getCurrentValue(for: self.counter.down())
-    }, completion: nil)
+    UIView.animate(
+      withDuration: Double(slideFactor * 2),
+      delay: 0,
+      usingSpringWithDamping: 0.7,
+      initialSpringVelocity: velocity.x / 100,
+      options: .curveEaseIn,
+      animations: {
+        self.searchBar.searchTextField.text = self.getCurrentValue(for: self.counter.down())
+      },
+      completion: nil
+    )
   }
 }
 
@@ -588,13 +598,30 @@ extension BrowserViewController: IASKSettingsDelegate {
   func settingsViewController(_ settingsViewController: IASKAppSettingsViewController, buttonTappedFor specifier: IASKSpecifier) {
     guard let title = specifier.title else { return }
     switch title {
-    case "Export History":
+    case AppSettingKeys.btnCurrentWebSite:
+      if let host = webView.url?.host {
+        deleteCurrentWebsite()
+        settingsViewController.view.makeToast("Deleted for \(host)", duration: 1.5, position: .top)
+      }
+
+    case AppSettingKeys.btnEverything:
+      deleteAll()
+      settingsViewController.view.makeToast("Deleted All Website data", duration: 1.5, position: .top)
+
+    case AppSettingKeys.btnPrivacyPolicy:
+      settingsViewController.dismiss(animated: true, completion: nil)
+      openNewTab()
+      webView.load(URLRequest(url: URL(string: AppSettingKeys.privacyPolicyURL)!))
+
+    case AppSettingKeys.btnExportHistory:
       settingsViewController.dismiss(animated: true, completion: nil)
       exportHistory()
-    case "Current website":
-      deleteCurrentWebsite()
-    case "All":
-      deleteAll()
+
+    case AppSettingKeys.btnDeleteHistory:
+      HistoryManager.shared.delete(domain: nil).then { result in
+        settingsViewController.view.makeToast("Deleted History", duration: 1.5, position: .top)
+      }
+
     default:
       return
     }
@@ -640,43 +667,29 @@ extension BrowserViewController: IASKSettingsDelegate {
   }
 }
 
+extension UserDefaults {
+  @objc dynamic var nativePDFView: Bool {
+    get { return bool(forKey: AppSettingKeys.nativePDFView) }
+  }
+
+  @objc dynamic var popInBackground: Bool {
+    get { return bool(forKey: AppSettingKeys.popInBackground) }
+  }
+}
+
 // MARK: Webkit related methods
 extension BrowserViewController: WKNavigationDelegate,
-                                 WKScriptMessageHandler,
                                  WKUIDelegate {
-
-  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-    if message.name == "readerMode", let dict = message.body as? NSDictionary {
-      print(dict)
-    }
-  }
-
-  func evaluateScript(file: String) {
-    let url = Bundle.main.url(forResource: file, withExtension: "")
-    let source = try! String(contentsOf: url!)
-    return webView.evaluateJavaScript(source)
-  }
-
   func urlDidStartLoading() {
     guard let url = webView.url, var host = url.host else { return }
-
-    if (url.path.hasSuffix(".pdf")) {
-      showToast("Loading PDF \(url.path)")
-      webView.stopLoading()
-      let pdf = PDFViewController()
-      pdf.modalPresentationStyle = .pageSheet
-      pdf.setURL(url: url)
-      present(pdf, animated: true)
-    } else {
-      var lock: UIImage?
-      if (url.scheme?.lowercased() == "https") {
-        lock = UIImage(
-          systemName: "lock",
-          withConfiguration: UIImage.SymbolConfiguration(textStyle: .body))?
-          .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
-      }
-      self.displayToast(message: self.removePrefix(string: &host, prefix: "www."), image: lock)
+    var lock: UIImage?
+    if url.scheme?.lowercased() == "https" {
+      lock = UIImage(
+        systemName: "lock",
+        withConfiguration: UIImage.SymbolConfiguration(textStyle: .body)
+      )?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
     }
+    displayToast(message: removePrefix(string: &host, prefix: "www."), image: lock)
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -723,8 +736,24 @@ extension BrowserViewController: WKNavigationDelegate,
     }
   }
 
-  func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+  func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+    if navigationResponse.response.mimeType == "application/pdf", UserDefaults.standard.nativePDFView,
+        let url = navigationResponse.response.url {
+      showToast("Loading PDF \(url.path)")
+      webView.stopLoading()
+      let pdf = PDFViewController()
+      pdf.modalPresentationStyle = .pageSheet
+      pdf.setURL(url: url)
+      present(pdf, animated: true)
+      decisionHandler(.cancel)
+    } else {
+      // https://stackoverflow.com/a/44942814
+      decisionHandler(.allow)
+    }
+  }
 
+  func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    // open new tabs in same view
     if navigationAction.targetFrame == nil {
       webView.load(navigationAction.request)
       decisionHandler(.cancel)
@@ -762,7 +791,7 @@ extension BrowserViewController: WKNavigationDelegate,
           elementsToUse.append(editMenu)
           let contextMenuTitle = elementInfo.linkURL?.lastPathComponent
           return UIMenu(title: contextMenuTitle!, image: nil,
-                        identifier: nil, options: [], children: elementsToUse)
+                        identifier: nil, options: [], children: [])
         }
       )
     completionHandler(configuration)
@@ -772,7 +801,11 @@ extension BrowserViewController: WKNavigationDelegate,
     guard let url = commitURL else { return }
     let view = factory.build(mode: currentMode, style: currentSyle)
     view.load(URLRequest(url: url))
-    replaceWebviewSilently(view: view)
+    if UserDefaults.standard.popInBackground {
+      replaceWebviewSilently(view: view)
+    } else {
+      replaceWebview(with: view)
+    }
   }
 }
 
