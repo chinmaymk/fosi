@@ -106,17 +106,47 @@ class BrightnessAdjuster {
   }
 }
 
+class ModCounter {
+  constructor(start = 0, end) {
+    self.start = start
+    self.end = end
+    self.index = start
+  }
+
+  next() {
+    return Math.abs(++index % end)
+  }
+
+  prev() {
+    return Math.abs(--index % end)
+  }
+}
+
 class PageFinder {
   constructor() {
     this.instance = new Mark(document.querySelectorAll("body"))
+    this.index = new ModCounter(0, 1)
+    this.nodeList = []
   }
 
   findInPage(text) {
     this.instance.mark(text || window.getSelection().toString())
+    this.nodeList = document.querySelectorAll("mark")
+    this.index = new ModCounter(0, this.nodeList.length)
+  }
+
+  nextMatch() {
+    this.nodeList[this.index.next()].scrollIntoView({ "behavior": "smooth" })
+  }
+
+  prevMatch() {
+    this.nodeList[this.index.prev()].scrollIntoView({ "behavior": "smooth" })
   }
 
   clear() {
     this.instance.unmark()
+    this.index = new ModCounter(0, 1)
+    this.nodeList = []
   }
 }
 

@@ -8,20 +8,73 @@
 	<array>
 		<dict>
 			<key>Type</key>
-			<string>IASKPSGroupSpecifier</string>
+			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>History</string>
+			<string>Browser</string>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>IASKButtonSpecifier</string>
+			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Export History</string>
+			<string>Query Suggestions</string>
+			<key>Key</key>
+			<string>QuerySuggestions</string>
+			<key>DefaultValue</key>
+			<true/>
 		</dict>
-
 		<dict>
 			<key>Type</key>
-			<string>IASKPSGroupSpecifier</string>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Content Blocking</string>
+			<key>Key</key>
+			<string>ContentBlocking</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Use Native PDF view</string>
+			<key>Key</key>
+			<string>NativePDFControl</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Pop in Background</string>
+			<key>Key</key>
+			<string>PopInBackground</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Search Engine</string>
+			<key>Key</key>
+			<string>SearchEngine</string>
+			<key>DefaultValue</key>
+			<string>Google</string>
+			<key>Titles</key>
+			<array>
+				<string>Google</string>
+				<string>DuckDuckGo</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>Google</string>
+				<string>DuckDuckGo</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Delete Website Data</string>
 			<key>IASKSubtitle</key>
@@ -31,13 +84,43 @@
 			<key>Type</key>
 			<string>IASKButtonSpecifier</string>
 			<key>Title</key>
-			<string>Current website</string>
+			<string>Current Website</string>
 		</dict>
 		<dict>
 			<key>Type</key>
 			<string>IASKButtonSpecifier</string>
 			<key>Title</key>
-			<string>All</string>
+			<string>Everything</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>History</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>IASKButtonSpecifier</string>
+			<key>Title</key>
+			<string>Export History</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>IASKButtonSpecifier</string>
+			<key>Title</key>
+			<string>Delete History</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Privacy Policy</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>IASKButtonSpecifier</string>
+			<key>Title</key>
+			<string>View Privacy Policy</string>
 		</dict>
 	</array>
 </dict>

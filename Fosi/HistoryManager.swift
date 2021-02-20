@@ -1,5 +1,5 @@
 //
-//  NavigationHistoryManager.swift
+//  HistoryManager.swift
 //  Fosi
 //
 //  Created by Chinmay Kulkarni on 12/29/20.

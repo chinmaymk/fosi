@@ -8,6 +8,7 @@ target 'Fosi' do
   pod 'GRDB.swift', '~> 5.3.0'
   pod 'iCarousel'
   pod 'InAppSettingsKit'
+  pod 'ISHHoverBar'
 end
 
 post_install do |installer|

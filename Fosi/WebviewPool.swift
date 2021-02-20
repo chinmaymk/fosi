@@ -44,6 +44,10 @@ class WebviewPool {
     func stopObserving() {
       progressObservable?.invalidate()
     }
+
+    deinit {
+      stopObserving()
+    }
   }
 
   typealias Index = Int
@@ -137,6 +141,12 @@ enum WebviewMode {
   case desktop
 }
 
+extension UserDefaults {
+  @objc dynamic var contentBlocking: Bool {
+    get { return bool(forKey: AppSettingKeys.contentBlocking) }
+  }
+}
+
 class WebviewFactory {
   static let blockLists = [
     "easylist.json",
@@ -147,14 +157,17 @@ class WebviewFactory {
 
   let pool: WebviewPool
   var blocklists: [WKContentRuleList] = []
+  var blockListAdded: ((WKContentRuleList) -> Void)?
   
   func refreshBlocklists() {
     for list in WebviewFactory.blockLists {
       let url = Bundle.main.url(forResource: list, withExtension: "")
       let jsonString = try! String(contentsOf: url!)
       WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "fosi.Fosi.\(list)", encodedContentRuleList: jsonString) { (list, err) in
-        if let list = list {
-          self.blocklists.append(list)
+        guard let list = list, err == nil else { return }
+        self.blocklists.append(list)
+        if UserDefaults.standard.contentBlocking {
+          self.blockListAdded?(list)
         }
       }
     }
@@ -188,7 +201,9 @@ class WebviewFactory {
     addScript(to: webView, file: "mark.js", injectionTime: .atDocumentStart)
     addScript(to: webView, file: "index.js", injectionTime: .atDocumentStart)
 
-    addBlockList(to: webView)
+    if UserDefaults.standard.contentBlocking {
+      addBlockList(to: webView)
+    }
   }
 
   func build(mode: WebviewMode, style: UIUserInterfaceStyle) -> WKWebView {
