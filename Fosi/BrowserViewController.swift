@@ -19,68 +19,39 @@ class BrowserViewController: UIViewController,
                              UIScrollViewDelegate,
                              UINavigationControllerDelegate,
                              UIContextMenuInteractionDelegate {
-
   let factory = WebviewFactory.shared
-  lazy var webView = factory.build(mode: .normal, style: currentSyle)
-  var commitURL: URL?
   var currentMode: WebviewMode = .normal {
     didSet {
-      navigationItem.leftBarButtonItem = getLeftItem()
-      let newView = factory.build(mode: currentMode, style: currentSyle)
-      if let lastUrl = webView.url {
-        newView.load(URLRequest(url: lastUrl))
-      }
-      replaceWebview(with: newView)
+      respawnWebview()
     }
   }
   var currentSyle: UIUserInterfaceStyle {
     get { return traitCollection.userInterfaceStyle }
   }
-  lazy var incognitoIndicator: UIImage = {
-    let hfRED = UIColor(red: 0.85, green: 0.12, blue: 0.09, alpha: 1.00)
-    return UIImage(systemName: "bolt.circle")!
-      .withTintColor(hfRED, renderingMode: .alwaysOriginal)
-  }()
+  lazy var webView = factory.build(mode: .normal, style: currentSyle)
 
   // Search Related stuff
-  var lastQuery: String?
-  var currentSearchState: SearchState = .editing
-
-  var suggestionResults = [String]()
-  var topDomains = [String]()
-  var historyRecords = [HistoryRecord]()
-  enum SearchState {
-    case editing
-    case submitted
-    case cancelled
+  let searchHolder = SearchHolderView()
+  var searchBar: UISearchBar {
+    get { return searchHolder.searchBar }
   }
-  let searchBar: UISearchBar = {
-    let view = UISearchBar()
-    view.autocapitalizationType = .none
-    view.autocorrectionType = .no
-    view.placeholder = "What do you want to know?"
-    return view
-  }()
-  let tableView: UITableView = UITableView()
-  enum TableSections: String {
-    case suggestions = "Query Suggestions"
-    case domains = "Top domains"
-    case history = "History"
+  var tableView: UITableView {
+    get { return searchHolder.tableView }
   }
-  let sections: [TableSections] = [.history, .suggestions, .domains]
-  enum SearchBarText {
-    case lastQuery
-    case url
-    case title
-  }
-  let counter = WheelCounter<SearchBarText>(labels: [.lastQuery, .title, .url])
+  let barCounter = WheelCounter<SearchHolderView.SearchBarText>(labels: [.lastQuery, .title, .url])
 
   // find in page
-  let hbar = ISHHoverBar()
+  let findInPageToolbar = ISHHoverBar()
 
   // track progress
   let progressView = CircularProgressView()
   var progressObservable: NSKeyValueObservation?
+  let incognitoIndicator: UIImage = UIImage(
+    systemName: "bolt.circle"
+  )!.withTintColor(
+    UIColor(red: 0.85, green: 0.12, blue: 0.09, alpha: 1.00),
+    renderingMode: .alwaysOriginal
+  )
 
   // additional actions for text
   let contextualMenus = [
@@ -93,6 +64,10 @@ class BrowserViewController: UIViewController,
     WebviewMode.normal: progressView,
     WebviewMode.noamp: progressView,
   ]
+  var commitURL: URL?
+  var webViewFrame: CGRect = .zero
+  var initFrame: CGRect = .zero
+  let topMask = UIView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -121,38 +96,13 @@ class BrowserViewController: UIViewController,
       topMask.isHidden = false
       webViewFrame = initFrame
     }
-     webView.frame = webViewFrame
-     tableView.frame = webViewFrame
+    webView.frame = webViewFrame
+    tableView.frame = webViewFrame
   }
 
   override func viewWillAppear(_ animated: Bool) {
     webView.frame = webViewFrame
     tableView.frame = webViewFrame
-  }
-
-  func replaceWebviewSilently(view: WKWebView) {
-    navigationController?.view.makeToast(
-      "Opened a tab in background, tap to switch",
-      duration: 2,
-      position: .top
-    ) { didTap in
-      if (didTap) { self.replaceWebview(with: view) }
-    }
-  }
-
-  func replaceWebview(with newView: WKWebView) {
-    webView.removeFromSuperview()
-    webView = newView
-    view.insertSubview(webView, at: 0)
-    webView.frame = webViewFrame
-    webView.alpha = 0
-    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
-      self.webView.transform = .identity
-      self.webView.alpha = 1
-    })
-    setupDelegates()
-    setupObservables()
-    UIMenuController.shared.menuItems = contextualMenus
   }
 
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -164,35 +114,44 @@ class BrowserViewController: UIViewController,
       message: "Fosi detected a change in display settings, Would you like to reload?",
       preferredStyle: .actionSheet
     )
-
-    confirmAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { [self] (action: UIAlertAction!) in
-      let url = webView.url
-      let newView = factory.build(mode: currentMode, style: currentSyle)
-      if let url = url {
-        newView.load(URLRequest(url: url))
-      }
-      replaceWebview(with: newView)
-    }))
-
+    confirmAlert.addAction(
+      UIAlertAction(
+        title: "Confirm", style: .default,
+        handler: { [self] _ in
+          let url = webView.url
+          let newView = factory.build(mode: currentMode, style: currentSyle)
+          if let url = url {
+            newView.load(URLRequest(url: url))
+          }
+          replaceWebview(with: newView)
+        }
+      )
+    )
     confirmAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     present(confirmAlert, animated: true, completion: nil)
   }
+}
 
+// MARK: setup views correctly
+extension BrowserViewController {
   func setupSearchExperience() {
-    searchBar.delegate = self
+    searchBar.delegate = searchHolder
     searchBar.showsCancelButton = true
     searchBar.sizeToFit()
     navigationItem.titleView = searchBar
-
+    searchHolder.delegate = self
     tableView.isHidden = true
-    tableView.dataSource = self
-    tableView.delegate = self
-    let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapTableView(gesture:)))
+    tableView.dataSource = searchHolder
+    tableView.delegate = searchHolder
+    let gesture = UITapGestureRecognizer(
+      target: searchHolder,
+      action: #selector(searchHolder.didTapTableView(gesture:))
+    )
     gesture.cancelsTouchesInView = false
     tableView.addGestureRecognizer(gesture)
 
     guard let bar = navigationController?.navigationBar else { return }
-    let down = UIPanGestureRecognizer(target: self, action: #selector(self.slideSearchBar))
+    let down = UIPanGestureRecognizer(target: self, action: #selector(slideSearchBar))
     bar.addGestureRecognizer(down)
   }
 
@@ -202,21 +161,18 @@ class BrowserViewController: UIViewController,
     webView.scrollView.delegate = self
   }
 
-  var webViewFrame: CGRect = .zero
-  var initFrame: CGRect = .zero
-  let topMask = UIView()
-
   func setupBrowsingExperience() {
+    // primary webview
     view.addSubview(webView)
-    self.edgesForExtendedLayout = [.bottom, .left, .right]
-    webView.frame = view.frame
+    edgesForExtendedLayout = [.bottom, .left, .right]
     initFrame = view.frame
     webViewFrame = view.frame
-    print("layout frame", view.frame)
+    webView.frame = view.frame
+    navigationController?.navigationBar.isTranslucent = false
 
+    // setup topmask
     topMask.backgroundColor = .systemBackground
     topMask.translatesAutoresizingMaskIntoConstraints = false
-    navigationController?.navigationBar.isTranslucent = false
     view.addSubview(topMask)
     NSLayoutConstraint.activate([
       topMask.topAnchor.constraint(equalTo: view.topAnchor),
@@ -224,49 +180,113 @@ class BrowserViewController: UIViewController,
       topMask.widthAnchor.constraint(equalTo: view.widthAnchor),
     ])
 
-    view.addSubview(tableView)
+    // setup tableview
     tableView.isScrollEnabled = true
     tableView.bounces = false
     tableView.frame = view.frame
+    view.addSubview(tableView)
 
-    hbar.items = [
-      UIBarButtonItem(image: UIImage(systemName: "arrow.up"), style: .plain, target: self, action: #selector(scrollUpToMatch)),
-      UIBarButtonItem(image: UIImage(systemName: "arrow.down"), style: .plain, target: self, action: #selector(scrollDownToMatch)),
-      UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(unmark))
+    // setup find in page toolbar
+    findInPageToolbar.items = [
+      UIBarButtonItem(
+        image: UIImage(systemName: "arrow.up"),
+        style: .plain, target: self,
+        action: #selector(scrollUpToMatch)
+      ),
+      UIBarButtonItem(
+        image: UIImage(systemName: "arrow.down"),
+        style: .plain, target: self,
+        action: #selector(scrollDownToMatch)
+      ),
+      UIBarButtonItem(
+        image: UIImage(systemName: "xmark"),
+        style: .plain, target: self,
+        action: #selector(unmark)
+      )
     ]
-    hbar.orientation = .vertical
-    hbar.isHidden = true
-    hbar.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(hbar)
-
-    progressView.translatesAutoresizingMaskIntoConstraints = false
-    let interaction = UIContextMenuInteraction(delegate: self)
-    progressView.addInteraction(interaction)
-
-    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: progressView)
-
+    findInPageToolbar.orientation = .vertical
+    findInPageToolbar.isHidden = true
+    findInPageToolbar.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(findInPageToolbar)
     NSLayoutConstraint.activate([
-      hbar.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-      hbar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+      findInPageToolbar.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+      findInPageToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+    ])
 
+    // setup progress bar and mode switching
+    progressView.translatesAutoresizingMaskIntoConstraints = false
+    progressView.addInteraction(UIContextMenuInteraction(delegate: self))
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: progressView)
+    NSLayoutConstraint.activate([
       progressView.widthAnchor.constraint(equalToConstant: 22),
       progressView.heightAnchor.constraint(equalToConstant: 22)
     ])
   }
 
-  @objc func openNewTab() {
-    factory.pool.updateSnapshot(view: webView)
-    let newView = factory.build(mode: currentMode, style: currentSyle)
-    replaceWebview(with: newView)
-    searchBar.searchTextField.unmarkText()
-    searchBar.searchTextField.selectAll(nil)
-    searchBar.becomeFirstResponder()
+  func setupToolBar() {
+    toolbarItems = [
+      // Reader mode
+      UIBarButtonItem(
+        image: UIImage(systemName: "text.justifyleft"),
+        style: .plain, target: self,
+        action: #selector(openSafariReaderMode)
+      ),
+      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+
+      // Find in page
+      UIBarButtonItem(
+        image: UIImage(systemName: "doc.text.magnifyingglass"),
+        style: .plain, target: self,
+        action: #selector(findInPageFromToolbar)
+      ),
+      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+
+      // Reset webview and start over
+      UIBarButtonItem(
+        image: UIImage(systemName: "arrow.2.squarepath"),
+        style: .plain, target: self, action: #selector(redo)
+      ),
+      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+
+      // Share
+      UIBarButtonItem(
+        barButtonSystemItem: .action, target: self, action: #selector(share)
+      ),
+      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+
+      // Show settings
+      UIBarButtonItem(
+        image: UIImage(systemName: "gear"),
+        style: .plain, target: self,
+        action: #selector(showSettings)
+      )
+    ]
+
+    let tabsGesture = UILongPressGestureRecognizer(
+      target: self, action: #selector(showOpenTabs)
+    )
+    navigationController?.toolbar.addGestureRecognizer(tabsGesture)
+
+    let newTabGesture = UIShortTapGestureRecognizer(
+      target: self, action: #selector(openNewTab)
+    )
+    newTabGesture.numberOfTapsRequired = 2
+    navigationController?.toolbar.addGestureRecognizer(newTabGesture)
+
+    navigationController?.isToolbarHidden = false
+  }
+
+  func setupObservables() {
+    progressObservable = webView.observe(
+      \WKWebView.estimatedProgress, options: .new
+    ) { _, change in
+      self.progressView.setProgress(value: Float(change.newValue!))
+    }
   }
 
   // https://stackoverflow.com/a/48847585
   class UIShortTapGestureRecognizer: UITapGestureRecognizer {
     let tapMaxDelay: Double = 0.3
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
       super.touchesBegan(touches, with: event)
       DispatchQueue.main.asyncAfter(deadline: .now() + tapMaxDelay) { [weak self] in
@@ -278,70 +298,67 @@ class BrowserViewController: UIViewController,
       }
     }
   }
+}
 
-  func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-    return UIContextMenuConfiguration(
-      identifier: nil,
-      previewProvider: nil,
-      actionProvider: { suggestedActions in
-        let normal = UIAction(title: "Normal", image: UIImage(systemName: "circle")) { action in
-          self.currentMode = .normal
-        }
-
-        let incognito = UIAction(title: "Incognito", image: self.incognitoIndicator) { action in
-          self.currentMode = .incognito
-        }
-
-        let desktop = UIAction(title: "Desktop", image: UIImage(systemName: "desktopcomputer")) { action in
-          self.currentMode = .desktop
-        }
-
-        let reader = UIAction(title: "Reader", image: UIImage(systemName: "doc.plaintext")) { action in
-          self.openSafariReaderMode()
-        }
-
-        return UIMenu(children: [normal,incognito, desktop, reader])
-      })
+// MARK: replace webview methods
+extension BrowserViewController {
+  func respawnWebview() {
+    navigationItem.leftBarButtonItem = getLeftItem()
+    let newView = factory.build(mode: currentMode, style: currentSyle)
+    if let lastUrl = webView.url {
+      newView.load(URLRequest(url: lastUrl))
+    }
+    replaceWebview(with: newView)
   }
 
-  func setupToolBar() {
-    let toolBarItems = [
-      // Reader mode
-      UIBarButtonItem(image: UIImage(systemName: "text.justifyleft"), style: .plain, target: self, action: #selector(openSafariReaderMode)),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+  func replaceWebviewSilently(view: WKWebView) {
+    navigationController?.view.makeToast(
+      "Opened a tab in background, tap to switch",
+      duration: 2,
+      position: .top
+    ) { didTap in
+      if didTap { self.replaceWebview(with: view) }
+    }
+  }
 
-      // Find in page
-      UIBarButtonItem(image: UIImage(systemName: "doc.text.magnifyingglass"), style: .plain, target: self, action: #selector(findInPageFromToolbar)),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+  func replaceWebview(with newView: WKWebView) {
+    webView.removeFromSuperview()
+    webView = newView
+    view.insertSubview(webView, at: 0)
+    webView.frame = webViewFrame
+    webView.alpha = 0
+    UIView.animate(
+      withDuration: 0.5, delay: 0,
+      usingSpringWithDamping: 0.8,
+      initialSpringVelocity: 0,
+      options: [],
+      animations: {
+        self.webView.transform = .identity
+        self.webView.alpha = 1
+      }
+    )
+    setupDelegates()
+    setupObservables()
+    UIMenuController.shared.menuItems = contextualMenus
+  }
+}
 
-      // Reset webview and start over
-      UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(redo)),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-
-      // Share
-      UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share)),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-
-      // delete history
-      UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(showSettings))
-    ]
-
-    let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(showOpenTabsVC))
-    let openTab = UIShortTapGestureRecognizer(target: self, action: #selector(openNewTab))
-    openTab.numberOfTapsRequired = 2
-
-    navigationController?.toolbar.addGestureRecognizer(longGesture)
-    navigationController?.toolbar.addGestureRecognizer(openTab)
-
-    toolbarItems = toolBarItems
-    navigationController?.isToolbarHidden = false
+extension BrowserViewController: SearchHolderDelegate {
+  func textDidChange(keywords: String?) {
+    guard currentMode != .incognito,
+          let query = keywords else { return }
+    searchHolder.showCompletions(query: query)
   }
 
   func isStringLink(string: String) -> Bool {
     let types: NSTextCheckingResult.CheckingType = [.link]
-    let detector = try? NSDataDetector(types: types.rawValue)
-    guard (detector != nil && string.count > 0) else { return false }
-    if detector!.numberOfMatches(in: string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, string.count)) > 0 {
+    guard let detector = try? NSDataDetector(types: types.rawValue),
+          string.count > 0 else { return false }
+    if detector.numberOfMatches(
+      in: string,
+      options: NSRegularExpression.MatchingOptions(rawValue: 0),
+      range: NSMakeRange(0, string.count)
+    ) > 0 {
       return true
     }
     return false
@@ -351,32 +368,26 @@ class BrowserViewController: UIViewController,
     // 1. valid url entered
     // 2. no scheme, only host entered
     // 3. random keywords
-    if var url = URL(string: keywords) {
-      var comp = URLComponents()
-      if url.scheme == nil {
-        comp.scheme = "https"
-        comp.host = url.host
-        comp.path = url.path
-        url = comp.url!
-      }
-      if isStringLink(string: url.absoluteString) {
-        webView.load(URLRequest(url: url))
-        return
-      }
+    guard var url = URL(string: keywords) else {
+      return search(keywords: keywords)
     }
-    search(keywords: keywords)
+    var comp = URLComponents()
+    if url.scheme == nil {
+      comp.scheme = "https"
+      comp.host = url.host
+      comp.path = url.path
+      url = comp.url!
+    }
+    if isStringLink(string: url.absoluteString) {
+      webView.load(URLRequest(url: url))
+    } else {
+      search(keywords: keywords)
+    }
   }
 
   func search(keywords: String) {
     let request = URLRequest(url: SearchManager.shared.provider.searchUrl(keywords: keywords))
     webView.load(request)
-  }
-
-  func setupObservables() {
-    progressObservable = webView.observe(\WKWebView.estimatedProgress, options: .new) { _, change in
-      let val = Float(change.newValue!)
-      self.progressView.setProgress(value: val)
-    }
   }
 }
 
@@ -391,12 +402,12 @@ extension BrowserViewController: UITextFieldDelegate {
   }
 
   func startFind() {
-    self.hbar.isHidden = false
+    self.findInPageToolbar.isHidden = false
     self.navigationController?.hidesBarsOnTap = false
   }
 
   func stopFind() {
-    self.hbar.isHidden = true
+    self.findInPageToolbar.isHidden = true
     self.navigationController?.hidesBarsOnTap = true
   }
 
@@ -406,30 +417,42 @@ extension BrowserViewController: UITextFieldDelegate {
   }
 
   @objc func findInPageFromSelection() {
-    webView.evaluateJavaScript("window.hf.marker = new PageFinder(); window.hf.marker.findInPage();")
+    webView.evaluateJavaScript(
+      """
+      window.hf.marker = new PageFinder();
+      window.hf.marker.findInPage();
+      """
+    )
     startFind()
   }
 
   @objc func findInPageFromToolbar() {
-    let alert = UIAlertController(title: "Find in Page", message: "", preferredStyle: .alert)
-    alert.addTextField { (textField) in
-      textField.text = self.searchBar.text
-      textField.clearButtonMode = .whileEditing
-      textField.delegate = self
+    let alert = UIAlertController(title: "Find in Page", message: nil, preferredStyle: .alert)
+    alert.addTextField { field in
+      field.text = self.searchBar.text
+      field.clearButtonMode = .whileEditing
+      field.delegate = self
     }
-
-    alert.addAction(UIAlertAction(title: "Mark", style: .default, handler: { [weak alert] (_) in
-      let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-      if let keywords =  textField?.text {
-        self.webView.evaluateJavaScript("window.hf.marker = new PageFinder(); window.hf.marker.findInPage(`\(keywords)`);")
-        self.startFind()
-      }
-    }))
-
-    alert.addAction(UIAlertAction(title: "Unmark", style: .cancel, handler: { (_) in
-      self.unmark()
-    }))
-
+    alert.addAction(
+      UIAlertAction(
+        title: "Mark", style: .default,
+        handler: { [self] _ in
+          guard let keywords = alert.textFields?.first?.text else { return }
+          webView.evaluateJavaScript(
+            """
+            window.hf.marker = new PageFinder();
+            window.hf.marker.findInPage(`\(keywords)`);
+            """
+          )
+          startFind()
+        })
+    )
+    alert.addAction(
+      UIAlertAction(
+        title: "Unmark", style: .cancel, handler: { _ in
+          self.unmark()
+        })
+    )
     present(alert, animated: true, completion: nil)
   }
 
@@ -441,12 +464,25 @@ extension BrowserViewController: UITextFieldDelegate {
 
 // MARK: toolbar selectors
 extension BrowserViewController {
+  @objc func openNewTab() {
+    factory.pool.updateSnapshot(view: webView)
+    replaceWebview(
+      with: factory.build(mode: currentMode, style: currentSyle)
+    )
+    searchBar.searchTextField.unmarkText()
+    searchBar.searchTextField.selectAll(nil)
+    searchBar.becomeFirstResponder()
+  }
+
   @objc func searchFromSelection() {
-    webView.evaluateJavaScript("window.getSelection().toString()") { [self] (result, _) in
+    webView.evaluateJavaScript(
+      "window.getSelection().toString()"
+    ) { [self] result, _ in
       guard let keywords = result as? String else { return }
       let view = factory.build(mode: currentMode, style: currentSyle)
-      let request = URLRequest(url: SearchManager.shared.provider.searchUrl(keywords: keywords))
-      view.load(request)
+      view.load(URLRequest(
+        url: SearchManager.shared.provider.searchUrl(keywords: keywords)
+      ))
       replaceWebviewSilently(view: view)
     }
   }
@@ -456,8 +492,10 @@ extension BrowserViewController {
     appSettingsViewController.showCreditsFooter = false
     appSettingsViewController.delegate = self
     appSettingsViewController.showDoneButton = false
-    present(UINavigationController(rootViewController: appSettingsViewController),
-            animated: true, completion: nil)
+    present(
+      UINavigationController(rootViewController: appSettingsViewController),
+      animated: true, completion: nil
+    )
   }
 
   @objc func redo() {
@@ -468,20 +506,15 @@ extension BrowserViewController {
 
   @objc func share() {
     guard let url = webView.url else { return }
-    let activityViewController = UIActivityViewController(activityItems: [url],
-                                                          applicationActivities: nil)
-    // so that iPads won't crash
-    activityViewController.popoverPresentationController?.sourceView = view
-    // present the view controller
+    let activityViewController = UIActivityViewController(
+      activityItems: [url], applicationActivities: nil
+    )
     present(activityViewController, animated: true, completion: nil)
   }
 
-  @objc func refresh() {
-    webView.reload()
-  }
-
-  @objc func showOpenTabsVC() {
+  @objc func showOpenTabs() {
     factory.pool.updateSnapshot(view: webView)
+
     let collection = OpenTabsViewController()
     collection.pool = factory.pool
     collection.modalPresentationStyle = .overFullScreen
@@ -490,7 +523,6 @@ extension BrowserViewController {
     }
     collection.tabDidClose = { [self] item in
       guard item.hashValue == webView.hashValue else { return }
-
       if let newView = factory.pool.sorted(by: .lastAccessed).filter({
         $0.1.view.hashValue != item.hashValue
       }).first?.1.view {
@@ -502,7 +534,7 @@ extension BrowserViewController {
     }
     collection.allTabsClosed = { [self] () in
       let newView = factory.build(mode: currentMode, style: currentSyle)
-      searchBarCancelButtonClicked(searchBar)
+      searchHolder.searchBarCancelButtonClicked(searchBar)
       replaceWebview(with: newView)
     }
 
@@ -511,23 +543,23 @@ extension BrowserViewController {
 
   @objc func openSafariReaderMode() {
     guard let url = webView.url else { return }
+
     let config = SFSafariViewController.Configuration()
     config.entersReaderIfAvailable = true
-    let safariVC = SFSafariViewController(url: url, configuration: config)
-    safariVC.modalPresentationCapturesStatusBarAppearance = true
-    safariVC.dismissButtonStyle = .done
     config.barCollapsingEnabled = true
-    safariVC.modalPresentationStyle = .overCurrentContext
-    present(safariVC, animated: true, completion: nil)
+
+    let safari = SFSafariViewController(url: url, configuration: config)
+    safari.modalPresentationCapturesStatusBarAppearance = true
+    safari.dismissButtonStyle = .done
+    safari.modalPresentationStyle = .overCurrentContext
+
+    present(safari, animated: true, completion: nil)
   }
 
   func getLeftItem() -> UIBarButtonItem? {
-    if let view = modeIndicator[currentMode] {
-      let interaction = UIContextMenuInteraction(delegate: self)
-      view.addInteraction(interaction)
-      return UIBarButtonItem(customView: view)
-    }
-    return nil
+    guard let view = modeIndicator[currentMode] else { return nil }
+    view.addInteraction(UIContextMenuInteraction(delegate: self))
+    return UIBarButtonItem(customView: view)
   }
 
   func displayToast(message: String, image: UIImage?) {
@@ -538,11 +570,8 @@ extension BrowserViewController {
       }
       self.navigationController?.view.clearToastQueue()
       self.navigationController?.view.makeToast(
-        message,
-        duration: 1.5,
-        position: .top,
-        image: image,
-        style: style
+        message, duration: 1.5, position: .top,
+        image: image, style: style
       )
     }
   }
@@ -554,70 +583,97 @@ extension BrowserViewController {
     }
   }
 
-  func getCurrentValue(for text: SearchBarText) -> String? {
+  func getCurrentValue(for text: SearchHolderView.SearchBarText) -> String? {
     switch text {
     case .url:
       return webView.url?.absoluteString
     case .lastQuery:
-      return lastQuery
+      return searchHolder.lastQuery
     case .title:
       return webView.title
     }
   }
 
   @objc func slideSearchBar(gesture: UIPanGestureRecognizer) {
-    guard gesture.state == .ended else {
-      return
-    }
+    guard gesture.state == .ended else { return }
 
     let velocity = gesture.velocity(in: view)
-    let magnitude = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y))
-    let slideMultiplier = magnitude / 200
-    let slideFactor = 0.1 * slideMultiplier
-
+    let slideFactor = 0.1 * (
+      sqrt(velocity.x * velocity.x + velocity.y * velocity.y) / 200
+    )
     UIView.animate(
-      withDuration: Double(slideFactor * 2),
-      delay: 0,
+      withDuration: Double(slideFactor * 2), delay: 0,
       usingSpringWithDamping: 0.7,
       initialSpringVelocity: velocity.x / 100,
       options: .curveEaseIn,
-      animations: {
-        self.searchBar.searchTextField.text = self.getCurrentValue(for: self.counter.down())
+      animations: { [self] in
+        searchBar.searchTextField.text = getCurrentValue(for: barCounter.down())
       },
       completion: nil
     )
+  }
+
+  func contextMenuInteraction(
+    _ interaction: UIContextMenuInteraction,
+    configurationForMenuAtLocation location: CGPoint
+  ) -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(
+      identifier: nil,
+      previewProvider: nil,
+      actionProvider: { suggestedActions in
+        let normal = UIAction(
+          title: "Normal", image: UIImage(systemName: "circle")) { _ in
+          self.currentMode = .normal
+        }
+        let incognito = UIAction(
+          title: "Incognito", image: self.incognitoIndicator) { _ in
+          self.currentMode = .incognito
+        }
+        let desktop = UIAction(
+          title: "Desktop", image: UIImage(systemName: "desktopcomputer")) { _ in
+          self.currentMode = .desktop
+        }
+        let reader = UIAction(
+          title: "Reader", image: UIImage(systemName: "doc.plaintext")) { _ in
+          self.openSafariReaderMode()
+        }
+        return UIMenu(children: [normal, incognito, desktop, reader])
+      })
   }
 }
 
 // MARK: In app settings methods
 extension BrowserViewController: IASKSettingsDelegate {
-  func settingsViewControllerDidEnd(_ settingsViewController: IASKAppSettingsViewController) {
+  func settingsViewControllerDidEnd(_ settingsViewController: IASKAppSettingsViewController) {}
 
-  }
-
-  func settingsViewController(_ settingsViewController: IASKAppSettingsViewController, buttonTappedFor specifier: IASKSpecifier) {
-    guard let title = specifier.title else { return }
-    switch title {
+  func settingsViewController(
+    _ settingsViewController: IASKAppSettingsViewController,
+    buttonTappedFor specifier: IASKSpecifier
+  ) {
+    switch specifier.title {
     case AppSettingKeys.btnCurrentWebSite:
-      if let host = webView.url?.host {
-        deleteCurrentWebsite()
-        settingsViewController.view.makeToast("Data for \(host) deleted", duration: 1.5, position: .top)
-      }
+      guard let host = webView.url?.host else { return }
+      deleteCurrentWebsite()
+      settingsViewController.view.makeToast(
+        "Data for \(host) deleted", duration: 1.5, position: .top
+      )
 
     case AppSettingKeys.btnEverything:
       deleteAll()
-      settingsViewController.view.makeToast("All Website data deleted", duration: 1.5, position: .top)
+      settingsViewController.view.makeToast(
+        "All Website data deleted", duration: 1.5, position: .top
+      )
 
     case AppSettingKeys.btnPrivacyPolicy:
       settingsViewController.dismiss(animated: true, completion: nil)
       openNewTab()
-      searchBarCancelButtonClicked(searchBar)
-      webView.load(URLRequest(url: URL(string: AppSettingKeys.privacyPolicyURL)!))
+      searchHolder.searchBarCancelButtonClicked(searchBar)
+      handleSearchInput(keywords: AppSettingKeys.privacyPolicyURL)
 
     case AppSettingKeys.btnExportHistory:
-      let url = AppDatabase.databaseUrl()
-      let activityViewController = UIActivityViewController(activityItems: [url],
-                                                            applicationActivities: nil)
+      let activityViewController = UIActivityViewController(
+        activityItems: [AppDatabase.databaseUrl()], applicationActivities: nil
+      )
       settingsViewController.present(activityViewController, animated: true, completion: nil)
 
     case AppSettingKeys.btnDeleteHistory:
@@ -631,16 +687,14 @@ extension BrowserViewController: IASKSettingsDelegate {
   }
 
   func deleteAll() {
-    let p = HistoryManager.shared.delete(domain: nil)
     let allTypes = WKWebsiteDataStore.allWebsiteDataTypes()
     let dataStore = WKWebsiteDataStore.default()
-
     dataStore.fetchDataRecords(ofTypes: allTypes) { records in
-      dataStore.removeData(ofTypes: allTypes, for: records, completionHandler: {
-        p.then { result in
+      dataStore.removeData(
+        ofTypes: allTypes, for: records,
+        completionHandler: {
           self.showToast("Deleted everything")
-        }
-      })
+        })
     }
   }
 
@@ -649,15 +703,14 @@ extension BrowserViewController: IASKSettingsDelegate {
     let allTypes = WKWebsiteDataStore.allWebsiteDataTypes()
     let dataStore = WKWebsiteDataStore.default()
 
-    let p = HistoryManager.shared.delete(domain: host)
     dataStore.fetchDataRecords(ofTypes: allTypes) { records in
-      let filtered = records.filter { d in
-        d.displayName.contains(host)
-      }
-      dataStore.removeData(ofTypes: allTypes, for: filtered, completionHandler: {
-        p.then { result in
+      dataStore.removeData(
+        ofTypes: allTypes,
+        for: records.filter { d in
+          d.displayName.contains(host)
+        },
+        completionHandler: {
           self.showToast("Deleted for \(host)")
-        }
       })
     }
   }
@@ -676,18 +729,6 @@ extension UserDefaults {
 // MARK: Webkit related methods
 extension BrowserViewController: WKNavigationDelegate,
                                  WKUIDelegate {
-  func urlDidStartLoading() {
-    guard let url = webView.url, var host = url.host else { return }
-    var lock: UIImage?
-    if url.scheme?.lowercased() == "https" {
-      lock = UIImage(
-        systemName: "lock",
-        withConfiguration: UIImage.SymbolConfiguration(textStyle: .body)
-      )?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
-    }
-    displayToast(message: removePrefix(string: &host, prefix: "www."), image: lock)
-  }
-
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     guard let title = webView.title,
           let url = webView.url,
@@ -715,64 +756,83 @@ extension BrowserViewController: WKNavigationDelegate,
         }
         return true
       }
-
       var item = HistoryRecord(
         title: title,
-        url: url,
-        domain: domain,
-        content: content,
-        keywords: keywords,
+        url: url, domain: domain,
+        content: content, keywords: keywords,
         timestamp: Date()
       )
-
-      let promise = HistoryManager.shared.insert(record: &item)
-      promise.then { (record)  in
+      HistoryManager.shared.insert(record: &item).then { record in
         print("record inserted \(record.id!)")
       }
     }
   }
 
-  func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+  func webView(_ webView: WKWebView,
+               decidePolicyFor navigationResponse: WKNavigationResponse,
+               decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
     if navigationResponse.response.mimeType == "application/pdf", UserDefaults.standard.nativePDFView,
-        let url = navigationResponse.response.url {
-      showToast("Loading PDF \(url.path)")
-      webView.stopLoading()
+       let url = navigationResponse.response.url {
+      decisionHandler(.cancel)
+
       let pdf = PDFViewController()
       pdf.modalPresentationStyle = .pageSheet
-      pdf.setURL(url: url)
+      pdf.url = url
       present(pdf, animated: true)
-      decisionHandler(.cancel)
     } else {
-      // https://stackoverflow.com/a/44942814
       decisionHandler(.allow)
     }
   }
 
-  func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+  func webView(_ webView: WKWebView,
+               decidePolicyFor navigationAction: WKNavigationAction,
+               decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
     // open new tabs in same view
     if navigationAction.targetFrame == nil {
       webView.load(navigationAction.request)
       decisionHandler(.cancel)
     } else {
       // https://stackoverflow.com/a/44942814
-      decisionHandler(WKNavigationActionPolicy(rawValue: WKNavigationActionPolicy.allow.rawValue + 2)!)
+      decisionHandler(
+        WKNavigationActionPolicy(
+          rawValue: WKNavigationActionPolicy.allow.rawValue + 2
+        )!
+      )
     }
   }
 
-  func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
-    urlDidStartLoading()
+  func webView(_ webView: WKWebView,
+               didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+    urlDidStartLoading(for: webView)
   }
 
   func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-    urlDidStartLoading()
+    urlDidStartLoading(for: webView)
   }
 
-  func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-    true
+  func urlDidStartLoading(for webView: WKWebView) {
+    guard let url = webView.url, var host = url.host else { return }
+    var lock: UIImage? {
+      if url.scheme?.lowercased() == "https" {
+        return UIImage(
+          systemName: "lock",
+          withConfiguration: UIImage.SymbolConfiguration(textStyle: .body)
+        )?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
+      } else {
+        return nil
+      }
+    }
+    displayToast(message: searchHolder.stripWww(string: &host), image: lock)
   }
 
-  func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
-    let configuration =
+  func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool { true }
+
+  func webView(
+    _ webView: WKWebView,
+    contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo,
+    completionHandler: @escaping (UIContextMenuConfiguration?) -> Void
+  ) {
+    completionHandler(
       UIContextMenuConfiguration(
         identifier: nil,
         previewProvider: {
@@ -785,10 +845,14 @@ extension BrowserViewController: WKNavigationDelegate,
                         identifier: nil, options: [], children: [])
         }
       )
-    completionHandler(configuration)
+    )
   }
 
-  func webView(_ webView: WKWebView, contextMenuForElement elementInfo: WKContextMenuElementInfo, willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating) {
+  func webView(
+    _ webView: WKWebView,
+    contextMenuForElement elementInfo: WKContextMenuElementInfo,
+    willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating
+  ) {
     guard let url = commitURL else { return }
     let view = factory.build(mode: currentMode, style: currentSyle)
     view.load(URLRequest(url: url))
@@ -797,185 +861,5 @@ extension BrowserViewController: WKNavigationDelegate,
     } else {
       replaceWebview(with: view)
     }
-  }
-}
-
-
-// MARK: Search related methods
-extension BrowserViewController: UISearchControllerDelegate,
-                                 UISearchBarDelegate,
-                                 UITableViewDataSource,
-                                 UITableViewDelegate {
-
-  // MARK: Search bar delegates
-  func searchDidConclude() {
-    self.tableView.isHidden = true
-    lastQuery = ""
-  }
-
-  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    guard let text = searchBar.text else { return }
-    searchDidConclude()
-    handleSearchInput(keywords: text)
-    currentSearchState = .submitted
-  }
-
-  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-    searchBar.text = ""
-    searchBar.resignFirstResponder()
-    searchDidConclude()
-    currentSearchState = .cancelled
-  }
-
-  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-    currentSearchState = .editing
-  }
-
-  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    let textField = self.searchBar.searchTextField
-
-    guard currentSearchState == .editing, currentMode != .incognito,
-          let rangeOfQuery = textField.textRange(
-            from: textField.beginningOfDocument,
-            to: textField.selectedTextRange?.start ?? textField.endOfDocument
-          ),
-          let query = textField.text(in: rangeOfQuery),
-          !query.isEmpty, query != lastQuery
-    else { return }
-
-    let google = SearchCompletions.shared.getCompletions(keywords: query)
-    let domains = DomainCompletions.shared.getCompletions(keywords: query)
-    let history = HistoryManager.shared.search(keywords: query)
-    let exact = HistoryManager.shared.exactmatch(keywords: query)
-
-    google.then { google in
-      self.suggestionResults = Array(google.prefix(5))
-      self.tableView.reloadData()
-    }
-
-    Promise<String?> { () -> String? in
-      let topHistory = try await(exact)
-      let domains = try await(domains)
-
-      var completion: String?
-      if var domain = topHistory?.domain, domain.starts(with: query) {
-        let sanitized = self.removePrefix(string: &domain, prefix: "www.")
-        completion = String(sanitized.suffix(from: query.endIndex))
-      } else if !domains.isEmpty {
-        if let top = domains.first {
-          completion = String(top.suffix(from: query.endIndex))
-        }
-        self.topDomains = Array(domains.prefix(1).suffix(2))
-        self.tableView.reloadData()
-      }
-      return completion
-    }.then { completion -> Void in
-      textField.setMarkedText(completion, selectedRange: NSRange())
-    }
-
-    history.then { results in
-      self.historyRecords = Array(results.prefix(5))
-      self.tableView.reloadData()
-    }
-
-    self.tableView.isHidden = false
-    lastQuery = query
-  }
-
-  // MARK: Table view delegates
-  @objc func didTapTableView(gesture: UITapGestureRecognizer) {
-    // We get rid of our keyboard on screen
-    searchBar.resignFirstResponder()
-    // Find the location of the touch relative to the tableView
-    let touch = gesture.location(in: tableView)
-    // Convert that touch point to an index path
-    if let indexPath = tableView.indexPathForRow(at: touch) {
-      let q = getSelectedRow(indexPath: indexPath)
-      searchDidConclude()
-      handleSearchInput(keywords: q)
-    }
-  }
-
-  func getSelectedRow(indexPath: IndexPath) -> String {
-    var q = ""
-    switch sections[indexPath.section] {
-    case .domains:
-      q = topDomains[indexPath.row]
-      searchBar.searchTextField.text = q
-      break
-    case .suggestions:
-      q = suggestionResults[indexPath.row]
-      searchBar.searchTextField.text = q
-      break
-    case .history:
-      q = historyRecords[indexPath.row].url.absoluteString
-      break
-    }
-    return q
-  }
-
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    searchDidConclude()
-    handleSearchInput(keywords: getSelectedRow(indexPath: indexPath))
-  }
-
-  func getSectionResultCount(section: Int) -> Int {
-    switch sections[section] {
-    case .domains:
-      return topDomains.count
-    case .suggestions:
-      return suggestionResults.count
-    case .history:
-      return historyRecords.count
-    }
-  }
-
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return getSectionResultCount(section: section)
-  }
-
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    if section < sections.count && getSectionResultCount(section: section) > 0 {
-      return sections[section].rawValue
-    }
-    return nil
-  }
-
-  func numberOfSections(in tableView: UITableView) -> Int {
-    sections.count
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = UITableViewCell(style: .default, reuseIdentifier: "defaultCell")
-
-    switch sections[indexPath.section] {
-    case .domains:
-      cell.textLabel?.text = topDomains[indexPath.row]
-      return cell
-    case .suggestions:
-      cell.textLabel?.text = suggestionResults[indexPath.row]
-      return cell
-    case .history:
-      let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "subtitleCell")
-      cell.textLabel?.text = historyRecords[indexPath.row].title
-      let host = removePrefix(string: &historyRecords[indexPath.row].domain, prefix: "www.")
-      cell.detailTextLabel?.text = "\(host) ○ \(historyRecords[indexPath.row].timestamp.timeAgoDisplay())"
-      return cell
-    }
-  }
-
-  func removePrefix(string: inout String, prefix: String) -> String {
-    if string.starts(with: prefix) {
-      string.removeFirst(prefix.count)
-    }
-    return string
-  }
-}
-
-extension Date {
-  func timeAgoDisplay() -> String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .full
-    return formatter.localizedString(for: self, relativeTo: Date())
   }
 }

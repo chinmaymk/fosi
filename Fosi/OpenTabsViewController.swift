@@ -16,11 +16,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
   var pool: WebviewPool?
   var projected: Array<(WebviewPool.Index, WebviewPool.Item)> {
     get {
-      if let pool = pool {
-        return pool.sorted(by: .createdAt)
-      } else {
-        return []
-      }
+      return pool?.sorted(by: .createdAt) ?? []
     }
   }
   var openSelectedTab: ((WKWebView) -> Void)?
@@ -52,42 +48,75 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
     super.viewDidLayoutSubviews()
   }
 
-  @objc func closeAllTabs() {
-    pool?.removeAll()
-    allTabsClosed?()
-    _ = projected[0]
-    collectionView.reloadData()
+  override func viewDidLoad() {
+    view.backgroundColor = .systemFill
+
+    collectionView.dataSource = self
+    collectionView.type = .coverFlow
+    collectionView.currentItemIndex = 0
+    collectionView.layer.cornerRadius = 10
+    collectionView.clipsToBounds = true
+    collectionView.backgroundColor = .systemBackground
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+
+    let closeGesture = UISwipeGestureRecognizer(
+      target: self, action: #selector(dismissTabsViewer)
+    )
+    closeGesture.direction = .down
+    collectionView.addGestureRecognizer(closeGesture)
+
+    let closeAll = UIButton(type: .system)
+    closeAll.setTitle("Close All", for: .normal)
+    closeAll.tintColor = .systemRed
+    closeAll.addTarget(self, action: #selector(closeAllTabs), for: .touchUpInside)
+    closeAll.backgroundColor = .systemBackground
+    closeAll.translatesAutoresizingMaskIntoConstraints = false
+
+    let bottomMask = UIView()
+    bottomMask.backgroundColor = .systemBackground
+    bottomMask.translatesAutoresizingMaskIntoConstraints = false
+
+    view.addSubview(collectionView)
+    view.addSubview(closeAll)
+    view.addSubview(bottomMask)
+
+    NSLayoutConstraint.activate([
+      collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+      collectionView.bottomAnchor.constraint(equalTo: closeAll.topAnchor, constant: 10),
+      collectionView.heightAnchor.constraint(
+        equalTo: view.heightAnchor, multiplier: CGFloat(heightMultiplier) + 0.12
+      ),
+
+      closeAll.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      closeAll.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30
+      ),
+      closeAll.heightAnchor.constraint(equalToConstant: 50),
+      closeAll.widthAnchor.constraint(equalTo: view.widthAnchor),
+
+      bottomMask.topAnchor.constraint(equalTo: closeAll.bottomAnchor),
+      bottomMask.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      bottomMask.leftAnchor.constraint(equalTo: view.leftAnchor),
+      bottomMask.widthAnchor.constraint(equalTo: view.widthAnchor),
+    ])
   }
 
-  @objc func dismissVC() {
-    dismiss(animated: true, completion: nil)
-  }
-
-  @objc func dismissTab(_ sender: UISwipeGestureRecognizer) {
-    let item = projected[collectionView.currentItemIndex]
-    tabDidClose?(item.1.view)
-    pool?.remove(at: item.0)
-    // collectionView.removeItem(at: collectionView.currentItemIndex, animated: true)
-    collectionView.reloadData()
-  }
-
-  @objc func openTab() {
-    let view = projected[collectionView.currentItemIndex].1.view
-    pool?.add(view: view) // bump up the last accesed
-    openSelectedTab?(view)
-    dismissVC()
-  }
-
-  func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
-    let img = projected[index].1.snapshot
-    let w =  UIScreen.main.bounds.width * widthMultiplier
-    let h = UIScreen.main.bounds.height * heightMultiplier
-    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: w, height: h))
+  func carousel(_ carousel: iCarousel,
+                viewForItemAt index: Int,
+                reusing view: UIView?) -> UIView {
+    let imageView = UIImageView(
+      frame: CGRect(
+        x: 0, y: 0,
+        width: UIScreen.main.bounds.width * widthMultiplier,
+        height: UIScreen.main.bounds.height * heightMultiplier
+      )
+    )
     imageView.contentMode = .scaleAspectFill
     imageView.clipsToBounds = true
-    imageView.image = img
-    let swipe = UISwipeGestureRecognizer(target: self, action: #selector(dismissTab))
-    swipe.direction = .up
+    imageView.image = projected[index].1.snapshot
+    let dismiss = UISwipeGestureRecognizer(target: self, action: #selector(dismissTab))
+    dismiss.direction = .up
     let open = UITapGestureRecognizer(target: self, action: #selector(openTab))
 
     imageView.layer.borderColor = UIColor.separator.cgColor
@@ -95,7 +124,7 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
     imageView.isOpaque = true
     imageView.layer.backgroundColor = UIColor.white.cgColor
     imageView.isUserInteractionEnabled = true
-    imageView.addGestureRecognizer(swipe)
+    imageView.addGestureRecognizer(dismiss)
     imageView.addGestureRecognizer(open)
 
     return imageView
@@ -105,54 +134,27 @@ class OpenTabsViewController: UIViewController, iCarouselDataSource {
     projected.count
   }
 
-  override func viewDidLoad() {
-    view.backgroundColor = .systemFill
+  @objc func closeAllTabs() {
+    pool?.removeAll()
+    allTabsClosed?()
+    collectionView.reloadData()
+  }
 
-    let closeAll = UIButton(type: .system)
-    closeAll.setTitle("Close All", for: .normal)
-    closeAll.tintColor = .systemRed
-    closeAll.addTarget(self, action: #selector(closeAllTabs), for: .touchUpInside)
+  @objc func dismissTabsViewer() {
+    dismiss(animated: true, completion: nil)
+  }
 
-    collectionView.dataSource = self
-    collectionView.type = .coverFlow
-    collectionView.currentItemIndex = 0
+  @objc func dismissTab(_ sender: UISwipeGestureRecognizer) {
+    let item = projected[collectionView.currentItemIndex]
+    tabDidClose?(item.1.view)
+    pool?.remove(at: item.0)
+    collectionView.reloadData()
+  }
 
-    collectionView.layer.cornerRadius = 10
-    collectionView.clipsToBounds = true
-
-    collectionView.backgroundColor = .systemBackground
-    closeAll.backgroundColor = .systemBackground
-
-    let swipe = UISwipeGestureRecognizer(target: self, action: #selector(dismissVC))
-    swipe.direction = .down
-
-    let bottomMask = UIView()
-    bottomMask.backgroundColor = .systemBackground
-    bottomMask.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.addGestureRecognizer(swipe)
-    view.addSubview(collectionView)
-    view.addSubview(closeAll)
-    view.addSubview(bottomMask)
-
-    collectionView.translatesAutoresizingMaskIntoConstraints = false
-    closeAll.translatesAutoresizingMaskIntoConstraints = false
-
-    NSLayoutConstraint.activate([
-      collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-      collectionView.bottomAnchor.constraint(equalTo: closeAll.topAnchor, constant: 10),
-
-      collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: CGFloat(heightMultiplier) + 0.12),
-
-      closeAll.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      closeAll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-      closeAll.heightAnchor.constraint(equalToConstant: 50),
-      closeAll.widthAnchor.constraint(equalTo: view.widthAnchor),
-
-      bottomMask.topAnchor.constraint(equalTo: closeAll.bottomAnchor),
-      bottomMask.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-      bottomMask.leftAnchor.constraint(equalTo: view.leftAnchor),
-      bottomMask.widthAnchor.constraint(equalTo: view.widthAnchor),
-    ])
+  @objc func openTab() {
+    let view = projected[collectionView.currentItemIndex].1.view
+    pool?.add(view: view) // bump up the last accesed
+    openSelectedTab?(view)
+    dismissTabsViewer()
   }
 }

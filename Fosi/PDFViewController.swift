@@ -9,8 +9,71 @@ import Foundation
 import PDFKit
 import CoreGraphics
 
-class DarkPage: PDFPage {
+class PDFViewController : UIViewController,
+                          PDFDocumentDelegate,
+                          PDFViewDelegate {
+  let pdfView = PDFView()
+  let thumbnailView = PDFThumbnailView()
+  var url: URL?
+  let contextualMenus = [
+    UIMenuItem(title: "Find In Page", action: #selector(findInPageFromSelection))
+  ]
 
+  override func viewDidLoad() {
+    pdfView.displayMode = .singlePageContinuous
+    pdfView.autoScales = true
+    pdfView.displayDirection = .horizontal
+    pdfView.autoresizesSubviews = true
+    pdfView.usePageViewController(true)
+    pdfView.enableDataDetectors = true
+    pdfView.translatesAutoresizingMaskIntoConstraints = false
+    pdfView.delegate = self
+
+    let doc = PDFDocument(url: url!)
+    doc?.delegate = self
+    pdfView.document = doc
+
+    UIMenuController.shared.menuItems = contextualMenus
+
+    view.addSubview(pdfView)
+
+    NSLayoutConstraint.activate([
+      pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      pdfView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      pdfView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      pdfView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+    ])
+  }
+
+  // https://stackoverflow.com/a/48927415
+  @objc func findInPageFromSelection() {
+    guard let text = pdfView.currentSelection?.string,
+          let selections = pdfView.document?.findString(
+            text, withOptions: [.caseInsensitive]
+          ) else { return }
+
+    var display: PDFSelection?
+    selections.forEach { s in
+      s.color = .systemYellow
+      if display == nil {
+        display = s
+      } else {
+        display?.add(s)
+      }
+    }
+    pdfView.setCurrentSelection(display, animate: true)
+  }
+
+  func classForPage() -> AnyClass {
+    if self.traitCollection.userInterfaceStyle == .dark {
+      return DarkPage.self
+    } else {
+      return PDFPage.self
+    }
+  }
+}
+
+class DarkPage: PDFPage {
   override func draw(with box: PDFDisplayBox, to context: CGContext) {
     UIGraphicsPushContext(context)
     context.saveGState()
@@ -27,78 +90,3 @@ class DarkPage: PDFPage {
   }
 }
 
-class PDFViewController : UIViewController, PDFDocumentDelegate, PDFViewDelegate {
-  let pdfView = PDFView()
-
-  var url: URL?
-
-  let contextualMenus = [
-    UIMenuItem(title: "In Page", action: #selector(findInPageFromSelection))
-  ]
-
-  func setURL(url: URL) {
-    self.url = url
-  }
-
-  // https://stackoverflow.com/a/48927415
-  @objc func findInPageFromSelection() {
-    if let text = pdfView.currentSelection?.string {
-      var display: PDFSelection?
-      if let selections = pdfView.document?.findString(text, withOptions: [.caseInsensitive]) {
-        for s in selections {
-          s.color = .systemYellow
-          if display == nil {
-            display = s
-          } else {
-            display?.add(s)
-          }
-        }
-        pdfView.setCurrentSelection(display, animate: true)
-      }
-    }
-  }
-
-  func classForPage() -> AnyClass {
-    if self.traitCollection.userInterfaceStyle == .dark {
-      return DarkPage.self
-    } else {
-      return PDFPage.self
-    }
-  }
-
-  let thumbnailView = PDFThumbnailView()
-  private func setupThumbnailView() {
-    thumbnailView.pdfView = pdfView
-    thumbnailView.backgroundColor = UIColor(displayP3Red: 179/255, green: 179/255, blue: 179/255, alpha: 0.5)
-    thumbnailView.layoutMode = .horizontal
-    thumbnailView.thumbnailSize = CGSize(width: 80, height: 100)
-    thumbnailView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-    view.addSubview(thumbnailView)
-  }
-
-  override func viewDidLoad() {
-    self.pdfView.displayMode = .singlePageContinuous
-    self.pdfView.autoScales = true
-    self.pdfView.displayDirection = .horizontal
-    self.pdfView.autoresizesSubviews = true
-
-    let doc = PDFDocument(url: self.url!)
-    doc?.delegate = self
-    pdfView.document = doc
-    pdfView.delegate = self
-    pdfView.usePageViewController(true)
-    pdfView.enableDataDetectors = true
-    pdfView.translatesAutoresizingMaskIntoConstraints = false
-
-    UIMenuController.shared.menuItems = contextualMenus
-    
-    view.addSubview(pdfView)
-
-    NSLayoutConstraint.activate([
-      pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      pdfView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-      pdfView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      pdfView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-    ])
-  }
-}

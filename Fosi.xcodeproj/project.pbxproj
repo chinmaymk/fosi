@@ -19,6 +19,7 @@
 		E8508EE225A4428400BF1266 /* topdomains.txt in Resources */ = {isa = PBXBuildFile; fileRef = E8508EE125A4428400BF1266 /* topdomains.txt */; };
 		E864A4E525999C4A00A0DB95 /* mark.js in Resources */ = {isa = PBXBuildFile; fileRef = E864A4E425999C4A00A0DB95 /* mark.js */; };
 		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
+		E88E148F25E2C85300D0CDF2 /* SearchHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E148E25E2C85300D0CDF2 /* SearchHolderView.swift */; };
 		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
 		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
 		E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */; };
@@ -66,6 +67,7 @@
 		E8508EE125A4428400BF1266 /* topdomains.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = topdomains.txt; sourceTree = "<group>"; };
 		E864A4E425999C4A00A0DB95 /* mark.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = mark.js; sourceTree = "<group>"; };
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
+		E88E148E25E2C85300D0CDF2 /* SearchHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHolderView.swift; sourceTree = "<group>"; };
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
 		E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosi.entitlements; sourceTree = "<group>"; };
 		E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
@@ -142,14 +144,22 @@
 			path = blocklists;
 			sourceTree = "<group>";
 		};
+		E88E14A325E2D74F00D0CDF2 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				E8ABFBDF2598402D00809448 /* TinyColor.js */,
+				E864A4E425999C4A00A0DB95 /* mark.js */,
+				E8DD4E7925B3615300ED5586 /* DarkReader.js */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		E8E82B97258E9AAC001E9669 /* js */ = {
 			isa = PBXGroup;
 			children = (
-				E8DD4E7925B3615300ED5586 /* DarkReader.js */,
+				E88E14A325E2D74F00D0CDF2 /* lib */,
 				E8DD4E7A25B3615300ED5586 /* index.js */,
 				E8508EE125A4428400BF1266 /* topdomains.txt */,
-				E8ABFBDF2598402D00809448 /* TinyColor.js */,
-				E864A4E425999C4A00A0DB95 /* mark.js */,
 			);
 			path = js;
 			sourceTree = "<group>";
@@ -200,6 +210,7 @@
 				E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */,
 				E8508E78259FADE600BF1266 /* WebviewPool.swift */,
 				E8EFED1925DCD98F00D9F145 /* SearchEngines.swift */,
+				E88E148E25E2C85300D0CDF2 /* SearchHolderView.swift */,
 			);
 			path = Fosi;
 			sourceTree = "<group>";
@@ -438,6 +449,7 @@
 				E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */,
 				E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */,
 				E8508E79259FADE600BF1266 /* WebviewPool.swift in Sources */,
+				E88E148F25E2C85300D0CDF2 /* SearchHolderView.swift in Sources */,
 				E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */,
 				E8508E26259C244F00BF1266 /* HistoryManager.swift in Sources */,
 				E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */,

@@ -20,14 +20,12 @@ struct HistoryRecord {
 }
 
 class HistoryManager {
-
   var maxRows: Int
+  static let shared = HistoryManager(limit: 5)
 
   init(limit: Int) {
     self.maxRows = limit
   }
-
-  static let shared = HistoryManager(limit: 5)
 
   func insert(record: inout HistoryRecord) -> Promise<HistoryRecord> {
     let promise = Promise<HistoryRecord>.pending()

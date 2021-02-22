@@ -8,24 +8,115 @@
 import Foundation
 import WebKit
 
+enum WebviewMode {
+  case normal
+  case incognito
+  case noamp
+  case desktop
+}
+
 class WebviewPool {
+  typealias Index = Int
+  private var itemsMap = [Index: Item]()
+  var count: Int  {
+    get { return itemsMap.count }
+  }
+  private var size = 20
+
+  init(size: Int) {
+    self.size = size
+  }
+
+  @discardableResult
+  func add(view: WKWebView) -> Index {
+    if let item = itemsMap[view.hashValue] {
+      item.lastAccesed = Date()
+      NSLog("tried to add view again", view.hashValue)
+      return view.hashValue
+    }
+    
+    itemsMap[view.hashValue] = Item(view: view)
+    NSLog("added view", view.hashValue)
+    return view.hashValue
+  }
+
+  func get(at index: Index) -> WKWebView? {
+    return getItem(at: index)?.view
+  }
+
+  func getItem(at index: Index) -> Item? {
+    return itemsMap[index]
+  }
+
+  func getIndex(view: WKWebView) -> Index? {
+    return add(view: view)
+  }
+
+  enum OrderBy {
+    case lastAccessed
+    case createdAt
+  }
+  enum SortOrder {
+    case asc
+    case desc
+  }
+  func sorted(by field: OrderBy, order: SortOrder = .desc) -> Array<(Index, Item)> {
+    var orderBy: OrderBy {
+      if count > 7 {
+        return .lastAccessed
+      } else {
+        return field
+      }
+    }
+    switch orderBy {
+    case .lastAccessed:
+      var list = itemsMap.sorted { $0.value.lastAccesed > $1.value.lastAccesed }
+      let first = list.removeFirst()
+      list.append(first)
+      return list
+    case .createdAt:
+      return itemsMap.sorted { $0.value.createdAt > $1.value.createdAt }
+    }
+  }
+
+  func remove(at index: Index) {
+    NSLog("deleting view at", index)
+    if let item = itemsMap.removeValue(forKey: index) {
+      item.stopObserving()
+      NSLog("deleted view", item.view.hashValue)
+    }
+  }
+
+  func removeAll() {
+    itemsMap.values.forEach { $0.stopObserving() }
+    itemsMap.removeAll()
+  }
+
+  func updateSnapshot(view: WKWebView) {
+    itemsMap[view.hashValue]?.lastAccesed = Date()
+    itemsMap[view.hashValue]?.updateSnapshot()
+  }
 
   class Item {
     // Caution: this should be accessed from main thread
     private(set) var view: WKWebView
-    fileprivate(set) var lastAccesed = Date()
     private(set) var snapshot: UIImage = UIImage()
-    private var progressObservable: NSKeyValueObservation?
     private(set) var createdAt: Date
+    fileprivate(set) var lastAccesed = Date()
+    private var progressObservable: NSKeyValueObservation?
     private var timer: Timer?
 
     init(view: WKWebView) {
       self.view = view
       createdAt = Date()
       updateSnapshot()
-      progressObservable = view.observe(\WKWebView.estimatedProgress, options: .new) { [self] (_, change) in
+      progressObservable = view.observe(
+        \WKWebView.estimatedProgress, options: .new
+      ) { [self] (_, change) in
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { _ in
+        timer = Timer.scheduledTimer(
+          withTimeInterval: 0.1, repeats: false,
+          block: { _ in
           self.updateSnapshot()
         })
         timer?.fire()
@@ -49,96 +140,6 @@ class WebviewPool {
       stopObserving()
     }
   }
-
-  typealias Index = Int
-
-  private var size = 20
-  
-  enum OrderBy {
-    case lastAccessed
-    case createdAt
-  }
-  enum SortOrder {
-    case asc
-    case desc
-  }
-  func sorted(by field: OrderBy, order: SortOrder = .desc) -> Array<(Index, Item)> {
-    var sw = field
-    if count > 7 {
-      sw = .lastAccessed
-    }
-
-    switch sw {
-    case .lastAccessed:
-      var list = itemsMap.sorted { $0.value.lastAccesed > $1.value.lastAccesed }
-      let first = list.removeFirst()
-      list.append(first)
-      return list
-    case .createdAt:
-      return itemsMap.sorted { $0.value.createdAt > $1.value.createdAt }
-    }
-  }
-
-  private var itemsMap = [Index: Item]()
-
-  var count: Int  {
-    get { return itemsMap.count }
-  }
-
-  init(size: Int) {
-    self.size = size
-  }
-
-  @discardableResult 
-  func add(view: WKWebView) -> Index {
-    if let item = itemsMap[view.hashValue] {
-      item.lastAccesed = Date()
-      print("tried to add view again", view.hashValue)
-      return view.hashValue
-    }
-    
-    itemsMap[view.hashValue] = Item(view: view)
-    print("added view", view.hashValue)
-    return  view.hashValue
-  }
-
-  func get(at index: Index) -> WKWebView? {
-    return getItem(at: index)?.view
-  }
-
-  func updateSnapshot(view: WKWebView) {
-    itemsMap[view.hashValue]?.lastAccesed = Date()
-    itemsMap[view.hashValue]?.updateSnapshot()
-  }
-
-  func getItem(at index: Index) -> Item? {
-    return itemsMap[index]
-  }
-
-  func getIndex(view: WKWebView) -> Index? {
-    // TODO
-    return add(view: view)
-  }
-
-  func remove(at index: Index) {
-    print("deleting view at \(index)")
-    if let item = itemsMap.removeValue(forKey: index) {
-      item.stopObserving()
-      print("deleted view", item.view.hashValue)
-    }
-  }
-
-  func removeAll() {
-    itemsMap.values.forEach { $0.stopObserving() }
-    itemsMap.removeAll()
-  }
-}
-
-enum WebviewMode {
-  case normal
-  case incognito
-  case noamp
-  case desktop
 }
 
 extension UserDefaults {
@@ -148,62 +149,22 @@ extension UserDefaults {
 }
 
 class WebviewFactory {
-  static let blockLists = [
+  static let packagedLists = [
     "easylist.json",
     "easyprivacy.json",
     "fanboy-annoyance.json",
     "fanboy-cookiemonster.json"
   ]
+  static let shared = WebviewFactory(pool: WebviewPool(size: Int.max))
+  static let processPool = WKProcessPool()
 
   let pool: WebviewPool
   var blocklists: [WKContentRuleList] = []
   var blockListAdded: ((WKContentRuleList) -> Void)?
-  
-  func refreshBlocklists() {
-    for list in WebviewFactory.blockLists {
-      let url = Bundle.main.url(forResource: list, withExtension: "")
-      let jsonString = try! String(contentsOf: url!)
-      WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "fosi.Fosi.\(list)", encodedContentRuleList: jsonString) { (list, err) in
-        guard let list = list, err == nil else { return }
-        self.blocklists.append(list)
-        if UserDefaults.standard.contentBlocking {
-          self.blockListAdded?(list)
-        }
-      }
-    }
-  }
 
   init(pool: WebviewPool) {
     self.pool = pool
     refreshBlocklists()
-  }
-
-  static let shared = WebviewFactory(pool: WebviewPool(size: Int.max))
-
-  static let processPool = WKProcessPool()
-
-  func addScript(to webView: WKWebView, file: String, injectionTime: WKUserScriptInjectionTime) {
-    let url = Bundle.main.url(forResource: file, withExtension: "")
-    let source = try! String(contentsOf: url!)
-    let script = WKUserScript(source: source, injectionTime: injectionTime, forMainFrameOnly: false)
-    webView.configuration.userContentController.addUserScript(script)
-  }
-
-  func addBlockList(to webView: WKWebView) {
-    blocklists.forEach(webView.configuration.userContentController.add)
-  }
-
-  func addStaticAssets(to webView: WKWebView, for style: UIUserInterfaceStyle) {
-    if style == .dark {
-      addScript(to: webView, file: "DarkReader.js", injectionTime: .atDocumentStart)
-    }
-    addScript(to: webView, file: "TinyColor.js", injectionTime: .atDocumentStart)
-    addScript(to: webView, file: "mark.js", injectionTime: .atDocumentStart)
-    addScript(to: webView, file: "index.js", injectionTime: .atDocumentStart)
-
-    if UserDefaults.standard.contentBlocking {
-      addBlockList(to: webView)
-    }
   }
 
   func build(mode: WebviewMode, style: UIUserInterfaceStyle) -> WKWebView {
@@ -246,5 +207,56 @@ class WebviewFactory {
     addStaticAssets(to: webView, for: style)
     pool.add(view: webView)
     return webView
+  }
+
+  func addStaticAssets(to webView: WKWebView, for style: UIUserInterfaceStyle) {
+    if style == .dark {
+      addScript(to: webView, file: "DarkReader.js", injectionTime: .atDocumentStart)
+    }
+    addScript(to: webView, file: "TinyColor.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "mark.js", injectionTime: .atDocumentStart)
+    addScript(to: webView, file: "index.js", injectionTime: .atDocumentStart)
+
+    if UserDefaults.standard.contentBlocking {
+      addBlockList(to: webView)
+    }
+  }
+
+  func addScript(
+    to webView: WKWebView,
+    file: String,
+    injectionTime: WKUserScriptInjectionTime
+  ) {
+    let url = Bundle.main.url(forResource: file, withExtension: "")
+    let source = try! String(contentsOf: url!)
+    let script = WKUserScript(
+      source: source, injectionTime: injectionTime, forMainFrameOnly: false
+    )
+    webView.configuration.userContentController.addUserScript(script)
+  }
+
+  func addBlockList(to webView: WKWebView) {
+    blocklists.forEach(webView.configuration.userContentController.add)
+  }
+
+  func refreshBlocklists() {
+    func compile(list: String, jsonString: String) {
+      WKContentRuleListStore.default().compileContentRuleList(
+        forIdentifier: "fosi.Fosi.\(list)",
+        encodedContentRuleList: jsonString
+      ) { (list, err) in
+        guard let list = list, err == nil else { return }
+        self.blocklists.append(list)
+        if UserDefaults.standard.contentBlocking {
+          self.blockListAdded?(list)
+        }
+      }
+    }
+
+    WebviewFactory.packagedLists.forEach { list in
+      let url = Bundle.main.url(forResource: list, withExtension: "")
+      let jsonString = try! String(contentsOf: url!)
+      compile(list: list, jsonString: jsonString)
+    }
   }
 }

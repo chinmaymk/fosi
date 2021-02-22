@@ -22,9 +22,7 @@ extension UserDefaults {
 }
 
 class SearchManager {
-  private let ddg = DuckDuckGoSearch()
-  private let google = GoogleSearch()
-  
+  static let shared = SearchManager()
   var provider: SearchProvider {
     if UserDefaults.standard.searchEngine == "DuckDuckGo" {
       return ddg
@@ -32,8 +30,8 @@ class SearchManager {
       return google
     }
   }
-
-  static let shared = SearchManager()
+  private let ddg = DuckDuckGoSearch()
+  private let google = GoogleSearch()
 }
 
 class DuckDuckGoSearch: SearchProvider {
@@ -59,11 +57,8 @@ class DuckDuckGoSearch: SearchProvider {
     components.queryItems = [
       URLQueryItem(name: "q", value: keywords)
     ]
-    guard let url = components.url else { return Promise([String]()) }
-
     let promise = Promise<[String]>.pending()
-
-    URLSession.shared.dataTask(with: url) { (data, _, err) in
+    URLSession.shared.dataTask(with: components.url!) { data, _, err in
       guard let data = data, err == nil else { return }
       var buffer = [String]()
       let values = try? JSONDecoder().decode([DDGAC].self, from: data)
@@ -98,28 +93,19 @@ class GoogleSearch: SearchProvider {
       URLQueryItem(name: "output", value: "toolbar"),
       URLQueryItem(name: "hl", value: "en")
     ]
-
-    guard let url = components.url else { return Promise([String]()) }
-
     let promise = Promise<[String]>.pending()
-
-    let task = URLSession.shared.dataTask(with: url) { (data, _, err) in
+    URLSession.shared.dataTask(with: components.url!) { data, _, err in
       guard let data = data, err == nil else { return }
       var buffer = [String]()
-
-      do {
-        let xml = SWXMLHash.parse(data)
-        let sugeesstions = xml["toplevel"]["CompleteSuggestion"]
-        for elem in sugeesstions.all {
-          let suggestion: String = try elem["suggestion"].value(ofAttribute: "data")
-          buffer.append(suggestion)
-        }
-        promise.fulfill(buffer)
-      } catch {
-        promise.reject(error)
+      let xml = SWXMLHash.parse(data)
+      let sugeesstions = xml["toplevel"]["CompleteSuggestion"]
+      sugeesstions.all.forEach { elem in
+        guard let suggestion: String = try? elem["suggestion"].value(ofAttribute: "data")
+        else { return }
+        buffer.append(suggestion)
       }
-    }
-    task.resume()
+      promise.fulfill(buffer)
+    }.resume()
     return promise
   }
 }

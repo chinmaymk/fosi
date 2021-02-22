@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class CircularProgressView: UIView {
-
   let progressLayer = CAShapeLayer()
 
   init() {
@@ -27,7 +26,13 @@ class CircularProgressView: UIView {
   func constructLayer() {
     self.backgroundColor = UIColor.clear
     self.layer.cornerRadius = self.frame.size.width/2
-    let circlePath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width/2, y: frame.size.height/2), radius: (frame.size.width)/2.4, startAngle: CGFloat(-0.5 * .pi), endAngle: CGFloat(1.5 * .pi), clockwise: true)
+    let circlePath = UIBezierPath(
+      arcCenter: CGPoint(x: frame.size.width/2, y: frame.size.height/2),
+      radius: frame.size.width/2.4,
+      startAngle: CGFloat(-0.5 * .pi),
+      endAngle: CGFloat(1.5 * .pi),
+      clockwise: true
+    )
 
     progressLayer.path = circlePath.cgPath
     progressLayer.fillColor = UIColor.clear.cgColor

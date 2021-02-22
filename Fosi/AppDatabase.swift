@@ -10,12 +10,13 @@ import GRDB.Swift
 import Promises.Swift
 
 class AppDatabase {
-
   static func databaseUrl() -> URL {
-    let databaseURL = try! FileManager.default
-      .url(for: .applicationSupportDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
-      .appendingPathComponent("fosi.sqlite")
-    return databaseURL
+    return try! FileManager.default.url(
+      for: .applicationSupportDirectory,
+      in: .allDomainsMask,
+      appropriateFor: nil,
+      create: true
+    ).appendingPathComponent("fosi.sqlite")
   }
 
   static func setup(app: UIApplication) throws {
