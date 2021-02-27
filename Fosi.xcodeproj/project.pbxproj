@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		29AAA3D2DDEB4452CBE205F1 /* Pods_Fosi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075319AA9853B968512BE910 /* Pods_Fosi.framework */; };
-		E802EEBE25D641A900DD6DAF /* easyprivacy.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBA25D641A500DD6DAF /* easyprivacy.json */; };
-		E802EEBF25D641A900DD6DAF /* fanboy-annoyance.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBB25D641A600DD6DAF /* fanboy-annoyance.json */; };
-		E802EEC025D641A900DD6DAF /* fanboy-cookiemonster.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBC25D641A700DD6DAF /* fanboy-cookiemonster.json */; };
-		E802EEC125D641A900DD6DAF /* easylist.json in Resources */ = {isa = PBXBuildFile; fileRef = E802EEBD25D641A900DD6DAF /* easylist.json */; };
 		E8508E26259C244F00BF1266 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E25259C244F00BF1266 /* HistoryManager.swift */; };
 		E8508E2E259C6CEF00BF1266 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E2D259C6CEF00BF1266 /* AppDatabase.swift */; };
 		E8508E74259FA5C000BF1266 /* OpenTabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */; };
@@ -20,6 +16,8 @@
 		E864A4E525999C4A00A0DB95 /* mark.js in Resources */ = {isa = PBXBuildFile; fileRef = E864A4E425999C4A00A0DB95 /* mark.js */; };
 		E869503625907EEE00DDFF4C /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869503525907EEE00DDFF4C /* PDFViewController.swift */; };
 		E88E148F25E2C85300D0CDF2 /* SearchHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E148E25E2C85300D0CDF2 /* SearchHolderView.swift */; };
+		E88E14F025E4BFDB00D0CDF2 /* cosmetic.json in Resources */ = {isa = PBXBuildFile; fileRef = E88E14EE25E4BFDA00D0CDF2 /* cosmetic.json */; };
+		E88E14F125E4BFDB00D0CDF2 /* network.json in Resources */ = {isa = PBXBuildFile; fileRef = E88E14EF25E4BFDB00D0CDF2 /* network.json */; };
 		E8ABFBE02598402D00809448 /* TinyColor.js in Resources */ = {isa = PBXBuildFile; fileRef = E8ABFBDF2598402D00809448 /* TinyColor.js */; };
 		E8CF45A3259BB9E000DF50B6 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */; };
 		E8CF45A8259BDEE300DF50B6 /* CompletionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CF45A7259BDEE300DF50B6 /* CompletionProviders.swift */; };
@@ -56,10 +54,6 @@
 		075319AA9853B968512BE910 /* Pods_Fosi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fosi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97DBEFF425D3C08606389C4E /* Pods-Fosi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fosi.debug.xcconfig"; path = "Target Support Files/Pods-Fosi/Pods-Fosi.debug.xcconfig"; sourceTree = "<group>"; };
 		D4AB2CF15404D69893100FD2 /* Pods-Fosi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fosi.release.xcconfig"; path = "Target Support Files/Pods-Fosi/Pods-Fosi.release.xcconfig"; sourceTree = "<group>"; };
-		E802EEBA25D641A500DD6DAF /* easyprivacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = easyprivacy.json; sourceTree = "<group>"; };
-		E802EEBB25D641A600DD6DAF /* fanboy-annoyance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fanboy-annoyance.json"; sourceTree = "<group>"; };
-		E802EEBC25D641A700DD6DAF /* fanboy-cookiemonster.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fanboy-cookiemonster.json"; sourceTree = "<group>"; };
-		E802EEBD25D641A900DD6DAF /* easylist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = easylist.json; sourceTree = "<group>"; };
 		E8508E25259C244F00BF1266 /* HistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryManager.swift; sourceTree = "<group>"; };
 		E8508E2D259C6CEF00BF1266 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		E8508E73259FA5BF00BF1266 /* OpenTabsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTabsViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +62,8 @@
 		E864A4E425999C4A00A0DB95 /* mark.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = mark.js; sourceTree = "<group>"; };
 		E869503525907EEE00DDFF4C /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		E88E148E25E2C85300D0CDF2 /* SearchHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHolderView.swift; sourceTree = "<group>"; };
+		E88E14EE25E4BFDA00D0CDF2 /* cosmetic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cosmetic.json; sourceTree = "<group>"; };
+		E88E14EF25E4BFDB00D0CDF2 /* network.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = network.json; sourceTree = "<group>"; };
 		E8ABFBDF2598402D00809448 /* TinyColor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = TinyColor.js; sourceTree = "<group>"; };
 		E8B1DD2325B5FE1200D3DA10 /* Fosi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosi.entitlements; sourceTree = "<group>"; };
 		E8CF45A2259BB9E000DF50B6 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
@@ -136,10 +132,8 @@
 		E8041BA025903A05001DE066 /* blocklists */ = {
 			isa = PBXGroup;
 			children = (
-				E802EEBD25D641A900DD6DAF /* easylist.json */,
-				E802EEBA25D641A500DD6DAF /* easyprivacy.json */,
-				E802EEBB25D641A600DD6DAF /* fanboy-annoyance.json */,
-				E802EEBC25D641A700DD6DAF /* fanboy-cookiemonster.json */,
+				E88E14EE25E4BFDA00D0CDF2 /* cosmetic.json */,
+				E88E14EF25E4BFDB00D0CDF2 /* network.json */,
 			);
 			path = blocklists;
 			sourceTree = "<group>";
@@ -349,13 +343,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E802EEBE25D641A900DD6DAF /* easyprivacy.json in Resources */,
-				E802EEBF25D641A900DD6DAF /* fanboy-annoyance.json in Resources */,
+				E88E14F125E4BFDB00D0CDF2 /* network.json in Resources */,
+				E88E14F025E4BFDB00D0CDF2 /* cosmetic.json in Resources */,
 				E8508EE225A4428400BF1266 /* topdomains.txt in Resources */,
-				E802EEC025D641A900DD6DAF /* fanboy-cookiemonster.json in Resources */,
 				E8EFECBB25D8912800D9F145 /* Settings.bundle in Resources */,
 				FE42740F5772D0A7F6463181 /* Assets.xcassets in Resources */,
-				E802EEC125D641A900DD6DAF /* easylist.json in Resources */,
 				E864A4E525999C4A00A0DB95 /* mark.js in Resources */,
 				FE42780407C614ED2DF08896 /* Preview Assets.xcassets in Resources */,
 				E8DD4E7B25B3615300ED5586 /* DarkReader.js in Resources */,
@@ -504,7 +496,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;
@@ -529,7 +521,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fosi/Fosi.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Fosi/Preview Content\"";
 				DEVELOPMENT_TEAM = N2QTD5TUVN;
 				ENABLE_PREVIEWS = YES;

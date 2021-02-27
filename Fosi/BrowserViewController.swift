@@ -732,38 +732,38 @@ extension BrowserViewController: WKNavigationDelegate,
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     guard let title = webView.title,
           let url = webView.url,
-          let domain = url.host,
+          var domain = url.host,
           let keywords = searchBar.searchTextField.text,
           currentMode != .incognito
     else { return }
 
     webView.evaluateJavaScript("new TextExtractor().parse()") { (result, err) in
       guard let result = result as? String, err == nil else { return }
+      let toFilter: Set = ["Adjective", "Noun", "Verb", "Number"]
+      var tokenSet: Set<String> = []
 
       let tagger = NLTagger(tagSchemes: [.lexicalClass])
       tagger.string = result
-      let keep: Set = ["Adjective", "Noun", "Verb", "Number"]
-      var content: String = ""
-
       tagger.enumerateTags(
         in: result.startIndex..<result.endIndex,
-        unit: .word,
-        scheme: .lexicalClass,
+        unit: .word, scheme: .lexicalClass,
         options: [.omitPunctuation, .omitWhitespace, .omitOther]
       ) { (tag, range) -> Bool in
-        if let tag = tag, keep.contains(tag.rawValue) {
-          content.append(" \(result[range])")
+        if let tag = tag, toFilter.contains(tag.rawValue) {
+          tokenSet.insert(String(result[range]))
         }
         return true
       }
+
       var item = HistoryRecord(
-        title: title,
-        url: url, domain: domain,
-        content: content, keywords: keywords,
+        title: title, url: url,
+        domain: self.searchHolder.stripWww(string: &domain),
+        content: tokenSet.joined(separator: " "),
+        keywords: keywords,
         timestamp: Date()
       )
       HistoryManager.shared.insert(record: &item).then { record in
-        print("record inserted \(record.id!)")
+        debugPrint("inserted", record.id)
       }
     }
   }

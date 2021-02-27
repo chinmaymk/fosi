@@ -77,7 +77,6 @@ const f = function (color) {
 }
 
 class BrightnessAdjuster {
-
   constructor() {
     this.classMap = {}
   }
@@ -92,7 +91,6 @@ class BrightnessAdjuster {
   process(node) {
     const bcColor = tinycolor(cssProperty(node, "background-color"))
     const fcColor = tinycolor(cssProperty(node, "color"))
-    // if (bcColor.isLight()) {
     if (bcColor.getLuminance() > 0.7) {
       const amp = (bcColor.getLuminance() - 0.5) * 100
       const darkColor = bcColor.darken(amp)
@@ -108,17 +106,17 @@ class BrightnessAdjuster {
 
 class ModCounter {
   constructor(start = 0, end) {
-    self.start = start
-    self.end = end
-    self.index = start
+    this.start = start
+    this.end = end
+    this.index = start
   }
 
   next() {
-    return Math.abs(++index % end)
+    return Math.abs(++this.index % end)
   }
 
   prev() {
-    return Math.abs(--index % end)
+    return Math.abs(--this.index % end)
   }
 }
 
@@ -151,7 +149,6 @@ class PageFinder {
 }
 
 class TextExtractor {
-
   constructor() {
     this.text = new Set()
   }
@@ -203,7 +200,7 @@ class TextExtractor {
   }
 }
 
-(function () {
+;(function () {
   const hosts = ["stack", "yahoo"]
 
   function isDarkModeEnabled() {
@@ -244,7 +241,7 @@ class TextExtractor {
     img {
         filter: brightness(80%) !important;
     }
-  `;
+    `;
 
     const targetNode = document.documentElement
     const config = { childList: true, subtree: true };
@@ -282,4 +279,4 @@ class TextExtractor {
   if (window.hf.isDarkModeEnabled) {
     enableDarkMode()
   }
-})()
+})();

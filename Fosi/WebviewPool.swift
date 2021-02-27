@@ -150,10 +150,8 @@ extension UserDefaults {
 
 class WebviewFactory {
   static let packagedLists = [
-    "easylist.json",
-    "easyprivacy.json",
-    "fanboy-annoyance.json",
-    "fanboy-cookiemonster.json"
+    "cosmetic.json",
+    "network.json",
   ]
   static let shared = WebviewFactory(pool: WebviewPool(size: Int.max))
   static let processPool = WKProcessPool()
