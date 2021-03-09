@@ -46,19 +46,19 @@ class HistoryManager {
     let promise = Promise<[HistoryRecord]>.pending()
     AppDatabase.shared.withReadDb(promise: promise) { db in
       let sql = """
-                SELECT historyRecord.*
-                FROM historyRecord
-                JOIN (
-                    SELECT rowid, rank
-                    FROM historyRecordFTS
-                    WHERE content MATCH ?
-                    ORDER BY rank
-                ) AS ranktable
-                ON ranktable.rowid = historyRecord.rowid
-                GROUP BY url
-                ORDER BY timestamp DESC
-                LIMIT ?
-                """
+      SELECT historyRecord.*
+      FROM historyRecord
+      JOIN (
+          SELECT rowid, rank
+          FROM historyRecordFTS
+          WHERE content MATCH ?
+          ORDER BY rank
+      ) AS ranktable
+      ON ranktable.rowid = historyRecord.rowid
+      GROUP BY url
+      ORDER BY timestamp DESC
+      LIMIT ?
+      """
       let pattern = FTS5Pattern(matchingAllTokensIn: keywords)
       return try HistoryRecord.fetchAll(db, sql: sql, arguments: [pattern, maxRows])
     }
@@ -69,16 +69,16 @@ class HistoryManager {
     let promise = Promise<HistoryRecord?>.pending()
     AppDatabase.shared.withReadDb(promise: promise) { db in
       let sql = """
-                SELECT historyRecord.*
-                FROM historyRecord
-                JOIN (
-                    SELECT rowid, domain
-                    FROM historyRecordFTS
-                    WHERE historyRecordFTS MATCH 'domain: \(keywords)*'
-                    LIMIT 1
-                ) AS ranktable
-                ON ranktable.rowid = historyRecord.rowid
-                """
+      SELECT historyRecord.*
+      FROM historyRecord
+      JOIN (
+          SELECT rowid, domain
+          FROM historyRecordFTS
+          WHERE historyRecordFTS MATCH 'domain: \(keywords)*'
+          LIMIT 1
+      ) AS ranktable
+      ON ranktable.rowid = historyRecord.rowid
+      """
       return try HistoryRecord.fetchOne(db, sql: sql, arguments: [])
     }
     return promise
@@ -88,10 +88,10 @@ class HistoryManager {
     let promise = Promise<[HistoryRecord]?>.pending()
     AppDatabase.shared.withReadDb(promise: promise) { db in
       let sql = """
-                SELECT historyRecord.*
-                FROM historyRecord
-                GROUP BY domain ORDER BY COUNT(*) DESC
-                """
+      SELECT historyRecord.*
+      FROM historyRecord
+      GROUP BY domain ORDER BY COUNT(*) DESC
+      """
       return try HistoryRecord.fetchAll(db, sql: sql, arguments: [])
     }
     return promise

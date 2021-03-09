@@ -68,7 +68,10 @@ class BrowserViewController: UIViewController,
   var webViewFrame: CGRect = .zero
   var initFrame: CGRect = .zero
   let topMask = UIView()
+}
 
+// MARK: UIKit methods
+extension BrowserViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.delegate = self
@@ -135,24 +138,26 @@ class BrowserViewController: UIViewController,
 // MARK: setup views correctly
 extension BrowserViewController {
   func setupSearchExperience() {
+    searchHolder.delegate = self
     searchBar.delegate = searchHolder
     searchBar.showsCancelButton = true
     searchBar.sizeToFit()
     navigationItem.titleView = searchBar
-    searchHolder.delegate = self
     tableView.isHidden = true
     tableView.dataSource = searchHolder
     tableView.delegate = searchHolder
-    let gesture = UITapGestureRecognizer(
+
+    let selectTableItem = UITapGestureRecognizer(
       target: searchHolder,
       action: #selector(searchHolder.didTapTableView(gesture:))
     )
-    gesture.cancelsTouchesInView = false
-    tableView.addGestureRecognizer(gesture)
+    selectTableItem.cancelsTouchesInView = false
+    tableView.addGestureRecognizer(selectTableItem)
 
-    guard let bar = navigationController?.navigationBar else { return }
-    let down = UIPanGestureRecognizer(target: self, action: #selector(slideSearchBar))
-    bar.addGestureRecognizer(down)
+    let flickSearchBar = UIPanGestureRecognizer(
+      target: self, action: #selector(slideSearchBar)
+    )
+    navigationController?.navigationBar.addGestureRecognizer(flickSearchBar)
   }
 
   func setupDelegates() {
@@ -747,7 +752,10 @@ extension BrowserViewController: WKNavigationDelegate,
       tagger.enumerateTags(
         in: result.startIndex..<result.endIndex,
         unit: .word, scheme: .lexicalClass,
-        options: [.omitPunctuation, .omitWhitespace, .omitOther]
+        options: [
+          .omitPunctuation, .omitWhitespace, .omitOther,
+          .joinNames, .joinContractions
+        ]
       ) { (tag, range) -> Bool in
         if let tag = tag, toFilter.contains(tag.rawValue) {
           tokenSet.insert(String(result[range]))
@@ -768,17 +776,19 @@ extension BrowserViewController: WKNavigationDelegate,
     }
   }
 
+  func showPDFController(_ url: URL) {
+    let pdf = PDFViewController()
+    pdf.url = url
+    present(pdf, animated: true)
+  }
+
   func webView(_ webView: WKWebView,
                decidePolicyFor navigationResponse: WKNavigationResponse,
                decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
     if navigationResponse.response.mimeType == "application/pdf", UserDefaults.standard.nativePDFView,
        let url = navigationResponse.response.url {
+      showPDFController(url)
       decisionHandler(.cancel)
-
-      let pdf = PDFViewController()
-      pdf.modalPresentationStyle = .pageSheet
-      pdf.url = url
-      present(pdf, animated: true)
     } else {
       decisionHandler(.allow)
     }
