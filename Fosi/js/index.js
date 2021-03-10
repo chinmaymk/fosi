@@ -170,7 +170,8 @@ class TextExtractor {
 
   isRelevant(node) {
     if (node.nodeName.toLowerCase() === "script" ||
-        node.nodeName.toLowerCase() === "style") {
+        node.nodeName.toLowerCase() === "style" ||
+        node.nodeName.toLowerCase() === "html") {
       return false
     }
     return true

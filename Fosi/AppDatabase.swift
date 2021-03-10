@@ -21,21 +21,21 @@ class AppDatabase {
 
   static func setup(app: UIApplication) throws {
     let databaseURL = databaseUrl()
-    let dbQueue = try DatabasePool(path: databaseURL.path)
+    let dbQueue = try DatabaseQueue(path: databaseURL.path)
     let database = try AppDatabase(dbQueue)
     AppDatabase.shared = database
   }
 
   static var shared: AppDatabase!
   
-  private let dbQueue: DatabasePool
+  private let dbQueue: DatabaseQueue
   
-  init(_ dbQueue: DatabasePool) throws {
+  init(_ dbQueue: DatabaseQueue) throws {
     self.dbQueue = dbQueue
     try migrator.migrate(dbQueue)
   }
   
-  func withQueue(handler: (DatabasePool) -> Void) {
+  func withQueue(handler: (DatabaseQueue) -> Void) {
     handler(self.dbQueue)
   }
   
@@ -52,7 +52,22 @@ class AppDatabase {
       }
     }
   }
-  
+
+  func withDeleteDb<T>(promise: Promise<T>, handler: (Database) throws -> T) {
+    self.withQueue { q in
+      do {
+        try q.inDatabase { db in
+          let records = try handler(db)
+          promise.fulfill(records)
+        }
+        try q.vacuum()
+      }
+      catch {
+        promise.reject(error)
+      }
+    }
+  }
+
   func withReadDb<T>(promise: Promise<T>, handler: (Database) throws -> T) {
     self.withQueue { q in
       do {

@@ -682,7 +682,7 @@ extension BrowserViewController: IASKSettingsDelegate {
       settingsViewController.present(activityViewController, animated: true, completion: nil)
 
     case AppSettingKeys.btnDeleteHistory:
-      HistoryManager.shared.delete(domain: nil).then { result in
+      HistoryManager.shared.delete().then { result in
         settingsViewController.view.makeToast("History deleted", duration: 1.5, position: .top)
       }
 
@@ -744,7 +744,7 @@ extension BrowserViewController: WKNavigationDelegate,
 
     webView.evaluateJavaScript("new TextExtractor().parse()") { (result, err) in
       guard let result = result as? String, err == nil else { return }
-      let toFilter: Set = ["Adjective", "Noun", "Verb", "Number"]
+      let toFilter: Set = ["Adjective", "Noun", "Verb", "Adverb"]
       var tokenSet: Set<String> = []
 
       let tagger = NLTagger(tagSchemes: [.lexicalClass])
@@ -766,7 +766,7 @@ extension BrowserViewController: WKNavigationDelegate,
       var item = HistoryRecord(
         title: title, url: url,
         domain: self.searchHolder.stripWww(string: &domain),
-        content: tokenSet.joined(separator: " "),
+        content: tokenSet.joined(separator: "[FOSISEP]"),
         keywords: keywords,
         timestamp: Date()
       )

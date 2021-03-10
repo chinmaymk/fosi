@@ -21,7 +21,7 @@ struct HistoryRecord {
 
 class HistoryManager {
   var maxRows: Int
-  static let shared = HistoryManager(limit: 5)
+  static let shared = HistoryManager(limit: 4)
 
   init(limit: Int) {
     self.maxRows = limit
@@ -74,10 +74,11 @@ class HistoryManager {
       JOIN (
           SELECT rowid, domain
           FROM historyRecordFTS
-          WHERE historyRecordFTS MATCH 'domain: \(keywords)*'
-          LIMIT 1
+          WHERE historyRecordFTS MATCH 'domain: "\(keywords)"*'
       ) AS ranktable
       ON ranktable.rowid = historyRecord.rowid
+      ORDER BY timestamp DESC
+      LIMIT 1
       """
       return try HistoryRecord.fetchOne(db, sql: sql, arguments: [])
     }
@@ -97,17 +98,12 @@ class HistoryManager {
     return promise
   }
 
-  func delete(domain: String?) -> Promise<Bool> {
+  func delete() -> Promise<Bool> {
     let promise = Promise<Bool>.pending()
-    AppDatabase.shared.withQueue { q in
-      do {
-        try q.write { db  in
-          try HistoryRecord.deleteAll(db)
-          promise.fulfill(true)
-        }
-      } catch {
-        promise.reject(error)
-      }
+    // drop history
+    AppDatabase.shared.withDeleteDb(promise: promise) { db in
+      try HistoryRecord.deleteAll(db)
+      return true
     }
     return promise
   }

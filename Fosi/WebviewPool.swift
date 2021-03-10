@@ -125,7 +125,9 @@ class WebviewPool {
 
     fileprivate func updateSnapshot() {
       DispatchQueue.main.async {
-        self.view.takeSnapshot(with: .none) { (image, err) in
+        let config = WKSnapshotConfiguration()
+        config.afterScreenUpdates = true
+        self.view.takeSnapshot(with: config) { (image, err) in
           guard let image = image, err == nil else { return }
           self.snapshot = image
         }
