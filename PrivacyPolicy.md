@@ -11,7 +11,7 @@ Fosi doesn’t collect personal information from anyone, including children unde
 
 **Query suggestions**
 
-Fosi sends keywords entered in search box to Google to provide query recommendations. Requests are made anonymously, ie without the notion of a google account. While this may reduce the amount of "typing" users need to do, it does communicate some basic information such as ip address, and partial keywords that may have been entered in the search box. Fosi has no control over how Google processes this internally and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.
+Fosi sends keywords entered in search box to selected search engine (Google or DuckDuckGo) to provide query recommendations. Requests are made anonymously, ie without the notion of a user account. While this may reduce the amount of "typing" users need to do, it does communicate some basic information such as ip address, and partial keywords that may have been entered in the search box. Fosi has no control over how search engines process this internally and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.
 
 **Changes to This Privacy Policy**
 

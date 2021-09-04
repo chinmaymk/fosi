@@ -6,6 +6,8 @@ fosi (fō-sī)
 
 A no frills iOS browser inspired by [firefox-focus](https://github.com/mozilla-mobile/focus-ios).
 
+Public beta link - https://testflight.apple.com/join/RyopUpsC
+
 ## Features
 - Mutli tab support with coverflow tab viewer
 - Incognito/Private mode support
