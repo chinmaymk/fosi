@@ -13,13 +13,13 @@ class AppDatabase {
   static func databaseUrl() -> URL {
     return try! FileManager.default.url(
       for: .applicationSupportDirectory,
-      in: .allDomainsMask,
+      in: .userDomainMask,
       appropriateFor: nil,
       create: true
     ).appendingPathComponent("fosi.sqlite")
   }
 
-  static func setup(app: UIApplication) throws {
+  static func setup() throws {
     let databaseURL = databaseUrl()
     let dbQueue = try DatabaseQueue(path: databaseURL.path)
     let database = try AppDatabase(dbQueue)
@@ -28,27 +28,30 @@ class AppDatabase {
 
   static var shared: AppDatabase!
   
-  private let dbQueue: DatabaseQueue
+  private var dbQueue: DatabaseQueue
   
   init(_ dbQueue: DatabaseQueue) throws {
     self.dbQueue = dbQueue
     try migrator.migrate(dbQueue)
   }
-  
+
   func withQueue(handler: (DatabaseQueue) -> Void) {
     handler(self.dbQueue)
   }
-  
-  func withWriteDb<T>(promise: Promise<T>, handler: (Database) throws -> T) {
-    self.withQueue { q in
-      do {
-        try q.write { db in
-          let records = try handler(db)
-          promise.fulfill(records)
+
+  func withWriteDb<T>(promise: Promise<T>,
+                      handler: @escaping (Database) throws -> T) {
+    DispatchQueue.global(qos: .utility).async {
+      self.withQueue { q in
+        do {
+          try q.write { db in
+            let records = try handler(db)
+            promise.fulfill(records)
+          }
         }
-      }
-      catch {
-        promise.reject(error)
+        catch {
+          promise.reject(error)
+        }
       }
     }
   }
@@ -60,25 +63,69 @@ class AppDatabase {
           let records = try handler(db)
           promise.fulfill(records)
         }
-        try q.vacuum()
       }
       catch {
         promise.reject(error)
       }
     }
+    // close the connection, so vacuum actually shrinks size
+    if let q = try? DatabaseQueue(path: AppDatabase.databaseUrl().path) {
+      try? self.dbQueue.vacuum()
+      self.dbQueue = q
+    }
   }
 
-  func withReadDb<T>(promise: Promise<T>, handler: (Database) throws -> T) {
-    self.withQueue { q in
-      do {
-        try q.read { db in
-          let records = try handler(db)
-          promise.fulfill(records)
+  func withReadDb<T>(promise: Promise<T>,
+                     handler: @escaping (Database) throws -> T) {
+    DispatchQueue.global(qos: .userInteractive).async {
+      self.withQueue { q in
+        do {
+          try q.read { db in
+            let records = try handler(db)
+            promise.fulfill(records)
+          }
+        } catch {
+          promise.reject(error)
         }
-      } catch {
-        promise.reject(error)
       }
     }
+  }
+
+  func clearCache() {
+    let url = try! FileManager.default.url(
+      for: .cachesDirectory,
+      in: .userDomainMask,
+      appropriateFor: nil,
+      create: false
+    )
+    let contents = try? FileManager.default.contentsOfDirectory(atPath: url.path)
+    let urls = contents?.filter {
+      $0.contains("fosi-export")
+    }.map {
+      URL(string:"\(url.appendingPathComponent("\($0)"))")!
+    }
+    urls?.forEach {
+      debugPrint($0)
+      try? FileManager.default.removeItem(at: $0)
+    }
+  }
+
+  func backup() -> URL {
+    clearCache()
+    let dateFormatterPrint = DateFormatter()
+    dateFormatterPrint.dateFormat = "dd-MMM-yyyy"
+    let date = dateFormatterPrint.string(from: Date())
+    let exportPath = try! FileManager.default.url(
+      for: .cachesDirectory,
+      in: .userDomainMask,
+      appropriateFor: nil,
+      create: true
+    ).appendingPathComponent("fosi-export-\(date).sqlite")
+    if let backupQueue = try? DatabaseQueue(path: exportPath.path) {
+      try? self.dbQueue.backup(to: backupQueue)
+      try? backupQueue.vacuum()
+    }
+    return exportPath
   }
   
   private var migrator: DatabaseMigrator {

@@ -55,7 +55,12 @@ class SearchHolderView: UIView,
   // MARK: Search bar delegates
   func searchDidConclude() {
     tableView.isHidden = true
-    lastQuery = ""
+  }
+
+  func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+    searchBar.text = lastQuery
+    searchBar.searchTextField.textColor = nil
+    return true
   }
 
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -95,8 +100,8 @@ class SearchHolderView: UIView,
     let domains = DomainCompletions.shared.getCompletions(keywords: query)
     let exact = HistoryManager.shared.exactmatch(keywords: query)
     Promise<String?> { () -> String? in
-      let topHistory = try await(exact)
-      let domains = try await(domains)
+      let topHistory = try Promises.await(exact)
+      let domains = try Promises.await(domains)
 
       var completion: String?
       if var domain = topHistory?.domain, domain.starts(with: query) {
@@ -216,6 +221,11 @@ class SearchHolderView: UIView,
       string.removeFirst(prefix.count)
     }
     return string
+  }
+
+  func show(domain: String) {
+    var d = domain
+    searchBar.text = stripWww(string: &d)
   }
 }
 

@@ -60,7 +60,7 @@ class HistoryManager {
       LIMIT ?
       """
       let pattern = FTS5Pattern(matchingAllTokensIn: keywords)
-      return try HistoryRecord.fetchAll(db, sql: sql, arguments: [pattern, maxRows])
+      return try HistoryRecord.fetchAll(db, sql: sql, arguments: [pattern, self.maxRows])
     }
     return promise
   }
@@ -102,9 +102,13 @@ class HistoryManager {
     let promise = Promise<Bool>.pending()
     // drop history
     AppDatabase.shared.withDeleteDb(promise: promise) { db in
-      try HistoryRecord.deleteAll(db)
+      try db.execute(sql: """
+      DELETE FROM historyRecord;
+      INSERT INTO historyRecordFTS(historyRecordFTS) VALUES('rebuild');
+      """)
       return true
     }
+
     return promise
   }
 }

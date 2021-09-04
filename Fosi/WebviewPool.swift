@@ -150,6 +150,16 @@ extension UserDefaults {
   }
 }
 
+class WebViewItem {
+  let view: WKWebView
+  let mode: WebviewMode
+
+  init(view: WKWebView, mode: WebviewMode) {
+    self.view = view
+    self.mode = mode
+  }
+}
+
 class WebviewFactory {
   static let packagedLists = [
     "cosmetic.json",
@@ -198,6 +208,7 @@ class WebviewFactory {
     webView.translatesAutoresizingMaskIntoConstraints = false
     webView.isOpaque = true
     webView.backgroundColor = .systemBackground
+    webView.contentMode = .scaleAspectFit
 
     webView.scrollView.decelerationRate = .normal
     webView.scrollView.bounces = true

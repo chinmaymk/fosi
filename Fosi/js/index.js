@@ -1,17 +1,3 @@
-const cssProperty = function (node, property) {
-  if (node instanceof Element) {
-    return window.getComputedStyle(node, null).getPropertyValue(property)
-  } else {
-    return null
-  }
-}
-
-const appendCssNode = function (css) {
-  const newScript = document.createElement('style')
-  const content = document.createTextNode(css)
-  newScript.appendChild(content)
-  document.head.appendChild(newScript)
-}
 
 class DOMWalker {
   constructor(processors) {
@@ -65,17 +51,6 @@ class NodeInverter {
   }
 }
 
-const f = function (color) {
-  const tc = tinycolor(color)
-  return {
-    brightness: tc.getBrightness(),
-    lum: tc.getLuminance(),
-    alpha: tc.getAlpha(),
-    isDark: tc.isDark(),
-    isLight: tc.isLight()
-  }
-}
-
 class BrightnessAdjuster {
   constructor() {
     this.classMap = {}
@@ -112,11 +87,11 @@ class ModCounter {
   }
 
   next() {
-    return Math.abs(++this.index % end)
+    return Math.abs(++this.index % this.end)
   }
 
   prev() {
-    return Math.abs(--this.index % end)
+    return Math.abs(--this.index % this.end)
   }
 }
 
@@ -134,11 +109,11 @@ class PageFinder {
   }
 
   nextMatch() {
-    this.nodeList[this.index.next()].scrollIntoView({ "behavior": "smooth" })
+    this.nodeList[this.index.next()].scrollIntoView(true)
   }
 
   prevMatch() {
-    this.nodeList[this.index.prev()].scrollIntoView({ "behavior": "smooth" })
+    this.nodeList[this.index.prev()].scrollIntoView(true)
   }
 
   clear() {
@@ -171,6 +146,7 @@ class TextExtractor {
   isRelevant(node) {
     if (node.nodeName.toLowerCase() === "script" ||
         node.nodeName.toLowerCase() === "style" ||
+        node.nodeName.toLowerCase() === "meta" ||
         node.nodeName.toLowerCase() === "html") {
       return false
     }
@@ -189,7 +165,7 @@ class TextExtractor {
       let content = d.textContent
       // strip html
       content = content.replace(/<[^>]+>[^>]+>/, '')
-      this.text.add(content)
+      content.split(' ').map(d => this.text.add(d.trim()))
     })
   }
 
@@ -199,6 +175,21 @@ class TextExtractor {
     walker.walk(document.body)
     return Array.from(extractor.text).join(" ")
   }
+}
+
+const cssProperty = function (node, property) {
+  if (node instanceof Element) {
+    return window.getComputedStyle(node, null).getPropertyValue(property)
+  } else {
+    return null
+  }
+}
+
+const appendCssNode = function (css) {
+  const newScript = document.createElement('style')
+  const content = document.createTextNode(css)
+  newScript.appendChild(content)
+  document.head.appendChild(newScript)
 }
 
 ;(function () {

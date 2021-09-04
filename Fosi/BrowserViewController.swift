@@ -676,8 +676,12 @@ extension BrowserViewController: IASKSettingsDelegate {
       handleSearchInput(keywords: AppSettingKeys.privacyPolicyURL)
 
     case AppSettingKeys.btnExportHistory:
+      settingsViewController.view.makeToast(
+        "Preparing an export", duration: 1.5, position: .top
+      )
+      let exportPath = AppDatabase.shared.backup()
       let activityViewController = UIActivityViewController(
-        activityItems: [AppDatabase.databaseUrl()], applicationActivities: nil
+        activityItems: [exportPath], applicationActivities: nil
       )
       settingsViewController.present(activityViewController, animated: true, completion: nil)
 
@@ -766,12 +770,12 @@ extension BrowserViewController: WKNavigationDelegate,
       var item = HistoryRecord(
         title: title, url: url,
         domain: self.searchHolder.stripWww(string: &domain),
-        content: tokenSet.joined(separator: "[FOSISEP]"),
+        content: tokenSet.joined(separator: ";"),
         keywords: keywords,
         timestamp: Date()
       )
       HistoryManager.shared.insert(record: &item).then { record in
-        debugPrint("inserted", record.id)
+        debugPrint("inserted", record.id as Any)
       }
     }
   }
@@ -785,7 +789,8 @@ extension BrowserViewController: WKNavigationDelegate,
   func webView(_ webView: WKWebView,
                decidePolicyFor navigationResponse: WKNavigationResponse,
                decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-    if navigationResponse.response.mimeType == "application/pdf", UserDefaults.standard.nativePDFView,
+    if navigationResponse.response.mimeType == "application/pdf",
+       UserDefaults.standard.nativePDFView,
        let url = navigationResponse.response.url {
       showPDFController(url)
       decisionHandler(.cancel)
@@ -821,18 +826,9 @@ extension BrowserViewController: WKNavigationDelegate,
   }
 
   func urlDidStartLoading(for webView: WKWebView) {
-    guard let url = webView.url, var host = url.host else { return }
-    var lock: UIImage? {
-      if url.scheme?.lowercased() == "https" {
-        return UIImage(
-          systemName: "lock",
-          withConfiguration: UIImage.SymbolConfiguration(textStyle: .body)
-        )?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
-      } else {
-        return nil
-      }
-    }
-    displayToast(message: searchHolder.stripWww(string: &host), image: lock)
+    guard let url = webView.url, let host = url.host else { return }
+    searchHolder.show(domain: host)
+    progressView.indicate(secure: url.scheme?.lowercased() == "https")
   }
 
   func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool { true }

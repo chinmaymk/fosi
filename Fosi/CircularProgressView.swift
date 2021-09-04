@@ -10,6 +10,7 @@ import UIKit
 
 class CircularProgressView: UIView {
   let progressLayer = CAShapeLayer()
+  let httpLayer = CAShapeLayer()
 
   init() {
     super.init(frame: .zero)
@@ -34,11 +35,29 @@ class CircularProgressView: UIView {
       clockwise: true
     )
 
+    let https = UIBezierPath(
+      arcCenter: CGPoint(x: frame.size.width/2, y: frame.size.height/2),
+      radius: frame.size.width/4.8,
+      startAngle: CGFloat(-0.5 * .pi),
+      endAngle: CGFloat(1.5 * .pi),
+      clockwise: true
+    )
+
+    httpLayer.path = https.cgPath
+    httpLayer.fillColor = UIColor.clear.cgColor
+
     progressLayer.path = circlePath.cgPath
     progressLayer.fillColor = UIColor.clear.cgColor
     progressLayer.strokeColor = UIColor.systemGray.cgColor
     progressLayer.lineWidth = 1.5
+
+    layer.addSublayer(httpLayer)
     layer.addSublayer(progressLayer)
+  }
+
+  func indicate(secure: Bool) {
+    if secure { httpLayer.fillColor = UIColor.clear.cgColor }
+    else { httpLayer.fillColor = UIColor.systemRed.cgColor }
   }
 
   func setProgress(value: Float) {

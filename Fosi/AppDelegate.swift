@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    try? AppDatabase.setup(app: application)
+    try? AppDatabase.setup()
 
     DispatchQueue.main.async {
       _ = DomainCompletions.shared.getCompletions(keywords: "")
