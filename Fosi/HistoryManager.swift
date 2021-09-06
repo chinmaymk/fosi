@@ -51,16 +51,16 @@ class HistoryManager {
       JOIN (
           SELECT rowid, rank
           FROM historyRecordFTS
-          WHERE content MATCH ?
+          WHERE content MATCH ? OR title MATCH ? OR url MATCH ?
+          GROUP BY domain
           ORDER BY rank
+          LIMIT ?
       ) AS ranktable
       ON ranktable.rowid = historyRecord.rowid
-      GROUP BY url
       ORDER BY timestamp DESC
-      LIMIT ?
       """
       let pattern = FTS5Pattern(matchingAllTokensIn: keywords)
-      return try HistoryRecord.fetchAll(db, sql: sql, arguments: [pattern, self.maxRows])
+      return try HistoryRecord.fetchAll(db, sql: sql, arguments: [pattern, pattern, pattern, self.maxRows])
     }
     return promise
   }

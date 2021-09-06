@@ -345,6 +345,7 @@ extension BrowserViewController {
     setupDelegates()
     setupObservables()
     UIMenuController.shared.menuItems = contextualMenus
+    urlDidStartLoading(for: webView)
   }
 }
 
@@ -393,6 +394,11 @@ extension BrowserViewController: SearchHolderDelegate {
   func search(keywords: String) {
     let request = URLRequest(url: SearchManager.shared.provider.searchUrl(keywords: keywords))
     webView.load(request)
+  }
+
+  func navigate(to url: URL) {
+    openNewTab()
+    webView.load(URLRequest(url: url))
   }
 }
 
